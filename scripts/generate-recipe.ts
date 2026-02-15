@@ -34,45 +34,143 @@ async function generateRecipe(targetFunction: ExcelFunction) {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
     const model = genAI.getGenerativeModel({ model: MODEL_NAME });
 
+    // ──────────────────────────────────────────────────────────
+    //  SEO-Optimized Prompt (based on seo-content-writer skill)
+    // ──────────────────────────────────────────────────────────
     const prompt = `
-  You are an expert Excel Consultant writing a "Cookbook Recipe" for a user who is stuck.
-  
-  Target Function: ${targetFunction.name}
-  Category: ${targetFunction.category}
-  
-  [STRICT GROUNDING RULES]
-  1. You MUST use the syntax: \`${targetFunction.syntax}\`
-  2. You MUST mention these common errors: ${targetFunction.common_errors.join(', ')}
-  3. You MUST recommend this best practice: "${targetFunction.best_practice}"
-  4. Do NOT invent new parameters. Use only: ${targetFunction.parameters.map(p => p.name).join(', ')}
-  
-  [Tone & Style]
-  - Tone: Professional, Solution-Oriented, Slightly Witty (like a helpful chef).
-  - Format: MDX (Markdown).
-  - Structure:
-    1. **The Problem**: A relatable scenario (e.g., "You have two lists and need to find matches...").
-    2. **The Ingredients**: The function syntax and setup.
-    3. **The Recipe (Step-by-Step)**: Clear instructions with a concrete example.
-    4. **Pro Tips**: The "Best Practice" mentioned above.
-    5. **Troubleshooting**: The "Common Errors" mentioned above.
-  
-  Generate the common frontmatter (title, description, date, tags).
-  `;
+You are an expert Excel Consultant and SEO Content Writer creating a "Cookbook Recipe" for the Excel Cookbook website (https://sadoman16.github.io/excel-cookbook).
 
-    console.log(`Generating recipe for ${targetFunction.name} using ${MODEL_NAME}...`);
+Target Function: ${targetFunction.name}
+Category: ${targetFunction.category}
+
+═══════════════════════════════════════
+[STRICT GROUNDING RULES - NEVER BREAK]
+═══════════════════════════════════════
+1. You MUST use the syntax: \`${targetFunction.syntax}\`
+2. You MUST mention these common errors: ${targetFunction.common_errors.join(', ')}
+3. You MUST recommend this best practice: "${targetFunction.best_practice}"
+4. Do NOT invent new parameters. Use only: ${targetFunction.parameters.map(p => p.name).join(', ')}
+5. ALL information must be factually accurate for Microsoft Excel.
+
+═══════════════════════════════════════
+[SEO CONTENT QUALITY REQUIREMENTS]
+═══════════════════════════════════════
+- Article MUST be 800-1200 words minimum (this is critical for Google AdSense approval)
+- Include the function name naturally 8-12 times throughout the article (0.5-1.5% keyword density)
+- Write at a Grade 8-10 reading level — clear but not dumbed down
+- Use short paragraphs (2-3 sentences max per paragraph)
+- Include bullet points and tables for scannability
+- Every section must provide genuine VALUE — no filler content
+
+═══════════════════════════════════════
+[E-E-A-T SIGNALS - VERY IMPORTANT]
+═══════════════════════════════════════
+Include these trust-building elements throughout the content:
+- First-hand experience mentions (e.g., "In our experience..." or "A common mistake we've seen...")
+- Specific, realistic examples with actual data (not abstract)
+- Practical, actionable advice the reader can use immediately
+- Expert perspective (e.g., "Experienced Excel users prefer..." or "According to Microsoft documentation...")
+- At least one "real-world scenario" that a working professional would actually face
+
+═══════════════════════════════════════
+[TONE & STYLE]
+═══════════════════════════════════════
+- Tone: Professional, Solution-Oriented, Slightly Witty (like a helpful chef guiding someone)
+- Format: MDX (Markdown)
+- Write for someone who is STUCK and searching Google for help
+- Avoid generic or vague sentences — every line should teach something
+
+═══════════════════════════════════════
+[REQUIRED STRUCTURE - FOLLOW EXACTLY]
+═══════════════════════════════════════
+
+## MDX Frontmatter (REQUIRED)
+Generate frontmatter with:
+- title: Creative recipe-style title (50-60 chars). Include the function name.
+- description: Compelling meta description (150-160 chars). Include the function name + a benefit.
+- date: ${new Date().toISOString().split('T')[0]}
+- tags: [Excel, ${targetFunction.name}, ${targetFunction.category}, plus 2-3 relevant tags]
+
+## Article Structure (IN THIS ORDER):
+
+### 1. The Problem (100-150 words)
+- Hook the reader IMMEDIATELY with a relatable scenario
+- Describe a specific, realistic workplace situation where someone gets stuck
+- Make the reader think "That's EXACTLY my problem!"
+- Include the function name naturally
+
+### 2. The Ingredients: Understanding ${targetFunction.name}'s Setup (150-200 words)
+- Show the exact syntax: \`${targetFunction.syntax}\`
+- Explain EACH parameter with a clear, table format:
+${targetFunction.parameters.map(p => `  - **${p.name}**: ${p.desc}`).join('\n')}
+- Use a markdown table for parameter reference
+
+### 3. The Recipe: Step-by-Step Instructions (250-350 words)
+- Create a SPECIFIC, realistic example with actual sample data
+- Use markdown tables to show the example spreadsheet data
+- Number each step clearly (1, 2, 3...)
+- Show the formula building process step by step
+- Include the final working formula
+- Explain what result appears and why
+
+### 4. Pro Tips: Level Up Your Skills (100-150 words)
+- Include the best practice: "${targetFunction.best_practice}"
+- Add 2-3 additional expert tips that professionals would appreciate
+- Each tip should be genuinely useful, not obvious
+
+### 5. Troubleshooting: Common Errors & Fixes (150-200 words)
+- Cover each error: ${targetFunction.common_errors.join(', ')}
+- For EACH error, provide:
+  - What it looks like
+  - Why it happens (common causes)
+  - How to fix it (specific solution)
+
+### 6. Quick Reference (Bonus — for scannability)
+- A compact summary table or bullet list of:
+  - Syntax
+  - Most common use case
+  - Key gotcha to avoid
+  - Related functions to explore
+
+═══════════════════════════════════════
+[FINAL CHECKLIST - VERIFY BEFORE OUTPUT]
+═══════════════════════════════════════
+□ Article is 800+ words
+□ Frontmatter has title (50-60 chars) and description (150-160 chars)
+□ At least 2 markdown tables used
+□ Real-world example with believable data
+□ All common errors covered with solutions
+□ Best practice included naturally
+□ E-E-A-T signals present (experience, expertise references)
+□ No filler sentences — every line teaches something
+□ Function name appears naturally 8-12 times
+`;
+
+    console.log(`🍳 Generating SEO-optimized recipe for ${targetFunction.name} using ${MODEL_NAME}...`);
 
     try {
         const result = await model.generateContent(prompt);
         const response = await result.response;
-        const text = response.text();
+        let text = response.text();
+
+        // Clean up: remove markdown code fences if Gemini wraps output
+        text = text.replace(/^```mdx?\n?/m, '').replace(/\n?```$/m, '');
 
         // Save file
-        const slug = targetFunction.name.toLowerCase().replace(/ /g, '-');
+        const slug = targetFunction.name.toLowerCase().replace(/ /g, '-').replace(/\//g, '-');
         const filename = `${slug}.mdx`;
         fs.writeFileSync(path.join(CONTENT_DIR, filename), text);
-        console.log(`✅ Saved: ${filename}`);
+
+        // Quality check: word count
+        const wordCount = text.split(/\s+/).length;
+        console.log(`✅ Saved: ${filename} (${wordCount} words, ${text.length} bytes)`);
+
+        if (wordCount < 600) {
+            console.warn(`⚠️ Warning: Article is only ${wordCount} words. Target is 800+.`);
+        }
     } catch (error) {
         console.error(`❌ Failed to generate for ${targetFunction.name}:`, error);
+        process.exit(1);
     }
 }
 

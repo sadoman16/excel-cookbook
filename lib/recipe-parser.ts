@@ -61,11 +61,25 @@ export const getRecipeBySlug = cache((slug: string): Recipe | null => {
     else if (fs.existsSync(mdPath)) filePath = mdPath;
     else return null;
 
-    const raw = fs.readFileSync(filePath, 'utf-8');
+    let raw = fs.readFileSync(filePath, 'utf-8');
 
-    // Try gray-matter first for proper frontmatter parsing
+    // ── Defensive cleaning ──
+    // 1. Strip UTF-8 BOM if present
+    raw = raw.replace(/^\uFEFF/, '');
+    // 2. Remove markdown code fence wrappers (```markdown ... ```)
+    raw = raw.replace(/^```(?:markdown|mdx)?\s*\n/, '').replace(/\n```\s*$/, '');
+    // 3. Trim any leading whitespace/newlines before frontmatter
+    raw = raw.replace(/^\s*(?=---)/, '');
+
+    // Try gray-matter for frontmatter parsing
     try {
         const { data, content } = matter(raw);
+
+        // Debug: log parsing result for troubleshooting
+        if (!data.title) {
+            console.warn(`⚠️ [recipe-parser] No title found for "${slug}". First 80 chars: ${JSON.stringify(raw.substring(0, 80))}`);
+        }
+
         return {
             slug,
             title: data.title || slug.toUpperCase(),
@@ -74,7 +88,8 @@ export const getRecipeBySlug = cache((slug: string): Recipe | null => {
             tags: Array.isArray(data.tags) ? data.tags : [],
             content,
         };
-    } catch {
+    } catch (err) {
+        console.error(`❌ [recipe-parser] gray-matter failed for "${slug}":`, err);
         // Fallback: treat entire file as content
         return {
             slug,

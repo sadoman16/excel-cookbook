@@ -2,8 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-const CONTENT_DIR = path.join(process.cwd(), 'content', 'recipes');
-
 export interface RecipeMeta {
     slug: string;
     title: string;
@@ -16,13 +14,18 @@ export interface Recipe extends RecipeMeta {
     content: string; // Raw markdown content (without frontmatter)
 }
 
+function getContentDir() {
+    return path.join(process.cwd(), 'content', 'recipes');
+}
+
 /**
  * Get all recipe slugs for generateStaticParams
  */
 export function getAllRecipeSlugs(): string[] {
-    if (!fs.existsSync(CONTENT_DIR)) return [];
+    const contentDir = getContentDir();
+    if (!fs.existsSync(contentDir)) return [];
     return fs
-        .readdirSync(CONTENT_DIR)
+        .readdirSync(contentDir)
         .filter((file) => file.endsWith('.mdx') || file.endsWith('.md'))
         .map((file) => file.replace(/\.(mdx|md)$/, ''));
 }
@@ -47,8 +50,9 @@ export function getAllRecipes(): RecipeMeta[] {
  * Get a single recipe by slug (includes full content)
  */
 export function getRecipeBySlug(slug: string): Recipe | null {
-    const mdxPath = path.join(CONTENT_DIR, `${slug}.mdx`);
-    const mdPath = path.join(CONTENT_DIR, `${slug}.md`);
+    const contentDir = getContentDir();
+    const mdxPath = path.join(contentDir, `${slug}.mdx`);
+    const mdPath = path.join(contentDir, `${slug}.md`);
 
     let filePath = '';
     if (fs.existsSync(mdxPath)) filePath = mdxPath;

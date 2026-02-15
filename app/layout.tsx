@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     locale: "en_US",
   },
   verification: {
-    google: 'dafbbd66d50260f2',
+    google: 'qR95p8rxs-nrcgJ0KD034gOcDgfunGiJckw9rgJoTiM',
   },
   twitter: {
     card: "summary",

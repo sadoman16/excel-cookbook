@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Sidebar } from "@/components/ui/Sidebar";
 import { Footer } from "@/components/Footer";
+import { getAllRecipes } from "@/lib/recipe-parser";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,6 +52,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const recipes = getAllRecipes();
+
   return (
     <html lang="en">
       <head>
@@ -87,7 +90,7 @@ export default function RootLayout({
           <div className="flex-1">
             <div className="container mx-auto flex h-full max-w-7xl items-start md:grid md:grid-cols-[220px_1fr] lg:grid-cols-[240px_1fr]">
               {/* Sidebar (Left) */}
-              <Sidebar />
+              <Sidebar recipes={recipes} />
 
               {/* Main Content (Center) */}
               <main id="main-content" className="flex w-full flex-col overflow-hidden p-6">

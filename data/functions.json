@@ -603,5 +603,57 @@
                 "desc": "Optional. The number of characters you want to extract. Default is 1."
             }
         ]
+    },
+    {
+        "name": "SEARCH",
+        "category": "Text",
+        "syntax": "=SEARCH(find_text, within_text, [start_num])",
+        "summary": "Finds the starting position of a text string within another text string. Unlike FIND, SEARCH is not case-sensitive.",
+        "common_errors": [
+            "Confusing with FIND (SEARCH ignores case, FIND matches case)",
+            "Using wildcards incorrectly (*, ?)",
+            "Start_num is 0 or negative (returns #VALUE! error)"
+        ],
+        "best_practice": "Use with ISNUMBER to check if a specific text exists in a cell: =ISNUMBER(SEARCH(\"text\", A1)) returns TRUE or FALSE.",
+        "parameters": [
+            {
+                "name": "find_text",
+                "desc": "The text you want to find."
+            },
+            {
+                "name": "within_text",
+                "desc": "The text in which you want to search for the find_text."
+            },
+            {
+                "name": "start_num",
+                "desc": "Optional. The character number in within_text at which you want to start searching."
+            }
+        ]
+    },
+    {
+        "name": "DATE",
+        "category": "Date & Time",
+        "syntax": "=DATE(year, month, day)",
+        "summary": "Creates a valid Excel date from individual year, month, and day numbers. Essential for assembling dates from separate columns.",
+        "common_errors": [
+            "Year is less than 1900 (Excel dates start from 1900)",
+            "Month is greater than 12 (Excel adds the extra months to the year, e.g., Month 13 becomes January of next year)",
+            "Day is greater than days in month (Excel adds extra days to next month)"
+        ],
+        "best_practice": "Use DATE to safely construct dates that won't be misinterpreted as text, especially when importing data from CSVs.",
+        "parameters": [
+            {
+                "name": "year",
+                "desc": "The year number (e.g., 2023). Excel interprets small numbers according to system settings."
+            },
+            {
+                "name": "month",
+                "desc": "The month number (1 for Jan, 12 for Dec). Greater values roll over to next year."
+            },
+            {
+                "name": "day",
+                "desc": "The day number. Greater values roll over to next month."
+            }
+        ]
     }
 ]

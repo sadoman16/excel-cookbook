@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
   },
+  verification: {
+    google: 'dafbbd66d50260f2',
+  },
   twitter: {
     card: "summary",
     title: "Excel Cookbook — Fix Excel Errors Fast ✓",

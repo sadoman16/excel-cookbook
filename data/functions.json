@@ -516,5 +516,45 @@
                 "desc": "The formula to execute, using the parameters. This is the result returned."
             }
         ]
+    },
+    {
+        "name": "TRIM",
+        "category": "Text",
+        "syntax": "=TRIM(text)",
+        "summary": "Removes all extra spaces from text strings, leaving only single spaces between words. Essential for cleaning data pasted from other sources.",
+        "common_errors": [
+            "Expecting TRIM to remove non-breaking spaces (CHAR(160)) – it only removes standard spaces (CHAR(32)).",
+            "TRIM not working on numbers formatted as text.",
+            "Confusing TRIM with CLEAN (which removes non-printable characters)."
+        ],
+        "best_practice": "Use =TRIM(CLEAN(A1)) to remove both extra spaces and unprintable characters. For web data, use =SUBSTITUTE(A1, CHAR(160), \" \") to handle non-breaking spaces.",
+        "parameters": [
+            {
+                "name": "text",
+                "desc": "The text from which you want to remove spaces."
+            }
+        ]
+    },
+    {
+        "name": "TEXT",
+        "category": "Text",
+        "syntax": "=TEXT(value, format_text)",
+        "summary": "Converts a number to text in a specific format. Essential for embedding dates or numbers inside text strings while keeping their formatting.",
+        "common_errors": [
+            "Using TEXT for calculations (the result is text, not a number, so math functions won't work on it)",
+            "Incorrect format codes (e.g., using 'm' for minutes instead of 'mm' after 'h')",
+            "Hardcoding formats that don't adapt to system locale changes"
+        ],
+        "best_practice": "Use TEXT only for display purposes, like joining a date with text: =\"Today is \" & TEXT(TODAY(), \"dd-mmm-yyyy\"). Keep raw data as numbers for calculations.",
+        "parameters": [
+            {
+                "name": "value",
+                "desc": "The numeric value you want to format."
+            },
+            {
+                "name": "format_text",
+                "desc": "The format code in quotation marks (e.g., \"0.00%\", \"dd/mm/yyyy\")."
+            }
+        ]
     }
 ]

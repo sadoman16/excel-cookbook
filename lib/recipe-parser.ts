@@ -1,18 +1,6 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
+import { cache } from 'react';
 
-export interface RecipeMeta {
-    slug: string;
-    title: string;
-    description: string;
-    date: string;
-    tags: string[];
-}
-
-export interface Recipe extends RecipeMeta {
-    content: string; // Raw markdown content (without frontmatter)
-}
+// ... existing interfaces
 
 function getContentDir() {
     return path.join(process.cwd(), 'content', 'recipes');
@@ -48,8 +36,9 @@ export function getAllRecipes(): RecipeMeta[] {
 
 /**
  * Get a single recipe by slug (includes full content)
+ * Wrapped in React cache() to deduplicate requests during build (Metadata + Page)
  */
-export function getRecipeBySlug(slug: string): Recipe | null {
+export const getRecipeBySlug = cache((slug: string): Recipe | null => {
     const contentDir = getContentDir();
     const mdxPath = path.join(contentDir, `${slug}.mdx`);
     const mdPath = path.join(contentDir, `${slug}.md`);
@@ -83,4 +72,4 @@ export function getRecipeBySlug(slug: string): Recipe | null {
             content: raw,
         };
     }
-}
+});

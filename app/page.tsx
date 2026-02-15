@@ -13,11 +13,11 @@ export default function Home() {
             Excel Cookbook (Beta)
           </div>
           <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-slate-900 dark:text-slate-50">
-            엑셀 오류, <span className="text-excel-green">요리책</span>처럼 찾으세요.
+            Excel errors? Find the <span className="text-excel-green">recipe</span>.
           </h1>
           <p className="max-w-[700px] text-slate-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-slate-400">
-            &quot;VLOOKUP이 뭐지?&quot;라고 묻지 마세요.<br />
-            &quot;두 시트 비교해서 없는 값 찾기&quot; 처럼 <strong>문제 해결 레시피</strong>를 복사해가세요.
+            Stop Googling &quot;how to VLOOKUP.&quot;<br />
+            Search by <strong>problem</strong>, copy the <strong>solution</strong>. Like a cookbook for spreadsheets.
           </p>
         </div>
       </section>
@@ -25,7 +25,7 @@ export default function Home() {
       {/* Dynamic Recipe List */}
       <section>
         <h2 className="mb-6 text-2xl font-bold text-slate-900 dark:text-slate-50">
-          🍳 최신 레시피
+          🍳 Latest Recipes
         </h2>
         {recipes.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -42,10 +42,10 @@ export default function Home() {
         ) : (
           <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-slate-300 py-12 dark:border-slate-700">
             <p className="text-lg text-slate-500 dark:text-slate-400">
-              아직 레시피가 없어요 👨‍🍳
+              No recipes yet 👨‍🍳
             </p>
             <p className="mt-2 text-sm text-slate-400 dark:text-slate-500">
-              AI 셰프가 곧 맛있는 레시피를 만들어줄 거예요!
+              Our AI chef is cooking up something delicious!
             </p>
           </div>
         )}

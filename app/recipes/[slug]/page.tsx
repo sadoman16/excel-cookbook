@@ -38,13 +38,13 @@ export default async function RecipePage({
         return (
             <div className="flex flex-col items-center justify-center py-20">
                 <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
-                    레시피를 찾을 수 없어요 😢
+                    Recipe not found 😢
                 </h1>
                 <Link
                     href="/"
                     className="mt-4 text-excel-green underline hover:opacity-80"
                 >
-                    홈으로 돌아가기
+                    Back to Home
                 </Link>
             </div>
         );
@@ -86,13 +86,13 @@ export default async function RecipePage({
             {
                 "@type": "ListItem",
                 position: 1,
-                name: "홈",
+                name: "Home",
                 item: "https://sadoman16.github.io/excel-cookbook",
             },
             {
                 "@type": "ListItem",
                 position: 2,
-                name: "레시피",
+                name: "Recipes",
                 item: "https://sadoman16.github.io/excel-cookbook/recipes",
             },
             {
@@ -118,7 +118,7 @@ export default async function RecipePage({
             {/* Breadcrumb */}
             <nav className="mb-6 text-sm text-slate-500 dark:text-slate-400">
                 <Link href="/" className="hover:text-excel-green">
-                    홈
+                    Home
                 </Link>
                 <span className="mx-2">›</span>
                 <span className="text-slate-900 dark:text-slate-50">

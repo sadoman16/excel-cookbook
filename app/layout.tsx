@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Excel Cookbook - 검증된 엑셀 해결책",
-  description: "복붙으로 끝내는 엑셀/구글 스프레드시트 요리책. VLOOKUP 오류부터 고급 함수까지.",
+  title: "Excel Cookbook - Copy-Paste Solutions for Spreadsheets",
+  description: "Stop Googling Excel formulas. Search by problem, copy the solution. From VLOOKUP errors to advanced functions.",
 };
 
 export default function RootLayout({
@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="en">
       <head>
         <script
           type="application/ld+json"
@@ -35,8 +35,8 @@ export default function RootLayout({
               "@type": "WebSite",
               name: "Excel Cookbook",
               url: "https://sadoman16.github.io/excel-cookbook",
-              description: "복붙으로 끝내는 엑셀/구글 스프레드시트 요리책",
-              inLanguage: "ko",
+              description: "Stop Googling Excel formulas. Search by problem, copy the solution.",
+              inLanguage: "en",
             }),
           }}
         />

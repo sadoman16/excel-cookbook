@@ -1,6 +1,19 @@
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
 import { cache } from 'react';
 
-// ... existing interfaces
+export interface RecipeMeta {
+    slug: string;
+    title: string;
+    description: string;
+    date: string;
+    tags: string[];
+}
+
+export interface Recipe extends RecipeMeta {
+    content: string; // Raw markdown content (without frontmatter)
+}
 
 function getContentDir() {
     return path.join(process.cwd(), 'content', 'recipes');

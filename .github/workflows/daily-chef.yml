@@ -1,0 +1,38 @@
+name: Daily Chef (Content Engine)
+
+on:
+  schedule:
+    # Runs at 02:00 UTC every day
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    # Allows manual trigger from GitHub UI for testing
+
+permissions:
+  contents: write
+
+jobs:
+  cook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Generate Recipe (Gemini 2.5 Flash)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run generate-recipe
+
+      - name: Commit & Push
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🍳 Chef cooked a new recipe [skip ci]"
+          branch: main
+          file_pattern: 'content/recipes/*.mdx'

@@ -85,13 +85,23 @@ async function main() {
 
     const db = await loadTruthDB();
 
-    // For demo: Generate for 'VLOOKUP' specifically, or pick random
-    const target = db.find(f => f.name === 'VLOOKUP');
-    if (target) {
-        await generateRecipe(target);
-    } else {
-        console.error("Target function not found in DB.");
+    // Find functions that don't have a recipe yet
+    const ungenerated = db.filter(f => {
+        const slug = f.name.toLowerCase().replace(/ /g, '-').replace(/\//g, '-');
+        const mdxPath = path.join(CONTENT_DIR, `${slug}.mdx`);
+        const mdPath = path.join(CONTENT_DIR, `${slug}.md`);
+        return !fs.existsSync(mdxPath) && !fs.existsSync(mdPath);
+    });
+
+    if (ungenerated.length === 0) {
+        console.log("🎉 All recipes have been generated! Nothing to do.");
+        return;
     }
+
+    // Pick one random ungenerated function
+    const target = ungenerated[Math.floor(Math.random() * ungenerated.length)];
+    console.log(`📋 ${ungenerated.length} recipes remaining. Picking: ${target.name}`);
+    await generateRecipe(target);
 }
 
 main();

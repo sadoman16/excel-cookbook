@@ -78,5 +78,443 @@
                 "desc": "The actual cells to add, if different from range."
             }
         ]
+    },
+    {
+        "name": "XLOOKUP",
+        "category": "Lookup & Reference",
+        "syntax": "=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])",
+        "summary": "Searches a range or array for a match and returns the corresponding item from a second range or array. A modern, more flexible replacement for VLOOKUP.",
+        "common_errors": [
+            "#N/A (Value not found and no if_not_found specified)",
+            "#VALUE! (lookup_array and return_array have different sizes)",
+            "#NAME? (Using XLOOKUP in older Excel versions that don't support it)"
+        ],
+        "best_practice": "Always provide the if_not_found argument to avoid ugly #N/A errors. XLOOKUP can look left (unlike VLOOKUP) and defaults to exact match, so no need to remember FALSE.",
+        "parameters": [
+            {
+                "name": "lookup_value",
+                "desc": "The value to search for."
+            },
+            {
+                "name": "lookup_array",
+                "desc": "The array or range to search in."
+            },
+            {
+                "name": "return_array",
+                "desc": "The array or range to return from."
+            },
+            {
+                "name": "[if_not_found]",
+                "desc": "Custom text to return if no match is found."
+            },
+            {
+                "name": "[match_mode]",
+                "desc": "0 = exact (default), -1 = exact or next smaller, 1 = exact or next larger, 2 = wildcard."
+            },
+            {
+                "name": "[search_mode]",
+                "desc": "1 = first to last (default), -1 = last to first, 2 = binary ascending, -2 = binary descending."
+            }
+        ]
+    },
+    {
+        "name": "SUM",
+        "category": "Math & Trig",
+        "syntax": "=SUM(number1, [number2], ...)",
+        "summary": "Adds all the numbers in a range of cells. The most fundamental and frequently used Excel function.",
+        "common_errors": [
+            "Including text or error cells in the range (silently ignored or causes #VALUE!)",
+            "Accidentally summing hidden/filtered rows",
+            "Circular reference when SUM range includes the cell containing the formula"
+        ],
+        "best_practice": "Use SUBTOTAL(109, range) instead of SUM if you need to ignore hidden/filtered rows. For adding only numbers that meet criteria, use SUMIF or SUMIFS.",
+        "parameters": [
+            {
+                "name": "number1",
+                "desc": "The first number, cell reference, or range to add."
+            },
+            {
+                "name": "[number2]",
+                "desc": "Additional numbers, cell references, or ranges to add (up to 255 arguments)."
+            }
+        ]
+    },
+    {
+        "name": "COUNTIF",
+        "category": "Statistical",
+        "syntax": "=COUNTIF(range, criteria)",
+        "summary": "Counts the number of cells within a range that meet the given condition.",
+        "common_errors": [
+            "#VALUE! (criteria string longer than 255 characters)",
+            "Incorrect wildcard usage (* and ? not working as expected)",
+            "Counting text as numbers or vice versa due to data type mismatch"
+        ],
+        "best_practice": "Use COUNTIFS for multiple conditions. Wrap criteria with comparison operators in quotes, e.g., \">100\". Use \"*\" to count all non-empty text cells.",
+        "parameters": [
+            {
+                "name": "range",
+                "desc": "The range of cells to count."
+            },
+            {
+                "name": "criteria",
+                "desc": "The condition that defines which cells to count. Can be a number, expression, text, or cell reference."
+            }
+        ]
+    },
+    {
+        "name": "INDEX",
+        "category": "Lookup & Reference",
+        "syntax": "=INDEX(array, row_num, [col_num])",
+        "summary": "Returns a value or reference of the cell at the intersection of a particular row and column in a given range.",
+        "common_errors": [
+            "#REF! (row_num or col_num is outside the array bounds)",
+            "#VALUE! (non-numeric row_num or col_num)",
+            "Returning the wrong value when array dimensions are incorrect"
+        ],
+        "best_practice": "Pair INDEX with MATCH for a powerful, flexible lookup that can search in any direction — the classic INDEX/MATCH combo is more versatile than VLOOKUP.",
+        "parameters": [
+            {
+                "name": "array",
+                "desc": "A range of cells or an array constant."
+            },
+            {
+                "name": "row_num",
+                "desc": "The row position in the array from which to return a value."
+            },
+            {
+                "name": "[col_num]",
+                "desc": "The column position in the array from which to return a value."
+            }
+        ]
+    },
+    {
+        "name": "MATCH",
+        "category": "Lookup & Reference",
+        "syntax": "=MATCH(lookup_value, lookup_array, [match_type])",
+        "summary": "Searches for a specified item in a range and returns its relative position. Often paired with INDEX for flexible lookups.",
+        "common_errors": [
+            "#N/A (lookup_value not found in lookup_array)",
+            "Data not sorted when using match_type 1 or -1",
+            "Confusing the returned position number with the actual cell row number"
+        ],
+        "best_practice": "Use match_type 0 for exact match. The position returned is relative to lookup_array, not the worksheet — remember this when combining with INDEX.",
+        "parameters": [
+            {
+                "name": "lookup_value",
+                "desc": "The value you want to find in lookup_array."
+            },
+            {
+                "name": "lookup_array",
+                "desc": "A single row or column range to search."
+            },
+            {
+                "name": "[match_type]",
+                "desc": "1 = less than (default, data must be ascending), 0 = exact match, -1 = greater than (data must be descending)."
+            }
+        ]
+    },
+    {
+        "name": "AVERAGE",
+        "category": "Statistical",
+        "syntax": "=AVERAGE(number1, [number2], ...)",
+        "summary": "Returns the arithmetic mean (average) of the arguments. Ignores text, logical values, and empty cells.",
+        "common_errors": [
+            "Including cells with 0 when you meant to exclude blank cells (0 is counted, blank is not)",
+            "#DIV/0! (all cells in range are empty or contain text)",
+            "Hidden rows being included in the average"
+        ],
+        "best_practice": "Use AVERAGEIF or AVERAGEIFS to calculate averages with conditions. If you need to exclude zeros, use AVERAGEIF(range, \"<>0\").",
+        "parameters": [
+            {
+                "name": "number1",
+                "desc": "The first number, cell reference, or range for which you want the average."
+            },
+            {
+                "name": "[number2]",
+                "desc": "Additional numbers, cell references, or ranges (up to 255 arguments)."
+            }
+        ]
+    },
+    {
+        "name": "IFERROR",
+        "category": "Logical",
+        "syntax": "=IFERROR(value, value_if_error)",
+        "summary": "Returns value_if_error if the formula evaluates to an error; otherwise, returns the result of the formula. Catches all error types (#N/A, #VALUE!, #REF!, #DIV/0!, #NUM!, #NAME?, #NULL!).",
+        "common_errors": [
+            "Hiding genuine errors that should be investigated (masking bugs)",
+            "Wrapping formulas that rarely error, adding unnecessary overhead",
+            "Using IFERROR when IFNA would be more precise (only catch #N/A)"
+        ],
+        "best_practice": "Use IFNA instead of IFERROR when wrapping VLOOKUP/XLOOKUP — it only catches #N/A and lets other errors (which indicate real problems) surface.",
+        "parameters": [
+            {
+                "name": "value",
+                "desc": "The formula or value to check for errors."
+            },
+            {
+                "name": "value_if_error",
+                "desc": "The value to return if an error is detected. Can be text, number, blank (\"\"), or another formula."
+            }
+        ]
+    },
+    {
+        "name": "COUNTIFS",
+        "category": "Statistical",
+        "syntax": "=COUNTIFS(criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
+        "summary": "Counts the number of cells that meet multiple criteria across multiple ranges. All criteria must be met (AND logic).",
+        "common_errors": [
+            "Criteria ranges have different sizes (all ranges must have the same dimensions)",
+            "Date criteria not formatted correctly (wrap in DATE() or use quotes)",
+            "Using OR logic by mistake — COUNTIFS uses AND logic only"
+        ],
+        "best_practice": "For OR logic across criteria, add multiple COUNTIFS together. Use date comparisons like \">\"&DATE(2024,1,1). All criteria_range arguments must have equal row/column counts.",
+        "parameters": [
+            {
+                "name": "criteria_range1",
+                "desc": "The first range in which to evaluate the associated criteria."
+            },
+            {
+                "name": "criteria1",
+                "desc": "The criteria for criteria_range1 (number, expression, text, or cell reference)."
+            },
+            {
+                "name": "[criteria_range2]",
+                "desc": "Additional ranges (up to 127 pairs)."
+            },
+            {
+                "name": "[criteria2]",
+                "desc": "The criteria for criteria_range2."
+            }
+        ]
+    },
+    {
+        "name": "SUMIFS",
+        "category": "Math & Trig",
+        "syntax": "=SUMIFS(sum_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
+        "summary": "Adds cells in a range that meet multiple criteria. Unlike SUMIF, the sum_range is the FIRST argument.",
+        "common_errors": [
+            "Confusing argument order with SUMIF (SUMIFS puts sum_range FIRST)",
+            "Criteria ranges and sum_range have different sizes",
+            "#VALUE! when using array formulas incorrectly with SUMIFS"
+        ],
+        "best_practice": "Remember: SUMIFS(sum_range, criteria_range, criteria) — sum_range comes first! This is different from SUMIF. For date ranges, use paired criteria like \">=\"&start_date and \"<=\"&end_date.",
+        "parameters": [
+            {
+                "name": "sum_range",
+                "desc": "The range of cells to sum."
+            },
+            {
+                "name": "criteria_range1",
+                "desc": "The range to evaluate with criteria1."
+            },
+            {
+                "name": "criteria1",
+                "desc": "The criteria for criteria_range1."
+            },
+            {
+                "name": "[criteria_range2]",
+                "desc": "Additional range/criteria pairs (up to 127)."
+            },
+            {
+                "name": "[criteria2]",
+                "desc": "The criteria for criteria_range2."
+            }
+        ]
+    },
+    {
+        "name": "CONCATENATE",
+        "category": "Text",
+        "syntax": "=CONCATENATE(text1, [text2], ...) or =TEXTJOIN(delimiter, ignore_empty, text1, [text2], ...)",
+        "summary": "Joins two or more text strings into one. TEXTJOIN (Excel 2019+) is the modern upgrade, letting you specify a delimiter and ignore empty cells.",
+        "common_errors": [
+            "Forgetting to add spaces or delimiters between joined text",
+            "Numbers and dates not displaying correctly (need TEXT() function to format)",
+            "#VALUE! (too many characters — cell limit is 32,767)"
+        ],
+        "best_practice": "Use TEXTJOIN instead of CONCATENATE for cleaner formulas. Or simply use the & operator: =A1&\" \"&B1. To format numbers/dates when joining, wrap them in TEXT().",
+        "parameters": [
+            {
+                "name": "text1",
+                "desc": "The first text string to join."
+            },
+            {
+                "name": "[text2]",
+                "desc": "Additional text strings to join (up to 255 for CONCATENATE, up to 252 for TEXTJOIN)."
+            }
+        ]
+    },
+    {
+        "name": "LEFT",
+        "category": "Text",
+        "syntax": "=LEFT(text, [num_chars]) / =RIGHT(text, [num_chars]) / =MID(text, start_num, num_chars)",
+        "summary": "Extract characters from text: LEFT from the beginning, RIGHT from the end, MID from any position. Essential for parsing and cleaning data.",
+        "common_errors": [
+            "#VALUE! (num_chars is negative or start_num is less than 1)",
+            "Extracting wrong characters because of invisible spaces (use TRIM first)",
+            "Getting unexpected results with multi-byte characters (e.g., emojis, CJK)"
+        ],
+        "best_practice": "Combine with FIND or SEARCH to dynamically locate delimiters: =LEFT(A1, FIND(\"-\", A1)-1) extracts text before a dash. Use TRIM and CLEAN to remove hidden characters first.",
+        "parameters": [
+            {
+                "name": "text",
+                "desc": "The text string from which to extract characters."
+            },
+            {
+                "name": "[num_chars]",
+                "desc": "Number of characters to extract (defaults to 1 for LEFT/RIGHT)."
+            },
+            {
+                "name": "start_num",
+                "desc": "(MID only) The position of the first character to extract."
+            }
+        ]
+    },
+    {
+        "name": "LEN",
+        "category": "Text",
+        "syntax": "=LEN(text) / =TRIM(text)",
+        "summary": "LEN returns the number of characters in a text string. TRIM removes all extra spaces from text, leaving only single spaces between words.",
+        "common_errors": [
+            "LEN counting invisible characters (line breaks, non-breaking spaces) that aren't visible",
+            "TRIM not removing non-breaking spaces (use SUBSTITUTE(A1, CHAR(160), \"\") for those)",
+            "Unexpected LEN results with numbers stored as text"
+        ],
+        "best_practice": "Use LEN to validate data (e.g., check if phone numbers have correct digits). Chain TRIM with CLEAN to remove both extra spaces and non-printable characters: =TRIM(CLEAN(A1)).",
+        "parameters": [
+            {
+                "name": "text",
+                "desc": "The text string whose length you want (LEN) or from which to remove extra spaces (TRIM)."
+            }
+        ]
+    },
+    {
+        "name": "FILTER",
+        "category": "Dynamic Array",
+        "syntax": "=FILTER(array, include, [if_empty])",
+        "summary": "Filters a range of data based on criteria you define. Returns results that automatically spill into neighboring cells. A game-changer introduced in Excel 365/2021.",
+        "common_errors": [
+            "#CALC! (no rows meet the criteria and if_empty is not provided)",
+            "#SPILL! (cells where results would spill are not empty)",
+            "#VALUE! (include array dimensions don't match the array argument)"
+        ],
+        "best_practice": "Always provide the if_empty argument (e.g., \"No results found\") to prevent #CALC! errors. Combine multiple criteria with * (AND) or + (OR): =FILTER(A:C, (B:B=\"Sales\")*(C:C>1000)).",
+        "parameters": [
+            {
+                "name": "array",
+                "desc": "The range or array to filter."
+            },
+            {
+                "name": "include",
+                "desc": "A Boolean array (TRUE/FALSE) the same height as array. Only rows where include is TRUE are returned."
+            },
+            {
+                "name": "[if_empty]",
+                "desc": "Value to return when no rows meet the criteria."
+            }
+        ]
+    },
+    {
+        "name": "UNIQUE",
+        "category": "Dynamic Array",
+        "syntax": "=UNIQUE(array, [by_col], [exactly_once])",
+        "summary": "Returns a list of unique values from a range or array. Automatically spills results. Perfect for removing duplicates without altering original data.",
+        "common_errors": [
+            "#SPILL! (destination cells are not empty)",
+            "Case sensitivity — UNIQUE treats 'Apple' and 'apple' as the same in most contexts",
+            "Extra blank rows being included as unique values"
+        ],
+        "best_practice": "Combine with SORT for a clean, alphabetized list of unique values: =SORT(UNIQUE(A2:A100)). Use exactly_once=TRUE to find values that appear only once (great for finding orphan data).",
+        "parameters": [
+            {
+                "name": "array",
+                "desc": "The range or array from which to extract unique values."
+            },
+            {
+                "name": "[by_col]",
+                "desc": "TRUE = compare by column, FALSE = compare by row (default)."
+            },
+            {
+                "name": "[exactly_once]",
+                "desc": "TRUE = return only values appearing exactly once. FALSE = return all distinct values (default)."
+            }
+        ]
+    },
+    {
+        "name": "LET",
+        "category": "Logical",
+        "syntax": "=LET(name1, value1, [name2, value2], ..., calculation)",
+        "summary": "Assigns names to calculation results inside a formula, making complex formulas readable and faster by avoiding repeated calculations.",
+        "common_errors": [
+            "#NAME? (using LET in older Excel versions — requires Excel 365/2021+)",
+            "Forgetting the final calculation argument (LET needs at least one name/value pair AND a calculation)",
+            "#VALUE! (name conflicts with existing cell references like A1, B2)"
+        ],
+        "best_practice": "Use LET to name intermediate results: =LET(revenue, SUM(B:B), cost, SUM(C:C), revenue-cost) is cleaner and faster than =SUM(B:B)-SUM(C:C) when those ranges are used multiple times.",
+        "parameters": [
+            {
+                "name": "name1",
+                "desc": "The first variable name (cannot conflict with cell references)."
+            },
+            {
+                "name": "value1",
+                "desc": "The value or formula assigned to name1."
+            },
+            {
+                "name": "calculation",
+                "desc": "The final calculation that uses the defined names. This is the result returned by LET."
+            }
+        ]
+    },
+    {
+        "name": "SORT",
+        "category": "Dynamic Array",
+        "syntax": "=SORT(array, [sort_index], [sort_order], [by_col])",
+        "summary": "Sorts the contents of a range or array. Results spill automatically. No more manual Sort buttons — your data stays dynamically sorted.",
+        "common_errors": [
+            "#SPILL! (destination cells are not empty)",
+            "#VALUE! (sort_index exceeds the number of columns/rows in the array)",
+            "Sorting by the wrong column because sort_index is relative to the array, not the worksheet"
+        ],
+        "best_practice": "Combine SORT with FILTER for a sorted, filtered view of your data: =SORT(FILTER(A:D, C:C>100), 3, -1). Use sort_order -1 for descending (largest to smallest or Z to A).",
+        "parameters": [
+            {
+                "name": "array",
+                "desc": "The range or array to sort."
+            },
+            {
+                "name": "[sort_index]",
+                "desc": "The column (or row) number to sort by. Default is 1."
+            },
+            {
+                "name": "[sort_order]",
+                "desc": "1 = ascending (default), -1 = descending."
+            },
+            {
+                "name": "[by_col]",
+                "desc": "TRUE = sort by column (left to right), FALSE = sort by row (default, top to bottom)."
+            }
+        ]
+    },
+    {
+        "name": "LAMBDA",
+        "category": "Advanced",
+        "syntax": "=LAMBDA([parameter1, parameter2, ...], calculation)",
+        "summary": "Creates custom, reusable functions without VBA or macros. Define your own formula once, name it in the Name Manager, and use it like any built-in function.",
+        "common_errors": [
+            "#CALC! (LAMBDA called without being assigned to a name — it won't work inline without being invoked)",
+            "#NAME? (not available in older Excel versions — requires Excel 365)",
+            "Recursive LAMBDAs causing stack overflow with large datasets"
+        ],
+        "best_practice": "Define LAMBDA in Name Manager (Formulas > Name Manager) to create reusable custom functions. Example: Create a 'TAX' function =LAMBDA(price, rate, price * rate) then use =TAX(A1, 0.1) anywhere.",
+        "parameters": [
+            {
+                "name": "[parameter]",
+                "desc": "Input parameters for your custom function. Up to 253 parameters."
+            },
+            {
+                "name": "calculation",
+                "desc": "The formula to execute, using the parameters. This is the result returned."
+            }
+        ]
     }
 ]

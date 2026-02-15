@@ -84,12 +84,22 @@ Include these trust-building elements throughout the content:
 [REQUIRED STRUCTURE - FOLLOW EXACTLY]
 ═══════════════════════════════════════
 
-## MDX Frontmatter (REQUIRED)
-Generate frontmatter with:
-- title: Creative recipe-style title (50-60 chars). Include the function name.
-- description: Compelling meta description (150-160 chars). Include the function name + a benefit.
-- date: ${new Date().toISOString().split('T')[0]}
+## MDX Frontmatter (REQUIRED - CRITICAL YAML RULES)
+Generate frontmatter with ALL string values wrapped in DOUBLE QUOTES to prevent YAML parsing errors:
+- title: "Creative recipe-style title (50-60 chars). Include the function name."
+- description: "Compelling meta description (150-160 chars). Include the function name + a benefit."
+- date: "${new Date().toISOString().split('T')[0]}"
 - tags: [Excel, ${targetFunction.name}, ${targetFunction.category}, plus 2-3 relevant tags]
+
+⚠️ CRITICAL: title and description MUST be wrapped in double quotes because they often contain colons (:) and apostrophes (') which break YAML parsing.
+Example:
+---
+title: "Master the VLOOKUP Function: Your Essential Lookup Recipe"
+description: "Learn Excel's VLOOKUP function to search data tables efficiently."
+date: "${new Date().toISOString().split('T')[0]}"
+tags: [Excel, VLOOKUP, Lookup]
+---
+
 
 ## Article Structure (IN THIS ORDER):
 
@@ -155,6 +165,14 @@ ${targetFunction.parameters.map(p => `  - **${p.name}**: ${p.desc}`).join('\n')}
 
         // Clean up: remove markdown code fences if Gemini wraps output
         text = text.replace(/^```mdx?\n?/m, '').replace(/\n?```$/m, '');
+
+        // Safety: ensure frontmatter title/description are quoted (prevent YAML colon issues)
+        text = text.replace(/^(title:\s+)(?!")(.*[:'].*)$/gm, (_, prefix, val) => {
+            return prefix + '"' + val.replace(/"/g, '\\"') + '"';
+        });
+        text = text.replace(/^(description:\s+)(?!")(.*[:'].*)$/gm, (_, prefix, val) => {
+            return prefix + '"' + val.replace(/"/g, '\\"') + '"';
+        });
 
         // Save file
         const slug = targetFunction.name.toLowerCase().replace(/ /g, '-').replace(/\//g, '-');

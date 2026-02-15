@@ -70,7 +70,7 @@ export default function TermsPage() {
             <h2>Contact</h2>
             <p>
                 If you have any questions about these Terms, please contact us at:{' '}
-                <a href="mailto:excelcookbook.help@gmail.com">excelcookbook.help@gmail.com</a>
+                <a href="mailto:barakiki02@gmail.com">barakiki02@gmail.com</a>
             </p>
         </article>
     );

@@ -21,10 +21,10 @@ export default function ContactPage() {
             </p>
             <p>
                 <a
-                    href="mailto:excelcookbook.help@gmail.com"
+                    href="mailto:barakiki02@gmail.com"
                     className="inline-flex items-center gap-2 rounded-lg bg-emerald-50 px-4 py-2 text-emerald-700 font-medium no-underline hover:bg-emerald-100 transition-colors dark:bg-emerald-900/30 dark:text-emerald-400 dark:hover:bg-emerald-900/50"
                 >
-                    excelcookbook.help@gmail.com
+                    barakiki02@gmail.com
                 </a>
             </p>
 

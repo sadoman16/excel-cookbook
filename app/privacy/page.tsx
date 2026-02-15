@@ -98,7 +98,7 @@ export default function PrivacyPage() {
             <h2>Contact Us</h2>
             <p>
                 If you have any questions about this Privacy Policy, please contact us at:{' '}
-                <a href="mailto:excelcookbook.help@gmail.com">excelcookbook.help@gmail.com</a>
+                <a href="mailto:barakiki02@gmail.com">barakiki02@gmail.com</a>
             </p>
         </article>
     );

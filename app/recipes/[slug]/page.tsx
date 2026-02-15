@@ -87,13 +87,13 @@ export default async function RecipePage({
                 "@type": "ListItem",
                 position: 1,
                 name: "Home",
-                item: "https://sadoman16.github.io/excel-cookbook",
+                item: "https://excel-cookbook.com",
             },
             {
                 "@type": "ListItem",
                 position: 2,
                 name: "Recipes",
-                item: "https://sadoman16.github.io/excel-cookbook/recipes",
+                item: "https://excel-cookbook.com/recipes",
             },
             {
                 "@type": "ListItem",

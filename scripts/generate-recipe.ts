@@ -38,7 +38,7 @@ async function generateRecipe(targetFunction: ExcelFunction) {
     //  SEO-Optimized Prompt (based on seo-content-writer skill)
     // ──────────────────────────────────────────────────────────
     const prompt = `
-You are an expert Excel Consultant and SEO Content Writer creating a "Cookbook Recipe" for the Excel Cookbook website (https://sadoman16.github.io/excel-cookbook).
+You are an expert Excel Consultant and SEO Content Writer creating a "Cookbook Recipe" for the Excel Cookbook website (https://excel-cookbook.com).
 
 Target Function: ${targetFunction.name}
 Category: ${targetFunction.category}

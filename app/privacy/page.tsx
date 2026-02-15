@@ -14,7 +14,7 @@ export default function PrivacyPage() {
             <h2>Who We Are</h2>
             <p>
                 Excel Cookbook (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) operates the website{' '}
-                <strong>https://sadoman16.github.io/excel-cookbook</strong>. This Privacy Policy explains how
+                <strong>https://excel-cookbook.com</strong>. This Privacy Policy explains how
                 we collect, use, and protect information when you visit our site.
             </p>
 

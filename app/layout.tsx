@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: "Excel Cookbook — Fix Excel Errors Fast ✓",
     description:
       "Step-by-step recipes for Excel formulas. Fix VLOOKUP, IF, XLOOKUP errors in minutes.",
-    url: "https://sadoman16.github.io/excel-cookbook",
+    url: "https://excel-cookbook.com",
     siteName: "Excel Cookbook",
     type: "website",
     locale: "en_US",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: "https://sadoman16.github.io/excel-cookbook",
+    canonical: "https://excel-cookbook.com",
   },
 };
 
@@ -52,7 +52,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="canonical" href="https://sadoman16.github.io/excel-cookbook" />
+        <link rel="canonical" href="https://excel-cookbook.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -60,7 +60,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               name: "Excel Cookbook",
-              url: "https://sadoman16.github.io/excel-cookbook",
+              url: "https://excel-cookbook.com",
               description:
                 "Stop Googling Excel formulas. Search by problem, copy the solution.",
               inLanguage: "en",

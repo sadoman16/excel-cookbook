@@ -9,7 +9,7 @@ export default function PrivacyPage() {
     return (
         <article className="prose prose-slate dark:prose-invert max-w-3xl mx-auto px-4 py-12">
             <h1>Privacy Policy</h1>
-            <p className="text-sm text-slate-500">Last updated: February 15, 2025</p>
+            <p className="text-sm text-slate-500">Last updated: February 15, 2026</p>
 
             <h2>Who We Are</h2>
             <p>

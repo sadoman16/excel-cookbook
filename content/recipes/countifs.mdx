@@ -106,7 +106,7 @@ Even the most seasoned Excel chefs sometimes encounter a culinary mishap. Here a
 
 2.  **Date criteria not formatted correctly:**
     *   **What it looks like:** The formula returns 0, even though you know there are matching dates, or it gives an error.
-    *   **Why it happens:** Dates in Excel are serial numbers. When using comparison operators (>, <, >=, <=), Excel expects the date to be interpreted correctly. Simply typing `">1/1/2024"` often won't work reliably, especially if your regional settings differ.
+    *   **Why it happens:** Dates in Excel are serial numbers. When you type a date like `>1/1/2026` directly into a formula without quotes or `DATE()`, Excel might interpret it as a mathematical expression (1 divided by 1 divided by 2026) rather than a date.
     *   **How to fix it:** Always wrap date comparisons in quotes and use the `DATE()` function for robustness. For example, `">"&DATE(2024,1,1)` ensures Excel correctly interprets your comparison against a specific date. Alternatively, if the date is in a cell, say `F1`, you'd use `">="&F1`.
 
 3.  **Using OR logic by mistake — COUNTIFS uses AND logic only:**
@@ -122,5 +122,3 @@ Even the most seasoned Excel chefs sometimes encounter a culinary mishap. Here a
 | **Common Use**    | Counting rows that meet multiple conditions (e.g., sales over $100 AND in the "North" region).          |
 | **Key Gotcha**    | All ranges must have the same dimensions. `COUNTIFS` is "AND" logic; use `+` for "OR".                  |
 | **Related Functions** | `COUNTIF` (single criterion), `SUMIFS` (summing with multiple criteria), `AVERAGEIFS` (averaging with multiple criteria), `FILTER` (extracting matching rows). |
-
-By mastering the `COUNTIFS` function, you're not just counting data; you're unlocking deeper insights and becoming a more efficient, invaluable Excel user. Keep practicing these "recipes," and you'll be an Excel guru in no time!

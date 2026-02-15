@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Button } from './ui/Button';
 
 export const Navbar = () => {
     return (
@@ -9,12 +8,10 @@ export const Navbar = () => {
                     <span className="text-xl font-bold text-excel-green">Excel Cookbook</span>
                 </Link>
                 <nav className="flex flex-1 items-center space-x-6 text-sm font-medium">
-                    <Link href="#" className="transition-colors hover:text-excel-green">Running Recipes</Link>
-                    <Link href="#" className="transition-colors hover:text-excel-green">About</Link>
+                    <Link href="/" className="transition-colors hover:text-excel-green">Recipes</Link>
+                    <Link href="/about" className="transition-colors hover:text-excel-green">About</Link>
+                    <Link href="/contact" className="transition-colors hover:text-excel-green">Contact</Link>
                 </nav>
-                <div className="flex items-center space-x-2">
-                    <Button size="sm">Subscribe</Button>
-                </div>
             </div>
         </header>
     );

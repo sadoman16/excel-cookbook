@@ -556,5 +556,52 @@
                 "desc": "The format code in quotation marks (e.g., \"0.00%\", \"dd/mm/yyyy\")."
             }
         ]
+    },
+    {
+        "name": "MID",
+        "category": "Text",
+        "syntax": "=MID(text, start_num, num_chars)",
+        "summary": "Extracts a specific number of characters from the middle of a text string, starting at the position you specify.",
+        "common_errors": [
+            "Start_num is 1 (this acts like LEFT, but works)",
+            "Start_num is greater than text length (returns empty text)",
+            "Num_chars is negative (returns #VALUE! error)"
+        ],
+        "best_practice": "Combine with FIND or SEARCH to extract text between delimiters (e.g., getting a domain name from an email address).",
+        "parameters": [
+            {
+                "name": "text",
+                "desc": "The text string containing the characters you want to extract."
+            },
+            {
+                "name": "start_num",
+                "desc": "The position of the first character you want to extract in text (1-based)."
+            },
+            {
+                "name": "num_chars",
+                "desc": "The number of characters you want to extract."
+            }
+        ]
+    },
+    {
+        "name": "RIGHT",
+        "category": "Text",
+        "syntax": "=RIGHT(text, [num_chars])",
+        "summary": "Extracts the last character or characters from a text string, based on the number of characters you specify.",
+        "common_errors": [
+            "Num_chars is greater than text length (returns whole text)",
+            "Trailing spaces in original text (causes RIGHT to return spaces instead of desired characters - use TRIM first)"
+        ],
+        "best_practice": "Use LEN to calculate num_chars dynamically if you need everything after a specific separator.",
+        "parameters": [
+            {
+                "name": "text",
+                "desc": "The text string containing the characters you want to extract."
+            },
+            {
+                "name": "num_chars",
+                "desc": "Optional. The number of characters you want to extract. Default is 1."
+            }
+        ]
     }
 ]

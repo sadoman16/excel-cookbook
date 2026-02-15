@@ -26,6 +26,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "Excel Cookbook",
+              url: "https://sadoman16.github.io/excel-cookbook",
+              description: "복붙으로 끝내는 엑셀/구글 스프레드시트 요리책",
+              inLanguage: "ko",
+            }),
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background font-sans text-foreground antialiased`}
       >

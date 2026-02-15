@@ -183,6 +183,28 @@ async function main() {
 
     const db = await loadTruthDB();
 
+    // Check for command line argument
+    const targetName = process.argv[2];
+
+    if (targetName) {
+        const target = db.find(f => f.name.toLowerCase() === targetName.toLowerCase());
+        if (!target) {
+            console.error(`❌ Error: Function "${targetName}" not found in database.`);
+            process.exit(1);
+        }
+
+        const slug = target.name.toLowerCase().replace(/ /g, '-').replace(/\//g, '-');
+        const mdxPath = path.join(CONTENT_DIR, `${slug}.mdx`);
+        if (fs.existsSync(mdxPath)) {
+            console.log(`⚠️  Skipping: Recipe for ${target.name} already exists at ${mdxPath}`);
+            return;
+        }
+
+        console.log(`🎯 Targeted generation for: ${target.name}`);
+        await generateRecipe(target);
+        return;
+    }
+
     // Find functions that don't have a recipe yet
     const ungenerated = db.filter(f => {
         const slug = f.name.toLowerCase().replace(/ /g, '-').replace(/\//g, '-');

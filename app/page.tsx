@@ -1,6 +1,5 @@
 import { getAllRecipes } from "@/lib/recipe-parser";
-import { RecipeCard } from "@/components/ui/RecipeCard";
-import { Button } from "@/components/ui/Button";
+import { RecipeBrowser } from "@/components/RecipeBrowser";
 
 export default function Home() {
   const recipes = getAllRecipes();
@@ -22,34 +21,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Dynamic Recipe List */}
-      <section>
-        <h2 className="mb-6 text-2xl font-bold text-slate-900 dark:text-slate-50">
-          🍳 Latest Recipes
-        </h2>
-        {recipes.length > 0 ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {recipes.map((recipe) => (
-              <RecipeCard
-                key={recipe.slug}
-                slug={recipe.slug}
-                title={recipe.title}
-                description={recipe.description}
-                tags={recipe.tags}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-slate-300 py-12 dark:border-slate-700">
-            <p className="text-lg text-slate-500 dark:text-slate-400">
-              No recipes yet 👨‍🍳
-            </p>
-            <p className="mt-2 text-sm text-slate-400 dark:text-slate-500">
-              Our AI chef is cooking up something delicious!
-            </p>
-          </div>
-        )}
-      </section>
+      {/* Dynamic Recipe List with Search */}
+      <RecipeBrowser initialRecipes={recipes} />
     </div>
   );
 }
+

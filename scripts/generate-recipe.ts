@@ -78,7 +78,8 @@ async function generateRecipe(targetFunction: ExcelFunction) {
 
 async function main() {
     if (!process.env.GEMINI_API_KEY) {
-        console.error("❌ Error: GEMINI_API_KEY is not set in .env file.");
+        console.error("❌ Error: GEMINI_API_KEY is not set.");
+        console.error("   Please check .env file (local) or GitHub Repository Secrets (remote).");
         process.exit(1);
     }
 

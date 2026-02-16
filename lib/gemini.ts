@@ -14,12 +14,15 @@ const formulaSchema: Schema = {
     required: ["formula", "explanation", "relatedFunctions"],
 };
 
-// Available models to rotate if quota is exceeded
+/**
+ * 긴급 수정: 존재하지 않는 모델명(gemini-1.5-pro)을 실제 API 명칭(gemini-1.5-pro-latest)으로 수정합니다.
+ * Quota 부족 시(429) 다음 모델로 넘어가는 안정적인 로테이션 방식입니다.
+ */
 const MODELS = [
-    "gemini-2.0-flash",           // Primary
-    "gemini-1.5-flash",           // Fallback 1
-    "gemini-1.5-flash-8b",        // Fallback 2
-    "gemini-1.5-pro",             // Fallback 3
+    "gemini-2.0-flash",           // 1순위 (빠르고 최신)
+    "gemini-1.5-flash",           // 2순위 (무난함)
+    "gemini-1.5-pro-latest",      // 3순위 (강력함, 404 방지를 위해 최신 식별자 사용)
+    "gemini-1.5-flash-8b",        // 4순위 (가벼움)
 ];
 
 export async function generateWithFallback(prompt: string) {
@@ -31,7 +34,7 @@ export async function generateWithFallback(prompt: string) {
 
     for (const modelName of MODELS) {
         try {
-            console.log(`Trying model: ${modelName}`);
+            console.log(`🤖 어제처럼 안정적으로 시도 중: ${modelName}`);
             const model = genAI.getGenerativeModel({
                 model: modelName,
                 generationConfig: {
@@ -40,23 +43,20 @@ export async function generateWithFallback(prompt: string) {
                 },
             });
 
-            // Add a safety timeout (10s)
-            const result = await Promise.race([
+            // Vercel 타임아웃(10초) 이내에 응답받도록 설정
+            const result: any = await Promise.race([
                 model.generateContent(prompt),
-                new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 10000))
-            ]) as any;
+                new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 9000))
+            ]);
 
             const response = await result.response;
             return response.text();
         } catch (error: any) {
-            console.warn(`Model ${modelName} failed:`, error.message);
+            console.warn(`⚠️ ${modelName} 모델 실패:`, error.message);
             lastError = error;
-            // If it's a quota error (429), the loop continues to the next model automatically
-            if (error.message.includes("429") || error.message.includes("quota")) {
-                continue;
-            }
-            // For other critical errors, we might still want to try the next one
+            // 429(할당량 초과) 또는 404(모델 없음) 시 다음 모델로 자동 이동
+            continue;
         }
     }
-    throw lastError || new Error("All models failed");
+    throw lastError || new Error("모든 AI 모델이 현재 응답할 수 없습니다.");
 }

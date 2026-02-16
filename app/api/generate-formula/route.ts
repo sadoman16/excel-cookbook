@@ -3,9 +3,9 @@ import { NextResponse } from 'next/server';
 import { generateWithFallback } from '@/lib/gemini';
 import { getAllRecipes } from '@/lib/recipe-parser';
 
-// GitHub Actions 빌드 시 'output: export'와 충돌하는 것을 방지하기 위해 조건부 설정을 사용하려 했으나, 
-// POST 핸들러는 기본적으로 동적(dynamic)으로 작동하므로 에러 방지를 위해 해당 줄을 제거하거나 아래와 같이 변경합니다.
-export const dynamic = process.env.GITHUB_ACTIONS === 'true' ? 'auto' : 'force-dynamic';
+// dynamic 설정을 'auto'로 변경하여 깃허브 정적 빌드 시의 충돌을 방지합니다.
+// Vercel에서는 POST 요청과 req.json() 사용으로 인해 자동으로 동적 실행됩니다.
+export const dynamic = 'auto';
 
 export async function POST(req: Request) {
     try {

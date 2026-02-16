@@ -9,6 +9,10 @@ export const Navbar = () => {
                 </Link>
                 <nav className="flex flex-1 items-center space-x-6 text-sm font-medium">
                     <Link href="/" className="transition-colors hover:text-excel-green">Recipes</Link>
+                    <Link href="/tools/formula-generator" className="transition-colors hover:text-excel-green text-excel-green font-semibold flex items-center">
+                        <span className="mr-1">AI Formula</span>
+                        <span className="animate-pulse">✨</span>
+                    </Link>
                     <Link href="/about" className="transition-colors hover:text-excel-green">About</Link>
                     <Link href="/contact" className="transition-colors hover:text-excel-green">Contact</Link>
                 </nav>

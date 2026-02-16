@@ -143,6 +143,29 @@ ${targetFunction.parameters.map(p => `  - **${p.name}**: ${p.desc}`).join('\n')}
   - Related functions to explore
 
 ═══════════════════════════════════════
+[FEATURED SNIPPET OPTIMIZATION — seo-snippet-hunter skill]
+═══════════════════════════════════════
+
+These rules help our content appear as Google Featured Snippets (Position 0):
+
+1. **Definition Snippet**: In "The Problem" section, include a clear 40-60 word definition:
+   "What is [FUNCTION]? [FUNCTION] is an Excel function that [does X]. It is commonly used to [use case]."
+
+2. **Step List Snippet**: In "The Recipe" section, use NUMBERED steps (1., 2., 3...) with BOLD step names:
+   1. **Select Your Cell:** Click on cell C2...
+   2. **Enter the Formula:** Type =VLOOKUP(...
+
+3. **Table Snippet**: Include at least one parameter table with columns: Parameter | Description
+
+4. **Troubleshooting as FAQ**: In "Troubleshooting", use ### sub-headings for each error:
+   ### 1. #N/A Error
+   - **What it looks like:** #N/A
+   - **Why it happens:** ...
+   - **How to fix it:** ...
+
+This structure enables automatic HowTo + FAQPage Schema extraction.
+
+═══════════════════════════════════════
 [FINAL CHECKLIST - VERIFY BEFORE OUTPUT]
 ═══════════════════════════════════════
 □ Article is 800+ words
@@ -154,6 +177,7 @@ ${targetFunction.parameters.map(p => `  - **${p.name}**: ${p.desc}`).join('\n')}
 □ E-E-A-T signals present (experience, expertise references)
 □ No filler sentences — every line teaches something
 □ Function name appears naturally 8-12 times
+□ Featured Snippet structure followed (definition, numbered steps, FAQ sub-headings)
 `;
 
     console.log(`🍳 Generating SEO-optimized recipe for ${targetFunction.name} using ${MODEL_NAME}...`);

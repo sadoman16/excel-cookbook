@@ -2,6 +2,8 @@ import { getAllRecipeSlugs, getRecipeBySlug } from "@/lib/recipe-parser";
 import { marked } from "marked";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { RecipeSchema } from "@/components/RecipeSchema";
+import { extractHowToSteps, extractFAQItems } from "@/lib/schema-extractor";
 // Required for static export mode
 export const dynamicParams = false;
 
@@ -62,7 +64,7 @@ export default async function RecipePage({
         breaks: true,
     });
 
-    // JSON-LD Schema: Article + HowTo
+    // JSON-LD Schema: Article (existing)
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "Article",
@@ -103,9 +105,13 @@ export default async function RecipePage({
         ],
     };
 
+    // Extract structured data for HowTo + FAQ schemas (schema-markup + seo-snippet-hunter skills)
+    const howToSteps = extractHowToSteps(recipe.content);
+    const faqItems = extractFAQItems(recipe.content);
+
     return (
         <>
-            {/* JSON-LD Schema */}
+            {/* JSON-LD Schema: Article + Breadcrumb */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -113,6 +119,16 @@ export default async function RecipePage({
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+            />
+
+            {/* JSON-LD Schema: HowTo + FAQPage (for Google Rich Results) */}
+            <RecipeSchema
+                title={recipe.title}
+                description={recipe.description}
+                slug={slug}
+                date={recipe.date}
+                howToSteps={howToSteps}
+                faqItems={faqItems}
             />
 
             {/* Breadcrumb */}

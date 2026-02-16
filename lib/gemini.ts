@@ -15,14 +15,15 @@ const formulaSchema: Schema = {
 };
 
 /**
- * 긴급 수정: 존재하지 않는 모델명(gemini-1.5-pro)을 실제 API 명칭(gemini-1.5-pro-latest)으로 수정합니다.
- * Quota 부족 시(429) 다음 모델로 넘어가는 안정적인 로테이션 방식입니다.
+ * [2026 ground truth] 사용자의 대시보드 스크린샷에 표시된 실시간 모델 명칭으로 업데이트합니다.
+ * 429(할당량 초과) 발생 시 다음 모델로 즉시 전환합니다.
  */
 const MODELS = [
-    "gemini-2.0-flash",           // 1순위 (빠르고 최신)
-    "gemini-1.5-flash",           // 2순위 (무난함)
-    "gemini-1.5-pro-latest",      // 3순위 (강력함, 404 방지를 위해 최신 식별자 사용)
-    "gemini-1.5-flash-8b",        // 4순위 (가벼움)
+    "gemini-3-flash",        // 1순위: 최신 모델, 속도 최우선 (스크린샷 확인됨)
+    "gemini-3-pro",          // 2순위: 최신 고성능 모델 (스크린샷 확인됨)
+    "gemini-2.5-pro",        // 3순위: 안정적인 고성능 (스크린샷 확인됨)
+    "gemini-2-flash",        // 4순위: 이전 무료 할당량 넉넉한 모델 (스크린샷 확인됨)
+    "gemini-2.5-flash",      // 5순위: 할당량 소진 가능성 높음 (스크린샷 확인됨)
 ];
 
 export async function generateWithFallback(prompt: string) {
@@ -34,7 +35,7 @@ export async function generateWithFallback(prompt: string) {
 
     for (const modelName of MODELS) {
         try {
-            console.log(`🤖 어제처럼 안정적으로 시도 중: ${modelName}`);
+            console.log(`🤖 [최종 배포] 모델 시도 중: ${modelName}`);
             const model = genAI.getGenerativeModel({
                 model: modelName,
                 generationConfig: {
@@ -43,20 +44,20 @@ export async function generateWithFallback(prompt: string) {
                 },
             });
 
-            // Vercel 타임아웃(10초) 이내에 응답받도록 설정
+            // Vercel 환경에 최적화된 타임아웃
             const result: any = await Promise.race([
                 model.generateContent(prompt),
-                new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 9000))
+                new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 9500))
             ]);
 
             const response = await result.response;
             return response.text();
         } catch (error: any) {
-            console.warn(`⚠️ ${modelName} 모델 실패:`, error.message);
+            console.warn(`⚠️ ${modelName} 실패 (사유: ${error.message}) -> 다음 모델로 전환합니다.`);
             lastError = error;
-            // 429(할당량 초과) 또는 404(모델 없음) 시 다음 모델로 자동 이동
+            // 429(Quota), 404(Model Name), 500 등 모든 에러 발생 시 다음 모델로 폴백
             continue;
         }
     }
-    throw lastError || new Error("모든 AI 모델이 현재 응답할 수 없습니다.");
+    throw lastError || new Error("모든 AI 모델이 할당량 초과 또는 점검 중입니다. 잠시 후 다시 시도해주세요.");
 }

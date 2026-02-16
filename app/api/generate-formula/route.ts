@@ -1,6 +1,6 @@
 
 import { NextResponse } from 'next/server';
-import { formulaModel } from '@/lib/gemini';
+import { generateFormulaWithFallback } from '@/lib/gemini';
 import { getAllRecipes } from '@/lib/recipe-parser';
 
 export async function POST(req: Request) {
@@ -21,7 +21,8 @@ export async function POST(req: Request) {
             );
         }
 
-        // Generate formula using Gemini
+
+        // Generate formula using Gemini with Fallback Strategy
         const prompt = `
             You are an expert Excel consultant.
             A user asked: "${query}"
@@ -34,9 +35,8 @@ export async function POST(req: Request) {
             4. Suggest 1-3 related Excel functions that are relevant.
         `;
 
-        const result = await formulaModel.generateContent(prompt);
-        const response = await result.response;
-        const jsonText = response.text();
+        // Use the fallback function
+        const jsonText = await generateFormulaWithFallback(prompt);
 
         let data;
         try {

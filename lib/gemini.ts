@@ -15,18 +15,6 @@ const genAI = new GoogleGenerativeAI(apiKey || "");
 
 // Define available free models (Priority Order)
 // Only use models specified in the list:
-// 1. Gemini 3 Flash Preview (Default)
-// 2. Gemini 3 Pro Preview
-// 3. Gemini 2.5 Pro
-// 4. Gemini 2.5 Flash
-const MODEL_NAMES = [
-    "gemini-2.0-flash-exp", // Assuming "Gemini 3 Flash Preview" maps to 2.0-flash-exp for now, or keep user names if proxy
-    "gemini-2.0-pro-exp",   // Assuming "Gemini 3 Pro Preview" maps to 2.0-pro-exp
-    "gemini-1.5-pro",       // Assuming "Gemini 2.5 Pro" maps to 1.5-pro
-    "gemini-1.5-flash"      // Assuming "Gemini 2.5 Flash" maps to 1.5-flash
-];
-// WAIT! I should check if the user is using literally "Gemini 2.5".
-// If the user's tool shows "Gemini 3", it might be `gemini-2.0-flash-exp`.
 // If the user says "Gemini 2.5", maybe it's `gemini-1.5`.
 // However, if the user explicitly said "Here are the models, use ONLY these names", maybe I should use the LITERAL names or what they likely correspond to?
 // Given the ambiguity, and "Gemini 3" creates confusion as it's not standard public API yet (except 2.0),

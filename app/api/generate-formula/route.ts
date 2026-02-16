@@ -1,14 +1,18 @@
 
 import { NextResponse } from 'next/server';
-import { generateFormulaWithFallback } from '@/lib/gemini';
-import { getAllRecipes } from '@/lib/recipe-parser';
+
+// Use Edge Runtime to completely bypass Node.js build-time "page data collection" issues
+// and ensure this is always dynamic (No 405 errors).
+export const runtime = 'edge';
 
 export async function POST(req: Request) {
-    // Accessing headers forces Next.js to treat this route as dynamic
-    // This fixes 405 Method Not Allowed (Static) without causing build-time errors
-    const _forceDynamic = req.headers;
+    // Ensure dynamic behavior
+    const _forceDynamic = req.headers.get('x-invoke-path');
 
     try {
+        // Dynamic import inside handler to be extra safe
+        const { generateFormulaWithFallback } = await import('@/lib/gemini');
+
         const { query } = await req.json();
 
         if (!query || typeof query !== 'string' || query.trim().length === 0) {
@@ -18,15 +22,6 @@ export async function POST(req: Request) {
             );
         }
 
-        if (query.length > 500) {
-            return NextResponse.json(
-                { error: 'Query is too long. Please summarize your problem.' },
-                { status: 400 }
-            );
-        }
-
-
-        // Generate formula using Gemini with Fallback Strategy
         const prompt = `
             You are an expert Excel consultant.
             A user asked: "${query}"
@@ -39,7 +34,6 @@ export async function POST(req: Request) {
             4. Suggest 1-3 related Excel functions that are relevant.
         `;
 
-        // Use the fallback function
         const jsonText = await generateFormulaWithFallback(prompt);
 
         let data;
@@ -50,43 +44,16 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "AI response error" }, { status: 500 });
         }
 
-        // Match related functions with existing recipes
-        // Note: getAllRecipes() might cause build issues on Vercel if not handled carefully,
-        // but we are restoring to "yesterday's state".
-        const allRecipes = getAllRecipes();
-        const relatedLinks = [];
-
-        if (data.relatedFunctions && Array.isArray(data.relatedFunctions)) {
-            for (const funcName of data.relatedFunctions) {
-                const normalizedFunc = funcName.toLowerCase().trim();
-                // Check if we have a recipe for this function
-                // Our slugs are typically the function name (vlookup, xlookup, etc.)
-                const matchingRecipe = allRecipes.find(r =>
-                    r.slug === normalizedFunc ||
-                    r.title.toLowerCase().includes(normalizedFunc) ||
-                    r.tags.some(t => t.toLowerCase() === normalizedFunc)
-                );
-
-                if (matchingRecipe) {
-                    relatedLinks.push({
-                        name: funcName,
-                        slug: matchingRecipe.slug,
-                        title: matchingRecipe.title
-                    });
-                }
-            }
-        }
-
         return NextResponse.json({
             formula: data.formula,
             explanation: data.explanation,
-            relatedLinks: relatedLinks
+            relatedFunctions: data.relatedFunctions || []
         });
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error generating formula:', error);
         return NextResponse.json(
-            { error: 'Failed to generate formula. Please try again later.' },
+            { error: `Failed: ${error.message}` },
             { status: 500 }
         );
     }

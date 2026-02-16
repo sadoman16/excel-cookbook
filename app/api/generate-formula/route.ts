@@ -4,6 +4,10 @@ import { generateFormulaWithFallback } from '@/lib/gemini';
 import { getAllRecipes } from '@/lib/recipe-parser';
 
 export async function POST(req: Request) {
+    // Accessing headers forces Next.js to treat this route as dynamic
+    // This fixes 405 Method Not Allowed (Static) without causing build-time errors
+    const _forceDynamic = req.headers;
+
     try {
         const { query } = await req.json();
 
@@ -47,6 +51,8 @@ export async function POST(req: Request) {
         }
 
         // Match related functions with existing recipes
+        // Note: getAllRecipes() might cause build issues on Vercel if not handled carefully,
+        // but we are restoring to "yesterday's state".
         const allRecipes = getAllRecipes();
         const relatedLinks = [];
 

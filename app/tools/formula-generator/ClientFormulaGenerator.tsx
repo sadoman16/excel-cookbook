@@ -38,12 +38,24 @@ export function ClientFormulaGenerator() {
                 body: JSON.stringify({ query }),
             });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to generate formula');
+            // Handle non-JSON responses (like Vercel 504 Timeout or 500 Error HTML)
+            const textFn = await response.text();
+            let data;
+            try {
+                data = JSON.parse(textFn);
+            } catch (parseError) {
+                console.error("❌ Failed to parse response:", textFn);
+                // Extract error from HTML title if possible, or show raw text snippet
+                const errorMatch = textFn.match(/<title>(.*?)<\/title>/);
+                const errorTitle = errorMatch ? errorMatch[1] : "Unknown Server Error";
+                throw new Error(`Server Error (${response.status}): ${errorTitle}. Please check console.`);
             }
 
-            const data = await response.json();
+            if (!response.ok) {
+                console.error("❌ API Error:", data);
+                throw new Error(data.error || `Failed (${response.status}): ${JSON.stringify(data)}`);
+            }
+
             setResult(data);
         } catch (err: any) {
             setError(err.message || 'Something went wrong. Please try again.');
@@ -137,8 +149,8 @@ export function ClientFormulaGenerator() {
                                 <button
                                     onClick={copyToClipboard}
                                     className={`flex items-center space-x-1.5 text-xs font-medium px-3 py-1.5 rounded-md transition-colors ${copied
-                                            ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-                                            : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700'
+                                        ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                                        : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700'
                                         }`}
                                 >
                                     {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}

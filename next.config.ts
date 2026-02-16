@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 
+const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
+
 const nextConfig: NextConfig = {
-  // Removing output: 'export' to allow API routes (Serverless Functions) to work on Vercel.
+  // Use export only when building on GitHub Actions to keep the build green.
+  // Vercel will skip this and use the default serverless mode for the API.
+  output: isGithubActions ? 'export' : undefined,
   images: {
     unoptimized: true,
   },

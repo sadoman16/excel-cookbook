@@ -1,16 +1,6 @@
 
 import { GoogleGenerativeAI, SchemaType, Schema } from "@google/generative-ai";
 
-// Ensure API key is available
-const apiKey = process.env.GEMINI_API_KEY;
-
-if (!apiKey) {
-    console.warn("⚠️ Warning: GEMINI_API_KEY is not set in environment variables.");
-}
-
-const genAI = new GoogleGenerativeAI(apiKey || "");
-
-// Schema for structured JSON output
 const formulaSchema: Schema = {
     type: SchemaType.OBJECT,
     properties: {
@@ -31,11 +21,24 @@ const formulaSchema: Schema = {
     required: ["formula", "explanation", "relatedFunctions"],
 };
 
-// Yesterday's single model export
-export const formulaModel = genAI.getGenerativeModel({
-    model: "gemini-2.0-flash",
-    generationConfig: {
-        responseMimeType: "application/json",
-        responseSchema: formulaSchema,
-    },
-});
+/**
+ * Lazy initialization of the Gemini model.
+ * This ensures the API key is read at runtime, not build time.
+ */
+export async function getGeminiModel() {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        throw new Error("GEMINI_API_KEY is not defined in environment variables.");
+    }
+
+    const genAI = new GoogleGenerativeAI(apiKey);
+
+    // Using gemini-2.0-flash (stable/fast)
+    return genAI.getGenerativeModel({
+        model: "gemini-2.0-flash",
+        generationConfig: {
+            responseMimeType: "application/json",
+            responseSchema: formulaSchema,
+        },
+    });
+}

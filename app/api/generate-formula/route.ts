@@ -1,9 +1,8 @@
 
 import { NextResponse } from 'next/server';
-import { formulaModel } from '@/lib/gemini';
+import { getGeminiModel } from '@/lib/gemini';
 import { getAllRecipes } from '@/lib/recipe-parser';
 
-// Ensures this API route is treated as a dynamic serverless function
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
@@ -17,7 +16,9 @@ export async function POST(req: Request) {
             );
         }
 
-        // Generate formula using Gemini
+        // 1. Get the model instance (Lazy)
+        const model = await getGeminiModel();
+
         const prompt = `
             You are an expert Excel consultant.
             A user asked: "${query}"
@@ -30,7 +31,8 @@ export async function POST(req: Request) {
             4. Suggest 1-3 related Excel functions that are relevant.
         `;
 
-        const result = await formulaModel.generateContent(prompt);
+        // 2. Generate content
+        const result = await model.generateContent(prompt);
         const response = await result.response;
         const jsonText = response.text();
 
@@ -39,10 +41,10 @@ export async function POST(req: Request) {
             data = JSON.parse(jsonText);
         } catch (e) {
             console.error("Failed to parse Gemini response:", jsonText);
-            return NextResponse.json({ error: "AI response error" }, { status: 500 });
+            return NextResponse.json({ error: "AI response parsing error" }, { status: 500 });
         }
 
-        // Match related functions with existing recipes
+        // 3. Related Links logic (remains as yesterday)
         const allRecipes = getAllRecipes();
         const relatedLinks = [];
 
@@ -71,10 +73,11 @@ export async function POST(req: Request) {
             relatedLinks: relatedLinks
         });
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error generating formula:', error);
+        // Return a bit more detail to help debug on Vercel
         return NextResponse.json(
-            { error: 'Failed to generate formula. Please try again later.' },
+            { error: `Generation failed: ${error.message || 'Unknown error'}` },
             { status: 500 }
         );
     }

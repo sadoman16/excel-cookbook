@@ -1,18 +1,13 @@
 
 import { NextResponse } from 'next/server';
+import { formulaModel } from '@/lib/gemini';
+import { getAllRecipes } from '@/lib/recipe-parser';
 
-// Use Edge Runtime to completely bypass Node.js build-time "page data collection" issues
-// and ensure this is always dynamic (No 405 errors).
-export const runtime = 'edge';
+// Ensures this API route is treated as a dynamic serverless function
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
-    // Ensure dynamic behavior
-    const _forceDynamic = req.headers.get('x-invoke-path');
-
     try {
-        // Dynamic import inside handler to be extra safe
-        const { generateFormulaWithFallback } = await import('@/lib/gemini');
-
         const { query } = await req.json();
 
         if (!query || typeof query !== 'string' || query.trim().length === 0) {
@@ -22,6 +17,7 @@ export async function POST(req: Request) {
             );
         }
 
+        // Generate formula using Gemini
         const prompt = `
             You are an expert Excel consultant.
             A user asked: "${query}"
@@ -34,7 +30,9 @@ export async function POST(req: Request) {
             4. Suggest 1-3 related Excel functions that are relevant.
         `;
 
-        const jsonText = await generateFormulaWithFallback(prompt);
+        const result = await formulaModel.generateContent(prompt);
+        const response = await result.response;
+        const jsonText = response.text();
 
         let data;
         try {
@@ -44,16 +42,39 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "AI response error" }, { status: 500 });
         }
 
+        // Match related functions with existing recipes
+        const allRecipes = getAllRecipes();
+        const relatedLinks = [];
+
+        if (data.relatedFunctions && Array.isArray(data.relatedFunctions)) {
+            for (const funcName of data.relatedFunctions) {
+                const normalizedFunc = funcName.toLowerCase().trim();
+                const matchingRecipe = allRecipes.find(r =>
+                    r.slug === normalizedFunc ||
+                    r.title.toLowerCase().includes(normalizedFunc) ||
+                    r.tags.some(t => t.toLowerCase() === normalizedFunc)
+                );
+
+                if (matchingRecipe) {
+                    relatedLinks.push({
+                        name: funcName,
+                        slug: matchingRecipe.slug,
+                        title: matchingRecipe.title
+                    });
+                }
+            }
+        }
+
         return NextResponse.json({
             formula: data.formula,
             explanation: data.explanation,
-            relatedFunctions: data.relatedFunctions || []
+            relatedLinks: relatedLinks
         });
 
-    } catch (error: any) {
+    } catch (error) {
         console.error('Error generating formula:', error);
         return NextResponse.json(
-            { error: `Failed: ${error.message}` },
+            { error: 'Failed to generate formula. Please try again later.' },
             { status: 500 }
         );
     }

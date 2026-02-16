@@ -3,7 +3,9 @@ import { NextResponse } from 'next/server';
 import { generateWithFallback } from '@/lib/gemini';
 import { getAllRecipes } from '@/lib/recipe-parser';
 
-export const dynamic = 'force-dynamic';
+// GitHub Actions 빌드 시 'output: export'와 충돌하는 것을 방지하기 위해 조건부 설정을 사용하려 했으나, 
+// POST 핸들러는 기본적으로 동적(dynamic)으로 작동하므로 에러 방지를 위해 해당 줄을 제거하거나 아래와 같이 변경합니다.
+export const dynamic = process.env.GITHUB_ACTIONS === 'true' ? 'auto' : 'force-dynamic';
 
 export async function POST(req: Request) {
     try {

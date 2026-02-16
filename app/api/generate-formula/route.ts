@@ -3,9 +3,8 @@ import { NextResponse } from 'next/server';
 import { generateWithFallback } from '@/lib/gemini';
 import { getAllRecipes } from '@/lib/recipe-parser';
 
-// dynamic 설정을 'auto'로 변경하여 깃허브 정적 빌드 시의 충돌을 방지합니다.
-// Vercel에서는 POST 요청과 req.json() 사용으로 인해 자동으로 동적 실행됩니다.
-export const dynamic = 'auto';
+export const dynamic = 'force-dynamic';
+
 
 export async function POST(req: Request) {
     try {

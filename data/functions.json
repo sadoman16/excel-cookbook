@@ -685,5 +685,1177 @@
                 "desc": "A logical value that specifies whether you want HLOOKUP to find an exact match (FALSE) or an approximate match (TRUE)."
             }
         ]
+    },
+    {
+        "name": "NETWORKDAYS",
+        "category": "Date & Time",
+        "syntax": "NETWORKDAYS(start_date, end_date, [holidays])",
+        "summary": "Calculates the number of whole working days between two dates, excluding weekends and optional holidays.",
+        "common_errors": [
+            "#VALUE! if start_date or end_date are not valid dates.",
+            "Incorrect holiday count if holidays are not properly formatted."
+        ],
+        "best_practice": "Store holidays in a named range for easier maintenance and readability.",
+        "parameters": [
+            {
+                "name": "start_date",
+                "desc": "The start date for the calculation."
+            },
+            {
+                "name": "end_date",
+                "desc": "The end date for the calculation."
+            },
+            {
+                "name": "holidays",
+                "desc": "An optional range of one or more dates to exclude from the working calendar."
+            }
+        ]
+    },
+    {
+        "name": "EDATE",
+        "category": "Date & Time",
+        "syntax": "EDATE(start_date, months)",
+        "summary": "Returns the serial number of the date that is the indicated number of months before or after the start date.",
+        "common_errors": [
+            "#VALUE! if start_date is not a valid date.",
+            "#NUM! if the resulting date is outside the valid date range."
+        ],
+        "best_practice": "Use EDATE to calculate maturity dates or other due dates that fall on the same day of the month.",
+        "parameters": [
+            {
+                "name": "start_date",
+                "desc": "The start date as a valid Excel date."
+            },
+            {
+                "name": "months",
+                "desc": "The number of months before or after start_date. A positive value for future dates, negative for past dates."
+            }
+        ]
+    },
+    {
+        "name": "EOMONTH",
+        "category": "Date & Time",
+        "syntax": "EOMONTH(start_date, months)",
+        "summary": "Returns the serial number of the last day of the month before or after a specified number of months.",
+        "common_errors": [
+            "#VALUE! if start_date is not a valid date.",
+            "#NUM! if the resulting date is outside the valid date range."
+        ],
+        "best_practice": "Useful for calculating month-end due dates or fiscal period ends.",
+        "parameters": [
+            {
+                "name": "start_date",
+                "desc": "The start date as a valid Excel date."
+            },
+            {
+                "name": "months",
+                "desc": "The number of months before or after start_date. A positive value for future dates, negative for past dates."
+            }
+        ]
+    },
+    {
+        "name": "WORKDAY",
+        "category": "Date & Time",
+        "syntax": "WORKDAY(start_date, days, [holidays])",
+        "summary": "Returns the date before or after a specified number of working days, excluding weekends and optional holidays.",
+        "common_errors": [
+            "#VALUE! if start_date is not a valid date.",
+            "#NUM! if the resulting date is outside the valid date range."
+        ],
+        "best_practice": "Ideal for calculating project due dates that only account for business days.",
+        "parameters": [
+            {
+                "name": "start_date",
+                "desc": "The start date as a valid Excel date."
+            },
+            {
+                "name": "days",
+                "desc": "The number of non-weekend and non-holiday days before or after start_date. Positive for future, negative for past."
+            },
+            {
+                "name": "holidays",
+                "desc": "An optional range of one or more dates to exclude from the working calendar."
+            }
+        ]
+    },
+    {
+        "name": "TODAY",
+        "category": "Date & Time",
+        "syntax": "TODAY()",
+        "summary": "Returns the current date, formatted as a date.",
+        "common_errors": [
+            "Not recalculating if the spreadsheet isn't opened or forced to recalculate."
+        ],
+        "best_practice": "Use TODAY() for calculating ages or deadlines relative to the current date, but be aware it updates daily.",
+        "parameters": []
+    },
+    {
+        "name": "NOW",
+        "category": "Date & Time",
+        "syntax": "NOW()",
+        "summary": "Returns the current date and time, formatted as a date and time.",
+        "common_errors": [
+            "Not recalculating if the spreadsheet isn't opened or forced to recalculate."
+        ],
+        "best_practice": "Useful for timestamping entries, but remember it's volatile and recalculates frequently.",
+        "parameters": []
+    },
+    {
+        "name": "YEAR",
+        "category": "Date & Time",
+        "syntax": "YEAR(serial_number)",
+        "summary": "Returns the year corresponding to a date, as an integer from 1900 to 9999.",
+        "common_errors": [
+            "#VALUE! if the argument is not a valid date serial number.",
+            "Returning unexpected year if the cell is not formatted as a date."
+        ],
+        "best_practice": "Always ensure the input 'serial_number' refers to a properly formatted date.",
+        "parameters": [
+            {
+                "name": "serial_number",
+                "desc": "A valid date serial number or a cell reference containing a date."
+            }
+        ]
+    },
+    {
+        "name": "MONTH",
+        "category": "Date & Time",
+        "syntax": "MONTH(serial_number)",
+        "summary": "Returns the month corresponding to a date, as an integer from 1 (January) to 12 (December).",
+        "common_errors": [
+            "#VALUE! if the argument is not a valid date serial number.",
+            "Returning unexpected month if the cell is not formatted as a date."
+        ],
+        "best_practice": "Combine with other date functions for detailed date analysis.",
+        "parameters": [
+            {
+                "name": "serial_number",
+                "desc": "A valid date serial number or a cell reference containing a date."
+            }
+        ]
+    },
+    {
+        "name": "DAY",
+        "category": "Date & Time",
+        "syntax": "DAY(serial_number)",
+        "summary": "Returns the day of the month corresponding to a date, as an integer from 1 to 31.",
+        "common_errors": [
+            "#VALUE! if the argument is not a valid date serial number.",
+            "Returning unexpected day if the cell is not formatted as a date."
+        ],
+        "best_practice": "Extract day numbers for scheduling or reporting on specific days of the month.",
+        "parameters": [
+            {
+                "name": "serial_number",
+                "desc": "A valid date serial number or a cell reference containing a date."
+            }
+        ]
+    },
+    {
+        "name": "WEEKDAY",
+        "category": "Date & Time",
+        "syntax": "WEEKDAY(serial_number, [return_type])",
+        "summary": "Returns the day of the week for a given date as a number (1 to 7).",
+        "common_errors": [
+            "#VALUE! if serial_number is not a valid date.",
+            "#NUM! if return_type is outside the allowed range."
+        ],
+        "best_practice": "Use the 'return_type' argument to match your preferred numbering system for the week (e.g., 1 for Sunday=1, 2 for Monday=1).",
+        "parameters": [
+            {
+                "name": "serial_number",
+                "desc": "A valid date serial number or a cell reference containing a date."
+            },
+            {
+                "name": "return_type",
+                "desc": "Optional. A number that determines the type of return value (e.g., 1=Sunday-Saturday, 2=Monday-Sunday)."
+            }
+        ]
+    },
+    {
+        "name": "WEEKNUM",
+        "category": "Date & Time",
+        "syntax": "WEEKNUM(serial_number, [return_type])",
+        "summary": "Returns the week number of a specific date (1 to 52 or 53).",
+        "common_errors": [
+            "#VALUE! if serial_number is not a valid date.",
+            "#NUM! if return_type is outside the allowed range."
+        ],
+        "best_practice": "Specify return_type (e.g., 1 for week starts Sunday, 2 for week starts Monday) to ensure consistency with your reporting standards.",
+        "parameters": [
+            {
+                "name": "serial_number",
+                "desc": "A valid date serial number or a cell reference containing a date."
+            },
+            {
+                "name": "return_type",
+                "desc": "Optional. A number that determines the day the week begins (e.g., 1 or omitted=Sunday, 2=Monday)."
+            }
+        ]
+    },
+    {
+        "name": "HOUR",
+        "category": "Date & Time",
+        "syntax": "HOUR(serial_number)",
+        "summary": "Returns the hour as an integer from 0 (12:00 A.M.) to 23 (11:00 P.M.) from a time value.",
+        "common_errors": [
+            "#VALUE! if the argument is not a valid time serial number or date-time string."
+        ],
+        "best_practice": "Useful for breaking down time data for analysis, such as peak activity hours.",
+        "parameters": [
+            {
+                "name": "serial_number",
+                "desc": "A valid time serial number or a cell reference containing a time/date-time."
+            }
+        ]
+    },
+    {
+        "name": "MINUTE",
+        "category": "Date & Time",
+        "syntax": "MINUTE(serial_number)",
+        "summary": "Returns the minute as an integer from 0 to 59 from a time value.",
+        "common_errors": [
+            "#VALUE! if the argument is not a valid time serial number or date-time string."
+        ],
+        "best_practice": "Combine with HOUR and SECOND to reconstruct or analyze specific time points.",
+        "parameters": [
+            {
+                "name": "serial_number",
+                "desc": "A valid time serial number or a cell reference containing a time/date-time."
+            }
+        ]
+    },
+    {
+        "name": "SECOND",
+        "category": "Date & Time",
+        "syntax": "SECOND(serial_number)",
+        "summary": "Returns the second as an integer from 0 to 59 from a time value.",
+        "common_errors": [
+            "#VALUE! if the argument is not a valid time serial number or date-time string."
+        ],
+        "best_practice": "Useful for very granular time tracking and calculations.",
+        "parameters": [
+            {
+                "name": "serial_number",
+                "desc": "A valid time serial number or a cell reference containing a time/date-time."
+            }
+        ]
+    },
+    {
+        "name": "TIME",
+        "category": "Date & Time",
+        "syntax": "TIME(hour, minute, second)",
+        "summary": "Returns the decimal number for a particular time, representing a fraction of a day.",
+        "common_errors": [
+            "#VALUE! if any argument is non-numeric.",
+            "Returning unexpected time if hour/minute/second values are out of range (e.g., minute > 59)."
+        ],
+        "best_practice": "Use TIME to convert separate hour, minute, and second values into a valid Excel time format.",
+        "parameters": [
+            {
+                "name": "hour",
+                "desc": "A number from 0 to 23 representing the hour."
+            },
+            {
+                "name": "minute",
+                "desc": "A number from 0 to 59 representing the minute."
+            },
+            {
+                "name": "second",
+                "desc": "A number from 0 to 59 representing the second."
+            }
+        ]
+    },
+    {
+        "name": "YEARFRAC",
+        "category": "Date & Time",
+        "syntax": "YEARFRAC(start_date, end_date, [basis])",
+        "summary": "Calculates the fraction of the year represented by the number of whole days between two dates.",
+        "common_errors": [
+            "#VALUE! if start_date or end_date are not valid dates.",
+            "#NUM! if basis is outside the accepted range (0-4)."
+        ],
+        "best_practice": "Specify the 'basis' argument to ensure accurate calculations according to financial or accounting conventions.",
+        "parameters": [
+            {
+                "name": "start_date",
+                "desc": "The start date as a valid Excel date."
+            },
+            {
+                "name": "end_date",
+                "desc": "The end date as a valid Excel date."
+            },
+            {
+                "name": "basis",
+                "desc": "Optional. The type of day count basis to use (e.g., 0=US (NASD) 30/360, 1=Actual/Actual)."
+            }
+        ]
+    },
+    {
+        "name": "DATEDIF",
+        "category": "Date & Time",
+        "syntax": "DATEDIF(start_date, end_date, unit)",
+        "summary": "Calculates the number of days, months, or years between two dates.",
+        "common_errors": [
+            "#VALUE! if start_date or end_date are not valid dates.",
+            "Returning incorrect value if unit is misspelled or invalid.",
+            "Error if start_date is later than end_date."
+        ],
+        "best_practice": "Be precise with the 'unit' argument (e.g., 'Y' for years, 'M' for months, 'D' for days) to get the desired result.",
+        "parameters": [
+            {
+                "name": "start_date",
+                "desc": "The start date for the calculation."
+            },
+            {
+                "name": "end_date",
+                "desc": "The end date for the calculation."
+            },
+            {
+                "name": "unit",
+                "desc": "The interval unit ('Y', 'M', 'D', 'YM', 'YD', 'MD')."
+            }
+        ]
+    },
+    {
+        "name": "SEQUENCE",
+        "category": "Dynamic Array",
+        "syntax": "SEQUENCE(rows, [columns], [start], [step])",
+        "summary": "Generates a list of sequential numbers in an array, such as 1, 2, 3, 4, 5.",
+        "common_errors": [
+            "#VALUE! if arguments are non-numeric.",
+            "#SPILL! if the resulting array cannot fit into adjacent cells."
+        ],
+        "best_practice": "Use SEQUENCE to create dynamic data ranges or helper columns that automatically adjust with your data.",
+        "parameters": [
+            {
+                "name": "rows",
+                "desc": "The number of rows to return."
+            },
+            {
+                "name": "columns",
+                "desc": "Optional. The number of columns to return (defaults to 1)."
+            },
+            {
+                "name": "start",
+                "desc": "Optional. The starting number (defaults to 1)."
+            },
+            {
+                "name": "step",
+                "desc": "Optional. The increment value for each subsequent value (defaults to 1)."
+            }
+        ]
+    },
+    {
+        "name": "RANDARRAY",
+        "category": "Dynamic Array",
+        "syntax": "RANDARRAY([rows], [columns], [min], [max], [whole])",
+        "summary": "Generates an array of random numbers, specified by the number of rows and columns.",
+        "common_errors": [
+            "#VALUE! if arguments are non-numeric.",
+            "#SPILL! if the resulting array cannot fit into adjacent cells."
+        ],
+        "best_practice": "Use RANDARRAY for simulations or generating sample data, but remember it's volatile and recalculates on every change.",
+        "parameters": [
+            {
+                "name": "rows",
+                "desc": "Optional. The number of rows to return."
+            },
+            {
+                "name": "columns",
+                "desc": "Optional. The number of columns to return."
+            },
+            {
+                "name": "min",
+                "desc": "Optional. The smallest number in the array."
+            },
+            {
+                "name": "max",
+                "desc": "Optional. The largest number in the array."
+            },
+            {
+                "name": "whole",
+                "desc": "Optional. TRUE for whole numbers, FALSE for decimals."
+            }
+        ]
+    },
+    {
+        "name": "SORTBY",
+        "category": "Dynamic Array",
+        "syntax": "SORTBY(array, by_array1, [sort_order1], [by_array2, sort_order2], ...)",
+        "summary": "Sorts the contents of a range or array based on the values in a corresponding range or array.",
+        "common_errors": [
+            "#VALUE! if the 'array' and 'by_array' arguments have incompatible dimensions.",
+            "#SPILL! if the resulting array cannot fit into adjacent cells."
+        ],
+        "best_practice": "Use SORTBY when you need to sort a dataset by multiple columns with different sort orders (ascending/descending).",
+        "parameters": [
+            {
+                "name": "array",
+                "desc": "The array or range to sort."
+            },
+            {
+                "name": "by_array1",
+                "desc": "The array or range to sort by."
+            },
+            {
+                "name": "sort_order1",
+                "desc": "Optional. 1 for ascending, -1 for descending (defaults to 1)."
+            },
+            {
+                "name": "by_array2",
+                "desc": "Optional. A second array or range to sort by."
+            },
+            {
+                "name": "sort_order2",
+                "desc": "Optional. Sort order for the second array (1 for ascending, -1 for descending)."
+            }
+        ]
+    },
+    {
+        "name": "XMATCH",
+        "category": "Dynamic Array / Lookup & Reference",
+        "syntax": "XMATCH(lookup_value, lookup_array, [match_mode], [search_mode])",
+        "summary": "Searches for a specified item in an array or range of cells and then returns the item's relative position.",
+        "common_errors": [
+            "#N/A if lookup_value is not found in lookup_array.",
+            "#VALUE! if match_mode or search_mode are invalid."
+        ],
+        "best_practice": "Use XMATCH as a flexible alternative to MATCH, especially when needing approximate matches or reverse searches.",
+        "parameters": [
+            {
+                "name": "lookup_value",
+                "desc": "The value to search for."
+            },
+            {
+                "name": "lookup_array",
+                "desc": "The array or range to search within."
+            },
+            {
+                "name": "match_mode",
+                "desc": "Optional. 0 for exact match (default), -1 for exact match or next smaller, 1 for exact match or next larger, 2 for wildcard match."
+            },
+            {
+                "name": "search_mode",
+                "desc": "Optional. 1 for search from first to last (default), -1 for search from last to first, 2 for binary search ascending, -2 for binary search descending."
+            }
+        ]
+    },
+    {
+        "name": "AND",
+        "category": "Logical",
+        "syntax": "AND(logical1, [logical2], ...)",
+        "summary": "Returns TRUE if all its arguments evaluate to TRUE; returns FALSE if one or more arguments evaluate to FALSE.",
+        "common_errors": [
+            "#VALUE! if any argument is not a logical value or cannot be coerced to one."
+        ],
+        "best_practice": "Nest AND functions within IF statements to test multiple conditions simultaneously.",
+        "parameters": [
+            {
+                "name": "logical1",
+                "desc": "The first condition you want to test that can be TRUE or FALSE."
+            },
+            {
+                "name": "logical2",
+                "desc": "Additional conditions to test."
+            }
+        ]
+    },
+    {
+        "name": "OR",
+        "category": "Logical",
+        "syntax": "OR(logical1, [logical2], ...)",
+        "summary": "Returns TRUE if any argument evaluates to TRUE; returns FALSE if all arguments evaluate to FALSE.",
+        "common_errors": [
+            "#VALUE! if any argument is not a logical value or cannot be coerced to one."
+        ],
+        "best_practice": "Use OR when you need to check if at least one of several conditions is met.",
+        "parameters": [
+            {
+                "name": "logical1",
+                "desc": "The first condition you want to test that can be TRUE or FALSE."
+            },
+            {
+                "name": "logical2",
+                "desc": "Additional conditions to test."
+            }
+        ]
+    },
+    {
+        "name": "NOT",
+        "category": "Logical",
+        "syntax": "NOT(logical)",
+        "summary": "Reverses the logical value of its argument. If the argument is TRUE, NOT returns FALSE; if the argument is FALSE, NOT returns TRUE.",
+        "common_errors": [
+            "#VALUE! if the argument is not a logical value or cannot be coerced to one."
+        ],
+        "best_practice": "Use NOT to simplify complex logical conditions or to express the inverse of a condition clearly.",
+        "parameters": [
+            {
+                "name": "logical",
+                "desc": "A value or expression that can be TRUE or FALSE."
+            }
+        ]
+    },
+    {
+        "name": "XOR",
+        "category": "Logical",
+        "syntax": "XOR(logical1, [logical2], ...)",
+        "summary": "Returns a logical exclusive OR of all arguments. Returns TRUE if an odd number of arguments evaluate to TRUE.",
+        "common_errors": [
+            "#VALUE! if any argument is not a logical value or cannot be coerced to one."
+        ],
+        "best_practice": "Useful when you need to test if one and only one of several conditions is met.",
+        "parameters": [
+            {
+                "name": "logical1",
+                "desc": "The first condition you want to test that can be TRUE or FALSE."
+            },
+            {
+                "name": "logical2",
+                "desc": "Additional conditions to test."
+            }
+        ]
+    },
+    {
+        "name": "IFS",
+        "category": "Logical",
+        "syntax": "IFS(logical_test1, value_if_true1, [logical_test2, value_if_true2], ...)",
+        "summary": "Checks multiple conditions and returns a value corresponding to the first true condition.",
+        "common_errors": [
+            "#VALUE! if any logical_test is not a logical value.",
+            "#N/A if none of the logical tests evaluate to TRUE."
+        ],
+        "best_practice": "Use IFS instead of nested IF statements for cleaner and more readable formulas when handling multiple conditions.",
+        "parameters": [
+            {
+                "name": "logical_test1",
+                "desc": "The first condition to test."
+            },
+            {
+                "name": "value_if_true1",
+                "desc": "The value to return if logical_test1 is TRUE."
+            },
+            {
+                "name": "logical_test2",
+                "desc": "The second condition to test."
+            },
+            {
+                "name": "value_if_true2",
+                "desc": "The value to return if logical_test2 is TRUE."
+            }
+        ]
+    },
+    {
+        "name": "SWITCH",
+        "category": "Logical",
+        "syntax": "SWITCH(expression, value1, result1, [value2, result2], ..., [default])",
+        "summary": "Evaluates one value (called the expression) against a list of values, and returns the first matching result.",
+        "common_errors": [
+            "#VALUE! if the expression or any value arguments are of incompatible types.",
+            "#N/A if no match is found and no default value is provided."
+        ],
+        "best_practice": "Use SWITCH for cleaner code when you have an 'expression' that can have several possible discrete values, and you want to return a different result for each.",
+        "parameters": [
+            {
+                "name": "expression",
+                "desc": "The value or expression to compare against."
+            },
+            {
+                "name": "value1",
+                "desc": "The first value to compare against expression."
+            },
+            {
+                "name": "result1",
+                "desc": "The result if expression matches value1."
+            },
+            {
+                "name": "default",
+                "desc": "Optional. The value to return if no match is found."
+            }
+        ]
+    },
+    {
+        "name": "TEXTJOIN",
+        "category": "Text",
+        "syntax": "TEXTJOIN(delimiter, ignore_empty, text1, [text2], ...)",
+        "summary": "Combines text from multiple ranges and/or strings, and includes a delimiter you specify between each text item.",
+        "common_errors": [
+            "#VALUE! if the delimiter or ignore_empty arguments are of incorrect type.",
+            "Empty strings if ignore_empty is FALSE and cells are empty."
+        ],
+        "best_practice": "Set 'ignore_empty' to TRUE to avoid unnecessary delimiters when combining text from potentially empty cells.",
+        "parameters": [
+            {
+                "name": "delimiter",
+                "desc": "The text string to place between text items."
+            },
+            {
+                "name": "ignore_empty",
+                "desc": "TRUE to ignore empty cells, FALSE to include them."
+            },
+            {
+                "name": "text1",
+                "desc": "The first text item to join."
+            },
+            {
+                "name": "text2",
+                "desc": "Additional text items to join."
+            }
+        ]
+    },
+    {
+        "name": "SUBSTITUTE",
+        "category": "Text",
+        "syntax": "SUBSTITUTE(text, old_text, new_text, [instance_num])",
+        "summary": "Replaces existing text with new text in a string.",
+        "common_errors": [
+            "#VALUE! if 'text' is not a text value."
+        ],
+        "best_practice": "Use SUBSTITUTE when you need to replace all occurrences of a specific string, or a particular instance if specified.",
+        "parameters": [
+            {
+                "name": "text",
+                "desc": "The text or reference to a cell containing text in which you want to substitute characters."
+            },
+            {
+                "name": "old_text",
+                "desc": "The text you want to replace."
+            },
+            {
+                "name": "new_text",
+                "desc": "The text you want to replace old_text with."
+            },
+            {
+                "name": "instance_num",
+                "desc": "Optional. Specifies which occurrence of old_text you want to replace. If omitted, all occurrences are replaced."
+            }
+        ]
+    },
+    {
+        "name": "REPLACE",
+        "category": "Text",
+        "syntax": "REPLACE(old_text, start_num, num_chars, new_text)",
+        "summary": "Replaces part of a text string, based on the number of characters you specify, with a different text string.",
+        "common_errors": [
+            "#VALUE! if any argument is not of the correct data type.",
+            "Returning an unexpected string if start_num or num_chars are incorrect."
+        ],
+        "best_practice": "Use REPLACE when you know the exact position and length of the characters you want to change.",
+        "parameters": [
+            {
+                "name": "old_text",
+                "desc": "The text string in which you want to replace some characters."
+            },
+            {
+                "name": "start_num",
+                "desc": "The position of the character in old_text that you want to replace with new_text."
+            },
+            {
+                "name": "num_chars",
+                "desc": "The number of characters in old_text that you want REPLACE to replace."
+            },
+            {
+                "name": "new_text",
+                "desc": "The text that will replace characters in old_text."
+            }
+        ]
+    },
+    {
+        "name": "UPPER",
+        "category": "Text",
+        "syntax": "UPPER(text)",
+        "summary": "Converts all letters in a text string to uppercase.",
+        "common_errors": [
+            "No error, but returns non-alphabetic characters unchanged."
+        ],
+        "best_practice": "Use UPPER for standardizing text entries, especially for IDs or codes, to ensure consistent formatting.",
+        "parameters": [
+            {
+                "name": "text",
+                "desc": "The text you want to convert to uppercase."
+            }
+        ]
+    },
+    {
+        "name": "LOWER",
+        "category": "Text",
+        "syntax": "LOWER(text)",
+        "summary": "Converts all letters in a text string to lowercase.",
+        "common_errors": [
+            "No error, but returns non-alphabetic characters unchanged."
+        ],
+        "best_practice": "Useful for standardizing text for comparisons or data entry, ensuring case-insensitivity.",
+        "parameters": [
+            {
+                "name": "text",
+                "desc": "The text you want to convert to lowercase."
+            }
+        ]
+    },
+    {
+        "name": "PROPER",
+        "category": "Text",
+        "syntax": "PROPER(text)",
+        "summary": "Capitalizes the first letter in each word of a text string and converts all other letters to lowercase.",
+        "common_errors": [
+            "No error, but might not produce desired results for unusual text patterns (e.g., proper nouns with internal caps)."
+        ],
+        "best_practice": "Apply PROPER to names or titles to ensure consistent capitalization, improving readability.",
+        "parameters": [
+            {
+                "name": "text",
+                "desc": "The text you want to convert to proper case."
+            }
+        ]
+    },
+    {
+        "name": "VALUE",
+        "category": "Text",
+        "syntax": "VALUE(text)",
+        "summary": "Converts a text string that represents a number to a number.",
+        "common_errors": [
+            "#VALUE! if the text argument cannot be converted to a numeric value."
+        ],
+        "best_practice": "Use VALUE when importing data that treats numbers as text to enable arithmetic operations.",
+        "parameters": [
+            {
+                "name": "text",
+                "desc": "The text enclosed in quotation marks, a formula that returns a text value, or a reference to a cell containing text."
+            }
+        ]
+    },
+    {
+        "name": "CLEAN",
+        "category": "Text",
+        "syntax": "CLEAN(text)",
+        "summary": "Removes all non-printable characters from text.",
+        "common_errors": [
+            "No error, but may not remove all unwanted characters (e.g., spaces, tabs) if they are considered printable."
+        ],
+        "best_practice": "Run CLEAN on imported data to remove hidden control characters that can cause formatting or calculation issues.",
+        "parameters": [
+            {
+                "name": "text",
+                "desc": "Any worksheet information from which you want to remove non-printable characters."
+            }
+        ]
+    },
+    {
+        "name": "REPT",
+        "category": "Text",
+        "syntax": "REPT(text, num_times)",
+        "summary": "Repeats text a given number of times.",
+        "common_errors": [
+            "#VALUE! if num_times is non-numeric.",
+            "Returning empty string if num_times is 0."
+        ],
+        "best_practice": "Useful for creating simple bar charts or visual indicators using repeated characters.",
+        "parameters": [
+            {
+                "name": "text",
+                "desc": "The text you want to repeat."
+            },
+            {
+                "name": "num_times",
+                "desc": "A positive number specifying the number of times to repeat text."
+            }
+        ]
+    },
+    {
+        "name": "EXACT",
+        "category": "Text",
+        "syntax": "EXACT(text1, text2)",
+        "summary": "Checks if two text values are exactly the same (case-sensitive) and returns TRUE or FALSE.",
+        "common_errors": [
+            "Returns FALSE due to leading/trailing spaces if not TRIMmed first."
+        ],
+        "best_practice": "Always TRIM text arguments before using EXACT to ensure that leading/trailing spaces don't cause false negatives.",
+        "parameters": [
+            {
+                "name": "text1",
+                "desc": "The first text string."
+            },
+            {
+                "name": "text2",
+                "desc": "The second text string."
+            }
+        ]
+    },
+    {
+        "name": "FIND",
+        "category": "Text",
+        "syntax": "FIND(find_text, within_text, [start_num])",
+        "summary": "Finds one text value within another (case-sensitive) and returns the starting position of find_text.",
+        "common_errors": [
+            "#VALUE! if find_text is not found in within_text."
+        ],
+        "best_practice": "Use FIND when you need a case-sensitive search; for case-insensitive, use SEARCH (if not already excluded).",
+        "parameters": [
+            {
+                "name": "find_text",
+                "desc": "The text you want to find."
+            },
+            {
+                "name": "within_text",
+                "desc": "The text containing the text you want to find."
+            },
+            {
+                "name": "start_num",
+                "desc": "Optional. Specifies the character at which to start the search. The first character in within_text is character 1."
+            }
+        ]
+    },
+    {
+        "name": "MEDIAN",
+        "category": "Statistical",
+        "syntax": "MEDIAN(number1, [number2], ...)",
+        "summary": "Returns the median of the given numbers, which is the number in the middle of a set of numbers.",
+        "common_errors": [
+            "#NUM! if no numbers are provided."
+        ],
+        "best_practice": "Use MEDIAN to find the middle value in a dataset, which is less affected by outliers than the AVERAGE.",
+        "parameters": [
+            {
+                "name": "number1",
+                "desc": "The first number, range, or array for which you want the median."
+            },
+            {
+                "name": "number2",
+                "desc": "Additional numbers, ranges, or arrays."
+            }
+        ]
+    },
+    {
+        "name": "MODE.SNGL",
+        "category": "Statistical",
+        "syntax": "MODE.SNGL(number1, [number2], ...)",
+        "summary": "Returns the single, most frequently occurring, or repetitive value in an array or range of data.",
+        "common_errors": [
+            "#N/A if no numbers are provided or if there are no duplicate numbers."
+        ],
+        "best_practice": "MODE.SNGL is useful for finding the most common item in a list of numerical data.",
+        "parameters": [
+            {
+                "name": "number1",
+                "desc": "The first number, range, or array for which you want the mode."
+            },
+            {
+                "name": "number2",
+                "desc": "Additional numbers, ranges, or arrays."
+            }
+        ]
+    },
+    {
+        "name": "STDEV.P",
+        "category": "Statistical",
+        "syntax": "STDEV.P(number1, [number2], ...)",
+        "summary": "Calculates standard deviation based on the entire population, providing a measure of how widely values are dispersed from the average.",
+        "common_errors": [
+            "#DIV/0! if fewer than two numbers are supplied.",
+            "#VALUE! if text values are included in numeric arguments."
+        ],
+        "best_practice": "Use STDEV.P when your data represents the entire population you are interested in.",
+        "parameters": [
+            {
+                "name": "number1",
+                "desc": "The first number, range, or array corresponding to a population."
+            },
+            {
+                "name": "number2",
+                "desc": "Additional numbers, ranges, or arrays."
+            }
+        ]
+    },
+    {
+        "name": "VAR.P",
+        "category": "Statistical",
+        "syntax": "VAR.P(number1, [number2], ...)",
+        "summary": "Calculates variance based on the entire population, which is the average of the squared deviations from the mean.",
+        "common_errors": [
+            "#DIV/0! if fewer than two numbers are supplied.",
+            "#VALUE! if text values are included in numeric arguments."
+        ],
+        "best_practice": "Use VAR.P when your data represents the entire population to understand data dispersion.",
+        "parameters": [
+            {
+                "name": "number1",
+                "desc": "The first number, range, or array corresponding to a population."
+            },
+            {
+                "name": "number2",
+                "desc": "Additional numbers, ranges, or arrays."
+            }
+        ]
+    },
+    {
+        "name": "QUARTILE.INC",
+        "category": "Statistical",
+        "syntax": "QUARTILE.INC(array, quart)",
+        "summary": "Returns the quartile of a data set, based on percentile values from 0 to 1, inclusive.",
+        "common_errors": [
+            "#VALUE! if array is empty or contains non-numeric values.",
+            "#NUM! if quart is not an integer 0, 1, 2, 3, or 4."
+        ],
+        "best_practice": "Use QUARTILE.INC to divide a dataset into four equal parts to analyze data distribution.",
+        "parameters": [
+            {
+                "name": "array",
+                "desc": "The array or range of numeric values for which you want the quartile."
+            },
+            {
+                "name": "quart",
+                "desc": "Indicates which quartile value to return (0, 1, 2, 3, or 4)."
+            }
+        ]
+    },
+    {
+        "name": "PERCENTILE.INC",
+        "category": "Statistical",
+        "syntax": "PERCENTILE.INC(array, k)",
+        "summary": "Returns the k-th percentile of values in a range, where k is in the range 0..1 inclusive.",
+        "common_errors": [
+            "#VALUE! if array is empty or contains non-numeric values.",
+            "#NUM! if k is not between 0 and 1, or if array is empty."
+        ],
+        "best_practice": "Useful for identifying values at a specific percentile, such as top 10% or bottom 25%.",
+        "parameters": [
+            {
+                "name": "array",
+                "desc": "The array or range of data that defines relative standing."
+            },
+            {
+                "name": "k",
+                "desc": "The percentile value between 0 and 1, inclusive."
+            }
+        ]
+    },
+    {
+        "name": "RANK.EQ",
+        "category": "Statistical",
+        "syntax": "RANK.EQ(number, ref, [order])",
+        "summary": "Returns the rank of a number in a list of numbers; its size relative to other values in the list.",
+        "common_errors": [
+            "#N/A if number is not found in ref.",
+            "#VALUE! if order is non-numeric."
+        ],
+        "best_practice": "When multiple values have the same rank, RANK.EQ assigns the same rank to all of them, showing their shared position.",
+        "parameters": [
+            {
+                "name": "number",
+                "desc": "The number whose rank you want to find."
+            },
+            {
+                "name": "ref",
+                "desc": "A list of numbers, an array, or a reference to a list of numbers. Non-numeric values are ignored."
+            },
+            {
+                "name": "order",
+                "desc": "Optional. 0 (or omitted) for descending rank, any non-zero value for ascending rank."
+            }
+        ]
+    },
+    {
+        "name": "LARGE",
+        "category": "Statistical",
+        "syntax": "LARGE(array, k)",
+        "summary": "Returns the k-th largest value in a data set.",
+        "common_errors": [
+            "#NUM! if array is empty or if k is less than or equal to 0 or greater than the number of data points."
+        ],
+        "best_practice": "Use LARGE to find specific top values, such as the 3rd highest sales figure.",
+        "parameters": [
+            {
+                "name": "array",
+                "desc": "The array or range of data for which you want to determine the k-th largest value."
+            },
+            {
+                "name": "k",
+                "desc": "The position (from the largest) in the array or data range of the value to return."
+            }
+        ]
+    },
+    {
+        "name": "SMALL",
+        "category": "Statistical",
+        "syntax": "SMALL(array, k)",
+        "summary": "Returns the k-th smallest value in a data set.",
+        "common_errors": [
+            "#NUM! if array is empty or if k is less than or equal to 0 or greater than the number of data points."
+        ],
+        "best_practice": "Use SMALL to find specific bottom values, such as the 2nd lowest test score.",
+        "parameters": [
+            {
+                "name": "array",
+                "desc": "The array or range of data for which you want to determine the k-th smallest value."
+            },
+            {
+                "name": "k",
+                "desc": "The position (from the smallest) in the array or data range of the value to return."
+            }
+        ]
+    },
+    {
+        "name": "MIN",
+        "category": "Statistical",
+        "syntax": "MIN(number1, [number2], ...)",
+        "summary": "Returns the smallest number in a set of values.",
+        "common_errors": [
+            "Returns 0 if a range contains empty cells and is used in contexts expecting numeric input.",
+            "Ignores text and logical values if directly entered as arguments."
+        ],
+        "best_practice": "MIN works efficiently on ranges to quickly identify the lowest value; ensure the range contains only numbers for accurate results.",
+        "parameters": [
+            {
+                "name": "number1",
+                "desc": "The first number, range, or array from which you want to find the minimum value."
+            },
+            {
+                "name": "number2",
+                "desc": "Additional numbers, ranges, or arrays."
+            }
+        ]
+    },
+    {
+        "name": "MAX",
+        "category": "Statistical",
+        "syntax": "MAX(number1, [number2], ...)",
+        "summary": "Returns the largest number in a set of values.",
+        "common_errors": [
+            "Returns 0 if a range contains empty cells and is used in contexts expecting numeric input.",
+            "Ignores text and logical values if directly entered as arguments."
+        ],
+        "best_practice": "MAX works efficiently on ranges to quickly identify the highest value; ensure the range contains only numbers for accurate results.",
+        "parameters": [
+            {
+                "name": "number1",
+                "desc": "The first number, range, or array from which you want to find the maximum value."
+            },
+            {
+                "name": "number2",
+                "desc": "Additional numbers, ranges, or arrays."
+            }
+        ]
+    },
+    {
+        "name": "GEOMEAN",
+        "category": "Statistical",
+        "syntax": "GEOMEAN(number1, [number2], ...)",
+        "summary": "Returns the geometric mean of a set of positive data points, useful for finding the average growth rates or returns.",
+        "common_errors": [
+            "#NUM! if any of the numbers are negative or if there are too few data points.",
+            "#VALUE! if text values are included in numeric arguments."
+        ],
+        "best_practice": "Use GEOMEAN for averaging values that represent rates of change or geometric progressions, such as investment returns.",
+        "parameters": [
+            {
+                "name": "number1",
+                "desc": "The first number, range, or array for which you want to calculate the geometric mean."
+            },
+            {
+                "name": "number2",
+                "desc": "Additional numbers, ranges, or arrays."
+            }
+        ]
+    },
+    {
+        "name": "HARMEAN",
+        "category": "Statistical",
+        "syntax": "HARMEAN(number1, [number2], ...)",
+        "summary": "Returns the harmonic mean of a data set, which is the reciprocal of the arithmetic mean of the reciprocals.",
+        "common_errors": [
+            "#NUM! if any of the data points are less than or equal to zero or if no numbers are provided.",
+            "#DIV/0! if any number in the dataset is 0."
+        ],
+        "best_practice": "Apply HARMEAN for averaging rates or when dealing with values that have a relationship to a unit of time or distance.",
+        "parameters": [
+            {
+                "name": "number1",
+                "desc": "The first number, range, or array for which you want to calculate the harmonic mean."
+            },
+            {
+                "name": "number2",
+                "desc": "Additional numbers, ranges, or arrays."
+            }
+        ]
+    },
+    {
+        "name": "SKEW",
+        "category": "Statistical",
+        "syntax": "SKEW(number1, [number2], ...)",
+        "summary": "Returns the skewness of a distribution, indicating the degree of asymmetry of a distribution around its mean.",
+        "common_errors": [
+            "#DIV/0! if fewer than three data points are provided or standard deviation is zero.",
+            "#VALUE! if text values are included in numeric arguments."
+        ],
+        "best_practice": "Use SKEW to understand the shape of your data distribution and identify potential biases or extreme values.",
+        "parameters": [
+            {
+                "name": "number1",
+                "desc": "The first number, range, or array of data points."
+            },
+            {
+                "name": "number2",
+                "desc": "Additional numbers, ranges, or arrays of data points."
+            }
+        ]
+    },
+    {
+        "name": "KURT",
+        "category": "Statistical",
+        "syntax": "KURT(number1, [number2], ...)",
+        "summary": "Returns the kurtosis of a data set, a measure of the 'peakedness' or 'flatness' of a distribution relative to a normal distribution.",
+        "common_errors": [
+            "#DIV/0! if fewer than four data points are provided.",
+            "#VALUE! if text values are included in numeric arguments."
+        ],
+        "best_practice": "Use KURT to assess the fatness of the tails of your data distribution, which is important in risk analysis.",
+        "parameters": [
+            {
+                "name": "number1",
+                "desc": "The first number, range, or array of data points."
+            },
+            {
+                "name": "number2",
+                "desc": "Additional numbers, ranges, or arrays of data points."
+            }
+        ]
+    },
+    {
+        "name": "FORECAST.ETS",
+        "category": "Statistical",
+        "syntax": "FORECAST.ETS(target_date, values, timeline, [seasonality], [data_completion], [aggregation])",
+        "summary": "Predicts a future value based on existing historical values by using the AAA version of the Exponential Smoothing (ETS) algorithm.",
+        "common_errors": [
+            "#N/A if target_date is not sorted or does not follow a consistent step.",
+            "#VALUE! if any argument is non-numeric or of incorrect type."
+        ],
+        "best_practice": "Ensure your 'timeline' argument is sorted and has a consistent step between data points for accurate forecasting.",
+        "parameters": [
+            {
+                "name": "target_date",
+                "desc": "The data point for which you want to predict a value."
+            },
+            {
+                "name": "values",
+                "desc": "The historical values for which you want to forecast the next points."
+            },
+            {
+                "name": "timeline",
+                "desc": "The independent array or range of numeric data with a consistent step between them."
+            },
+            {
+                "name": "seasonality",
+                "desc": "Optional. The length of the seasonal pattern. 0 for no seasonality, 1 for automatic detection, or a custom number."
+            },
+            {
+                "name": "data_completion",
+                "desc": "Optional. How to handle missing data. 0 for zeros, 1 for averaging adjacent points (default)."
+            },
+            {
+                "name": "aggregation",
+                "desc": "Optional. How to aggregate multiple values with the same timestamp. 0 for AVERAGE (default), 1 for SUM, etc."
+            }
+        ]
     }
 ]

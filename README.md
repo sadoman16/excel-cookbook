@@ -1,4 +1,9 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Excel Cookbook 🍳
+The ultimate collection of Excel formulas and recipes for data wizards.
+
+- **Current Recipe Count:** 48 (All verified & optimized) ✅
+- **Auto-Deployment:** 3-hour intervals via GitHub Actions & Vercel
+
 
 ## Getting Started
 

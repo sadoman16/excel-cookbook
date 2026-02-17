@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const MODEL_NAME = "gemini-2.5-flash"; // Permanently enforced (confirmed in AI Studio)
+const MODEL_NAME = "gemini-2.5-flash"; // Reverting to flash
 const TRUTH_DB_PATH = path.join(process.cwd(), 'data', 'functions.json');
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'recipes');
 

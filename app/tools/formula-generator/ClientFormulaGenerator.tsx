@@ -1,8 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 import { Sparkles, Copy, Check, ArrowRight, Loader2, Info } from 'lucide-react';
 import Link from 'next/link';
 
@@ -75,7 +74,7 @@ export function ClientFormulaGenerator() {
     return (
         <div className="max-w-3xl mx-auto">
             {/* Input Section */}
-            <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 mb-8">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 p-6 md:p-8 mb-8 transition-all">
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                     Describe your problem or data structure
                 </label>
@@ -118,88 +117,82 @@ export function ClientFormulaGenerator() {
                 </div>
 
                 {error && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="mt-4 p-4 rounded-lg bg-red-50 text-red-600 text-sm border border-red-100 flex items-center"
+                    <div
+                        className="mt-4 p-4 rounded-lg bg-red-50 text-red-600 text-sm border border-red-100 flex items-center animate-fadeIn"
                     >
                         <Info className="w-4 h-4 mr-2 flex-shrink-0" />
                         {error}
-                    </motion.div>
+                    </div>
                 )}
             </div>
 
             {/* Result Section */}
-            <AnimatePresence mode="wait">
-                {result && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.4, type: 'spring' }}
-                        className="space-y-6"
-                    >
-                        {/* Formula Card */}
-                        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
-                            <div className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 px-6 py-4 flex items-center justify-between">
-                                <h3 className="font-semibold text-slate-900 dark:text-slate-100 flex items-center">
-                                    <span className="w-2 h-2 rounded-full bg-excel-green mr-2 animate-pulse" />
-                                    Your Excel Formula
-                                </h3>
-                                <button
-                                    onClick={copyToClipboard}
-                                    className={`flex items-center space-x-1.5 text-xs font-medium px-3 py-1.5 rounded-md transition-colors ${copied
-                                        ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-                                        : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700'
-                                        }`}
-                                >
-                                    {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                                    <span>{copied ? 'Copied!' : 'Copy'}</span>
-                                </button>
-                            </div>
-                            <div className="p-6 bg-slate-900 font-mono text-sm md:text-base text-green-400 overflow-x-auto selection:bg-green-900 selection:text-white">
-                                {result.formula}
-                            </div>
-                        </div>
-
-                        {/* Explanation Card */}
-                        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-800 p-6 md:p-8">
-                            <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center">
-                                <Info className="w-5 h-5 text-slate-400 mr-2" />
-                                How it works
+            {result && (
+                <div className="space-y-6 animate-slideUp fade-in-up">
+                    {/* Formula Card */}
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden transform transition-all duration-300 hover:shadow-2xl">
+                        <div className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 px-6 py-4 flex items-center justify-between">
+                            <h3 className="font-semibold text-slate-900 dark:text-slate-100 flex items-center">
+                                <span className="w-2 h-2 rounded-full bg-excel-green mr-2 animate-pulse" />
+                                Your Excel Formula
                             </h3>
-                            <div className="prose prose-slate dark:prose-invert max-w-none text-sm md:text-base leading-relaxed">
-                                {result.explanation}
-                            </div>
+                            <button
+                                onClick={copyToClipboard}
+                                className={`flex items-center space-x-1.5 text-xs font-medium px-3 py-1.5 rounded-md transition-colors ${copied
+                                    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                                    : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-700'
+                                    }`}
+                            >
+                                {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                                <span>{copied ? 'Copied!' : 'Copy'}</span>
+                            </button>
                         </div>
+                        <div className="p-6 bg-slate-900 font-mono text-sm md:text-base text-green-400 overflow-x-auto selection:bg-green-900 selection:text-white">
+                            {result.formula}
+                        </div>
+                    </div>
 
-                        {/* Related Recipes */}
-                        {result.relatedLinks.length > 0 && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {result.relatedLinks.map((link) => (
-                                    <Link
-                                        key={link.slug}
-                                        href={`/recipes/${link.slug}`}
-                                        className="group block bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 hover:border-excel-green dark:hover:border-excel-green transition-all hover:shadow-md"
-                                    >
-                                        <div className="flex items-center justify-between">
-                                            <div>
-                                                <div className="text-xs font-semibold text-excel-green uppercase tracking-wide mb-1">
-                                                    Related Guide
-                                                </div>
-                                                <div className="font-medium text-slate-900 dark:text-slate-100 group-hover:text-excel-green transition-colors">
-                                                    Master the {link.name} Function
-                                                </div>
+                    {/* Explanation Card */}
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-800 p-6 md:p-8 transform transition-all duration-300 hover:shadow-xl">
+                        <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-4 flex items-center">
+                            <Info className="w-5 h-5 text-slate-400 mr-2" />
+                            How it works
+                        </h3>
+                        <div className="prose prose-slate dark:prose-invert max-w-none text-sm md:text-base leading-relaxed">
+                            {result.explanation}
+                        </div>
+                    </div>
+
+                    {/* Related Recipes */}
+                    {result.relatedLinks.length > 0 && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {result.relatedLinks.map((link) => (
+                                <Link
+                                    key={link.slug}
+                                    href={`/recipes/${link.slug}`}
+                                    className="group block bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-5 hover:border-excel-green dark:hover:border-excel-green transition-all hover:shadow-md"
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <div className="text-xs font-semibold text-excel-green uppercase tracking-wide mb-1">
+                                                Related Guide
                                             </div>
-                                            <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-excel-green group-hover:translate-x-1 transition-all" />
+                                            <div className="font-medium text-slate-900 dark:text-slate-100 group-hover:text-excel-green transition-colors">
+                                                Master the {link.name} Function
+                                            </div>
                                         </div>
-                                    </Link>
-                                ))}
-                            </div>
-                        )}
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                                        <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-excel-green group-hover:translate-x-1 transition-all" />
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 }
+
+// Add simple CSS animation classes to global styles if not present, or assume they are handled by Tailwind config.
+// For now, I'm relying on standard transition classes and assuming 'animate-fadeIn' etc. might need standard CSS or can be simplified.
+// I'll add standard fade-in logic in globals.css if needed, but for now simple transitions are enough.

@@ -8,7 +8,7 @@ import CopyHelper from "@/components/CopyHelper";
 import { RelatedRecipes } from "@/components/ui/RelatedRecipes";
 import { AuthorBio } from "@/components/ui/AuthorBio";
 // Required for static export mode
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 // SSG: Generate all recipe pages at build time
 export function generateStaticParams() {

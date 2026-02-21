@@ -2184,5 +2184,189 @@
                 "desc": "2nd value, up to 254."
             }
         ]
+    },
+    {
+        "name": "INDEX + MATCH",
+        "category": "Combo Recipe",
+        "syntax": "=INDEX(return_range, MATCH(lookup_value, lookup_range, 0))",
+        "summary": "The ultimate two-way lookup combo that overcomes VLOOKUP's left-to-right limitation.",
+        "common_errors": [
+            "#N/A if no match is found",
+            "#REF! if ranges are different sizes"
+        ],
+        "best_practice": "Lock your ranges with $ (absolute references) before dragging the formula down.",
+        "parameters": [
+            {
+                "name": "return_range",
+                "desc": "The column containing the answer you want."
+            },
+            {
+                "name": "lookup_value",
+                "desc": "The value you are searching for."
+            },
+            {
+                "name": "lookup_range",
+                "desc": "The column to search in."
+            }
+        ]
+    },
+    {
+        "name": "VLOOKUP + IFERROR",
+        "category": "Combo Recipe",
+        "syntax": "=IFERROR(VLOOKUP(...), \"Not Found\")",
+        "summary": "Cleans up ugly #N/A errors when VLOOKUP fails to find a match.",
+        "common_errors": [
+            "Returning \"\" (blank) which might cause math errors later down the line if used in calculations."
+        ],
+        "best_practice": "Use descriptive error messages like \"Pending\" or \"Review\" instead of generic blanks.",
+        "parameters": [
+            {
+                "name": "value_if_error",
+                "desc": "What to display instead of the #N/A error."
+            }
+        ]
+    },
+    {
+        "name": "IF + AND + OR",
+        "category": "Combo Recipe",
+        "syntax": "=IF(AND(condition1, OR(condition2, condition3)), true_result, false_result)",
+        "summary": "Builds complex logical tests requiring multiple conditions to be met simultaneously.",
+        "common_errors": [
+            "Nesting limits (too many parenthesis)",
+            "Logical overlap resulting in unexpected TRUE/FALSE."
+        ],
+        "best_practice": "Map out your logic on paper before writing nested IF/AND/OR statements.",
+        "parameters": [
+            {
+                "name": "logical_test",
+                "desc": "The combination of AND/OR logic to evaluate."
+            }
+        ]
+    },
+    {
+        "name": "SUMIFS + EOMONTH",
+        "category": "Combo Recipe",
+        "syntax": "=SUMIFS(sum_range, date_range, \">=\"&start_date, date_range, \"<=\"&EOMONTH(start_date, 0))",
+        "summary": "Dynamically sums data for an entire accounting month based on a single input date.",
+        "common_errors": [
+            "Forgetting the \"&\" concatenation operator when combining criteria and formulas."
+        ],
+        "best_practice": "Use named ranges for dates to make this formula much easier to read.",
+        "parameters": [
+            {
+                "name": "start_date",
+                "desc": "The beginning of the month you want to sum."
+            }
+        ]
+    },
+    {
+        "name": "INDEX + MATCH + MATCH",
+        "category": "Combo Recipe",
+        "syntax": "=INDEX(range, MATCH(row_value, row_range, 0), MATCH(col_value, col_range, 0))",
+        "summary": "Performs a 2D matrix lookup (finding a value at the intersection of a specific row and column).",
+        "common_errors": [
+            "Getting the row and column MATCH statements backwards.",
+            "Ranges not aligning with the main INDEX matrix."
+        ],
+        "best_practice": "Ensure your INDEX range exactly encompasses only the data, while MATCH ranges cover the exact dimension headers.",
+        "parameters": [
+            {
+                "name": "row_value",
+                "desc": "The lookup value for the vertical axis."
+            },
+            {
+                "name": "col_value",
+                "desc": "The lookup value for the horizontal axis."
+            }
+        ]
+    },
+    {
+        "name": "FILTER + SORT",
+        "category": "Combo Recipe",
+        "syntax": "=SORT(FILTER(array, include), sort_index, sort_order)",
+        "summary": "Extracts matching data and immediately orders it alphabetically or numerically in one fluid step.",
+        "common_errors": [
+            "#CALC! if the FILTER finds nothing and no [if_empty] argument is provided."
+        ],
+        "best_practice": "Always provide the [if_empty] argument in FILTER to prevent the #CALC! error from breaking the SORT.",
+        "parameters": [
+            {
+                "name": "include",
+                "desc": "The boolean array logic determining what to filter."
+            },
+            {
+                "name": "sort_index",
+                "desc": "Which column number in the filtered array to sort by."
+            }
+        ]
+    },
+    {
+        "name": "UNIQUE + SORT",
+        "category": "Combo Recipe",
+        "syntax": "=SORT(UNIQUE(array))",
+        "summary": "Creates a clean, alphabetized list of distinct values from a messy column of duplicates.",
+        "common_errors": [
+            "Spill errors (#SPILL!) if there is data blocking the output range."
+        ],
+        "best_practice": "Use this on a separate 'Admin' or 'Lists' tab to feed clean data into Data Validation dropdowns.",
+        "parameters": [
+            {
+                "name": "array",
+                "desc": "The range containing raw data with duplicates."
+            }
+        ]
+    },
+    {
+        "name": "XLOOKUP + XLOOKUP",
+        "category": "Combo Recipe",
+        "syntax": "=XLOOKUP(val1, range1, XLOOKUP(val2, range2, return_matrix))",
+        "summary": "A modern, robust alternative to INDEX+MATCH+MATCH for two-way matrix lookups.",
+        "common_errors": [
+            "Selecting misaligned return matrices compared to the lookup arrays."
+        ],
+        "best_practice": "This is often easier to read than INDEX/MATCH/MATCH, but ensure you understand which XLOOKUP returns the array.",
+        "parameters": [
+            {
+                "name": "val1",
+                "desc": "The row lookup value."
+            },
+            {
+                "name": "val2",
+                "desc": "The column lookup value."
+            }
+        ]
+    },
+    {
+        "name": "COUNTIFS + TODAY",
+        "category": "Combo Recipe",
+        "syntax": "=COUNTIFS(date_range, \"<=\"&TODAY(), status_range, \"Pending\")",
+        "summary": "Creates dynamic aging reports, automatically counting overdue items relative to the current date.",
+        "common_errors": [
+            "Hardcoding dates instead of using TODAY(), making the sheet static."
+        ],
+        "best_practice": "Since TODAY() is volatile and recalculates constantly, avoid using it in tens of thousands of rows if performance drops.",
+        "parameters": [
+            {
+                "name": "date_range",
+                "desc": "The range containing due dates."
+            }
+        ]
+    },
+    {
+        "name": "VLOOKUP + MATCH",
+        "category": "Combo Recipe",
+        "syntax": "=VLOOKUP(lookup_value, table_array, MATCH(column_header, header_range, 0), FALSE)",
+        "summary": "Makes VLOOKUP totally dynamic so it doesn't break when you insert or delete columns in your data table.",
+        "common_errors": [
+            "Forgetting to lock the header_range ($) inside the MATCH function.",
+            "Header_range not starting at the same column as table_array."
+        ],
+        "best_practice": "This is the best way to future-proof legacy VLOOKUPs before migrating to XLOOKUP.",
+        "parameters": [
+            {
+                "name": "column_header",
+                "desc": "The name of the column you want to return data from."
+            }
+        ]
     }
 ]

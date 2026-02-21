@@ -13,7 +13,7 @@ export function RecipeBrowser({ initialRecipes }: RecipeBrowserProps) {
     const [selectedCategory, setSelectedCategory] = useState('All');
 
     const categories = [
-        'All', 'Math & Trig', 'Logical', 'Text',
+        'All', 'Combo Recipe', 'Math & Trig', 'Logical', 'Text',
         'Lookup & Reference', 'Date & Time',
         'Financial', 'Statistical', 'Information'
     ];
@@ -73,8 +73,8 @@ export function RecipeBrowser({ initialRecipes }: RecipeBrowserProps) {
                         key={category}
                         onClick={() => setSelectedCategory(category)}
                         className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${selectedCategory === category
-                                ? 'bg-excel-green text-white shadow-sm'
-                                : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+                            ? 'bg-excel-green text-white shadow-sm'
+                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
                             } cursor-pointer`}
                     >
                         {category}

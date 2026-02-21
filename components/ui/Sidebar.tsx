@@ -114,11 +114,22 @@ export const Sidebar = ({ recipes }: { recipes: RecipeMeta[] }) => {
                         <Link
                             href="/"
                             className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${pathname === '/'
-                                    ? 'bg-emerald-50 text-excel-green dark:bg-emerald-900/30'
-                                    : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+                                ? 'bg-emerald-50 text-excel-green dark:bg-emerald-900/30'
+                                : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
                                 }`}
                         >
                             🏠 Home
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            href="/insights"
+                            className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${pathname === '/insights'
+                                ? 'bg-emerald-50 text-excel-green dark:bg-emerald-900/30'
+                                : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+                                }`}
+                        >
+                            💡 Excel Tips & Insights
                         </Link>
                     </li>
 
@@ -134,8 +145,8 @@ export const Sidebar = ({ recipes }: { recipes: RecipeMeta[] }) => {
                                 <button
                                     onClick={() => toggleCategory(category)}
                                     className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide transition-colors ${hasActive
-                                            ? 'bg-emerald-50 text-excel-green dark:bg-emerald-900/20 dark:text-emerald-400'
-                                            : 'text-slate-500 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-800/50'
+                                        ? 'bg-emerald-50 text-excel-green dark:bg-emerald-900/20 dark:text-emerald-400'
+                                        : 'text-slate-500 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-800/50'
                                         }`}
                                 >
                                     <span className="flex items-center gap-1.5">
@@ -161,8 +172,8 @@ export const Sidebar = ({ recipes }: { recipes: RecipeMeta[] }) => {
                                                     <Link
                                                         href={`/recipes/${recipe.slug}`}
                                                         className={`block rounded-md px-3 py-1.5 text-sm transition-colors ${isActive
-                                                                ? 'bg-emerald-50 font-medium text-excel-green dark:bg-emerald-900/30 dark:text-emerald-400'
-                                                                : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+                                                            ? 'bg-emerald-50 font-medium text-excel-green dark:bg-emerald-900/30 dark:text-emerald-400'
+                                                            : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
                                                             }`}
                                                         title={recipe.title}
                                                     >

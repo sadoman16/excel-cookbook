@@ -14,9 +14,24 @@ export default function AboutPage() {
                 Stop Googling &quot;how to VLOOKUP.&quot; We built a better way.
             </p>
 
+            <h2>Who is Behind the Cookbook?</h2>
+            <div className="not-prose flex flex-col md:flex-row gap-6 my-8 items-center md:items-start bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl border border-slate-200 dark:border-slate-700">
+                <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden flex-shrink-0 bg-excel-green flex items-center justify-center text-white text-4xl shadow-md font-bold">
+                    👨‍💻
+                </div>
+                <div>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">The Head Chef (Founder)</h3>
+                    <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                        I&apos;m a former 10-year Data & Financial Analyst who survived countless month-end closes, budgetary panics, and broken nested IF statements. After watching brilliant colleagues waste their weekends trying to debug `#REF!` errors, I decided to document every single fix I knew.
+                        <br /><br />
+                        Excel Cookbook isn&apos;t just a syntax dictionary—it&apos;s the battle-tested playbook I wish I had on day one of my career. Every recipe here is born from real-world corporate trauma and triumps.
+                    </p>
+                </div>
+            </div>
+
             <h2>Our Mission</h2>
             <p>
-                Excel Cookbook is a free, open-source resource that turns confusing Excel formulas
+                Excel Cookbook is a free resource that turns confusing Excel formulas
                 into easy-to-follow &quot;recipes.&quot; Every guide is structured like a cookbook:
                 clear ingredients (function syntax), step-by-step instructions, and pro tips
                 to avoid common mistakes.

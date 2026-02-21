@@ -55,9 +55,9 @@ Category: ${targetFunction.category}
 ═══════════════════════════════════════
 [SEO CONTENT QUALITY REQUIREMENTS]
 ═══════════════════════════════════════
-- Article MUST be 800-1200 words minimum (this is critical for Google AdSense approval)
-- Include the function name naturally 8-12 times throughout the article (0.5-1.5% keyword density)
-- Write at a Grade 8-10 reading level — clear but not dumbed down
+- Article MUST be a MINIMUM of 1200 words of dense, actionable text (CRITICAL for Google AdSense approval - avoid "Thin Content" penalties).
+- Include the function name naturally 10-15 times throughout the article (0.5-1.5% keyword density).
+- Write at a Grade 9-11 reading level — professional, informative, but accessible.
 - Use short paragraphs (2-3 sentences max per paragraph)
 - Include bullet points and tables for scannability
 - Every section must provide genuine VALUE — no filler content
@@ -103,17 +103,21 @@ tags: [Excel, VLOOKUP, Lookup]
 
 ## Article Structure (IN THIS ORDER):
 
-### 1. The Problem (100-150 words)
-- Hook the reader IMMEDIATELY with a relatable scenario
-- Describe a specific, realistic workplace situation where someone gets stuck
+### 1. The Problem (150-200 words)
+- Hook the reader IMMEDIATELY with a relatable, frustrating spreadsheet scenario.
 - Make the reader think "That's EXACTLY my problem!"
-- Include the function name naturally
+- Include the function name naturally.
 
-### 2. The Ingredients: Understanding ${targetFunction.name}'s Setup (150-200 words)
+### 2. Business Context & Real-World Use Case (200-250 words) [NEW - CRITICAL FOR E-E-A-T]
+- Describe a specific industry context (e.g., HR running payroll, Finance calculating quarterly revenue, Logistics tracking inventory).
+- Why is doing this manually a bad idea? What business value does automating this provide?
+- Share a brief "war story" or practical insight (e.g., "In my years as a data analyst, I've seen teams waste hours on...").
+
+### 3. The Ingredients: Understanding ${targetFunction.name}'s Setup (150-200 words)
 - Show the exact syntax: \`${targetFunction.syntax}\`
 - Explain EACH parameter with a clear, table format:
 ${targetFunction.parameters.map(p => `  - **${p.name}**: ${p.desc}`).join('\n')}
-- Use a markdown table for parameter reference
+- Use a markdown table for parameter reference.
 
 ### 3. The Recipe: Step-by-Step Instructions (250-350 words)
 - Create a SPECIFIC, realistic example with actual sample data
@@ -128,17 +132,23 @@ ${targetFunction.parameters.map(p => `  - **${p.name}**: ${p.desc}`).join('\n')}
 - Add 2-3 additional expert tips that professionals would appreciate
 - Each tip should be genuinely useful, not obvious
 
-### 5. Troubleshooting: Common Errors & Fixes (150-200 words)
-- Cover each error: ${targetFunction.common_errors.join(', ')}
-- For EACH error, provide:
-  - What it looks like
-  - Why it happens (common causes)
-  - How to fix it (specific solution)
+### 5. Troubleshooting: Common Errors & Fixes (250-300 words) [CRITICAL FOR DEPTH]
+- Cover at least 3 distinct error scenarios, heavily featuring these: ${targetFunction.common_errors.join(', ')}
+- For EACH error, you MUST provide three elements:
+  - **Symptom:** What the user sees (e.g., "#N/A error appears").
+  - **Cause:** Why Excel is throwing a tantrum (e.g., "Trailing spaces in the lookup value").
+  - **Step-by-Step Fix:** Exactly how to resolve it gracefully.
 
 ### 6. Quick Reference (Bonus — for scannability)
 - A compact summary table or bullet list of:
   - Syntax
   - Most common use case
+
+### 7. Internal Links (CRITICAL FOR SEO)
+- At the very bottom, add a section called "같이 보면 좋은 레시피 (Related Functions)"
+- Provide 2 to 3 internal links to related Excel functions using Markdown format. 
+- Example: \`[VLOOKUP 완벽 가이드](/recipes/vlookup)\`
+- Use your knowledge of Excel to guess the slugs of related functions (slug is usually the function name in lowercase, e.g. \`index\`, \`match\`, \`sumifs\`, \`xlookup\`).
   - Key gotcha to avoid
   - Related functions to explore
 

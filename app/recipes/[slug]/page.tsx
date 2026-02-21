@@ -6,6 +6,7 @@ import { RecipeSchema } from "@/components/RecipeSchema";
 import { extractHowToSteps, extractFAQItems } from "@/lib/schema-extractor";
 import CopyHelper from "@/components/CopyHelper";
 import { RelatedRecipes } from "@/components/ui/RelatedRecipes";
+import { AuthorBio } from "@/components/ui/AuthorBio";
 // Required for static export mode
 export const dynamicParams = false;
 
@@ -169,6 +170,11 @@ export default async function RecipePage({
                 className="prose prose-slate max-w-none dark:prose-invert prose-headings:text-slate-900 dark:prose-headings:text-slate-50 prose-a:text-excel-green prose-code:rounded prose-code:bg-slate-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:text-sm prose-code:font-mono dark:prose-code:bg-slate-800 prose-pre:bg-slate-900 prose-pre:text-slate-50 dark:prose-pre:bg-slate-800"
                 dangerouslySetInnerHTML={{ __html: htmlContent }}
             />
+
+            {/* E-E-A-T Author Bio Block */}
+            <div className="mt-8 mb-12">
+                <AuthorBio />
+            </div>
 
             {/* Related Recipes feature to decrease bounce rate */}
             <RelatedRecipes currentSlug={slug} tags={recipe.tags} />

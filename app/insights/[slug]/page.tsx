@@ -4,7 +4,7 @@ import { getInsightBySlug, getAllInsightSlugs } from '@/lib/insight-parser';
 import CopyHelper from '@/components/CopyHelper';
 import { AuthorBio } from '@/components/ui/AuthorBio';
 
-export const dynamicParams = true;
+export const dynamicParams = false;
 
 export function generateStaticParams() {
     return getAllInsightSlugs().map((slug) => ({

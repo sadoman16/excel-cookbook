@@ -10,14 +10,24 @@ interface RecipeBrowserProps {
 
 export function RecipeBrowser({ initialRecipes }: RecipeBrowserProps) {
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('All');
+
+    const categories = [
+        'All', 'Math & Trig', 'Logical', 'Text',
+        'Lookup & Reference', 'Date & Time',
+        'Financial', 'Statistical', 'Information'
+    ];
 
     const filteredRecipes = initialRecipes.filter((recipe) => {
         const query = searchTerm.toLowerCase();
-        return (
+        const matchesSearch = (
             recipe.title.toLowerCase().includes(query) ||
             recipe.description.toLowerCase().includes(query) ||
             recipe.tags.some((tag) => tag.toLowerCase().includes(query))
         );
+        const matchesCategory = selectedCategory === 'All' || recipe.tags.includes(selectedCategory);
+
+        return matchesSearch && matchesCategory;
     });
 
     return (
@@ -54,6 +64,22 @@ export function RecipeBrowser({ initialRecipes }: RecipeBrowserProps) {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
+            </div>
+
+            {/* Category Filter Chips */}
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+                {categories.map((category) => (
+                    <button
+                        key={category}
+                        onClick={() => setSelectedCategory(category)}
+                        className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${selectedCategory === category
+                                ? 'bg-excel-green text-white shadow-sm'
+                                : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+                            } cursor-pointer`}
+                    >
+                        {category}
+                    </button>
+                ))}
             </div>
 
             {/* Results Section */}
@@ -103,8 +129,11 @@ export function RecipeBrowser({ initialRecipes }: RecipeBrowserProps) {
                             Try searching for a different keyword or function name.
                         </p>
                         <button
-                            onClick={() => setSearchTerm('')}
-                            className="mt-4 text-sm font-medium text-excel-green hover:underline"
+                            onClick={() => {
+                                setSearchTerm('');
+                                setSelectedCategory('All');
+                            }}
+                            className="mt-4 text-sm font-medium text-excel-green hover:underline cursor-pointer"
                         >
                             Clear search
                         </button>

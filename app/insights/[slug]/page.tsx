@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getInsightBySlug, getAllInsightSlugs } from '@/lib/insight-parser';
-import CopyHelper from '@/components/CopyHelper';
+import { marked } from 'marked';
 import { AuthorBio } from '@/components/ui/AuthorBio';
 
+// Required for static export mode
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -12,8 +13,14 @@ export function generateStaticParams() {
     }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-    const insight = getInsightBySlug(params.slug);
+// Next.js 15+ requires params to be a Promise
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+    const { slug } = await params;
+    const insight = getInsightBySlug(slug);
     if (!insight) return {};
 
     return {
@@ -22,38 +29,16 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
     };
 }
 
-// Convert markdown to super simple HTML for display (in real app we use mdx-remote, but keeping it simple for now)
-function simpleMarkdownToHtml(markdown: string) {
-    let html = markdown;
-
-    // Headers
-    html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-    html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-    html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-
-    // Bold
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-
-    // Links
-    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
-
-    // Lists
-    html = html.replace(/^\* (.*$)/gim, '<li>$1</li>');
-    html = html.replace(/<\/li>\n<li>/gim, '</li><li>');
-    html = html.replace(/<li>(.*?)<\/li>/gim, '<ul><li>$1</li></ul>');
-    html = html.replace(/<\/ul>\n<ul>/gim, '');
-
-    // Line breaks for paragraphs
-    html = html.replace(/\n\n/g, '<br/><br/>');
-
-    return html;
-}
-
-export default function InsightPage({ params }: { params: { slug: string } }) {
-    const insight = getInsightBySlug(params.slug);
+export default async function InsightPage({
+    params,
+}: {
+    params: Promise<{ slug: string }>;
+}) {
+    const { slug } = await params;
+    const insight = getInsightBySlug(slug);
     if (!insight) return notFound();
 
-    const htmlContent = simpleMarkdownToHtml(insight.content);
+    const htmlContent = await marked(insight.content);
 
     return (
         <div className="mx-auto max-w-3xl px-4 py-8 md:py-12">
@@ -79,9 +64,8 @@ export default function InsightPage({ params }: { params: { slug: string } }) {
             </header>
 
             {/* Content */}
-            <CopyHelper slug={insight.slug} />
             <article
-                className="prose prose-slate max-w-none dark:prose-invert prose-headings:text-slate-900 dark:prose-headings:text-slate-50 prose-a:text-excel-green"
+                className="prose prose-slate max-w-none dark:prose-invert prose-headings:text-slate-900 dark:prose-headings:text-slate-50 prose-a:text-excel-green prose-code:rounded prose-code:bg-slate-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:text-sm prose-code:font-mono dark:prose-code:bg-slate-800 prose-pre:bg-slate-900 prose-pre:text-slate-50 dark:prose-pre:bg-slate-800"
                 dangerouslySetInnerHTML={{ __html: htmlContent }}
             />
 

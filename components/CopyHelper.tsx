@@ -33,29 +33,35 @@ const CopyButton = ({ text }: { text: string }) => {
     );
 };
 
-export default function CopyHelper() {
+export default function CopyHelper({ slug }: { slug: string }) {
     useEffect(() => {
         // Find all <pre> blocks on the page
-        const preElements = document.querySelectorAll('pre');
+        // Use timeout to ensure dynamically inserted HTML is present
+        const timer = setTimeout(() => {
+            const preElements = document.querySelectorAll('pre');
 
-        preElements.forEach((pre) => {
-            // Avoid duplicate button injections
-            if (pre.querySelector('.copy-button-container')) return;
+            preElements.forEach((pre) => {
+                // Avoid duplicate button injections
+                if (pre.querySelector('.copy-button-container')) return;
 
-            // Set relative positioning to anchor the absolute button
-            pre.style.position = 'relative';
-            // Important for clean layout: ensure there's enough padding so text doesn't hide under the button
-            pre.style.paddingRight = '3rem';
+                // Set relative positioning to anchor the absolute button
+                pre.style.position = 'relative';
+                // Important for clean layout: ensure there's enough padding so text doesn't hide under the button
+                pre.style.paddingRight = '3rem';
 
-            const container = document.createElement('div');
-            container.className = 'copy-button-container';
-            pre.appendChild(container);
+                const container = document.createElement('div');
+                container.className = 'copy-button-container';
+                pre.appendChild(container);
 
-            const root = createRoot(container);
-            // Get raw text to copy (ignoring possible nested elements)
-            root.render(<CopyButton text={pre.textContent || ''} />);
-        });
-    }, []);
+                const root = createRoot(container);
+                // Get raw text to copy (ignoring possible nested elements)
+                let textToCopy = pre.textContent || '';
+                root.render(<CopyButton text={textToCopy} />);
+            });
+        }, 100);
+
+        return () => clearTimeout(timer);
+    }, [slug]);
 
     return null;
 }

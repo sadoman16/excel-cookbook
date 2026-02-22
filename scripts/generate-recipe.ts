@@ -245,7 +245,7 @@ async function main() {
             process.exit(1);
         }
 
-        const slug = target.name.toLowerCase().replace(/ /g, '-').replace(/\//g, '-');
+        const slug = target.name.toLowerCase().replace(/ \+ /g, '-').replace(/ /g, '-').replace(/\//g, '-').replace(/\+/g, '');
         const mdxPath = path.join(CONTENT_DIR, `${slug}.mdx`);
         if (fs.existsSync(mdxPath)) {
             console.log(`⚠️  Skipping: Recipe for ${target.name} already exists at ${mdxPath}`);

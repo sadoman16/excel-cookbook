@@ -51,6 +51,7 @@ Category: ${targetFunction.category}
 3. You MUST recommend this best practice: "${targetFunction.best_practice}"
 4. Do NOT invent new parameters. Use only: ${targetFunction.parameters.map(p => p.name).join(', ')}
 5. ALL information must be factually accurate for Microsoft Excel.
+6. CRITICAL: The entire article, including all headings, descriptions, and text, MUST be written completely in ENGLISH. DO NOT output any Korean or any other language.
 
 ═══════════════════════════════════════
 [SEO CONTENT QUALITY REQUIREMENTS]
@@ -209,7 +210,7 @@ This structure enables automatic HowTo + FAQPage Schema extraction.
         });
 
         // Save file
-        const slug = targetFunction.name.toLowerCase().replace(/ /g, '-').replace(/\//g, '-');
+        const slug = targetFunction.name.toLowerCase().replace(/ \+ /g, '-').replace(/ /g, '-').replace(/\//g, '-').replace(/\+/g, '');
         const filename = `${slug}.mdx`;
         fs.writeFileSync(path.join(CONTENT_DIR, filename), text);
 

@@ -1,0 +1,85 @@
+---
+title: "The ROUNDUP Function Recipe: Never Round Down Again"
+description: "Master Excel's ROUNDUP function to always round numbers up, away from zero, perfect for calculating required materials or pricing items safely."
+date: 2026-02-23
+tags: [Excel, ROUNDUP, math, rounding, precision, logic]
+---
+
+## **The Problem: Standard Rounding Is Failing You**
+
+What is ROUNDUP? ROUNDUP is an Excel function that strictly rounds a number up, away from zero. It is commonly used for estimating materials (e.g., figuring out how many whole buckets of paint to buy) or ensuring prices always cover costs.
+
+The standard `ROUND` function looks at the decimal point and plays fair: below .5 rounds down, .5 and above rounds up. But sometimes fairness doesn't apply to the real world. If a math calculation tells you that you need 2.1 gallons of paint for a room, standard rounding says "round down to 2". But if you only buy 2 gallons, you'll run out of paint before finishing the wall! You *must* buy 3 gallons. `ROUNDUP` forces Excel to behave safely for these scenarios.
+
+---
+
+## **The Ingredients: Understanding ROUNDUP's Setup**
+
+`ROUNDUP` behaves like `ROUND`, except it always rounds values *up*, away from zero.
+
+`=ROUNDUP(number, num_digits)`
+
+| Parameter | Description |
+| :--- | :--- |
+| `number` | The number you want to round up. |
+| `num_digits` | The number of digits to which you want to round the number. Negative numbers round to the left of the decimal point. |
+
+---
+
+## **The Recipe (Step-by-Step): Buying Office Supplies**
+
+**Scenario:** You are organizing a workshop for 43 people. Desks are sold in pods of 4. How many pods do you need? Dividing 43 by 4 gives you 10.75. Standard rounding would correctly give you 11. But what if you have 41 people? 41 divided by 4 is 10.25. Standard rounding would give you 10 pods (40 seats), leaving one person standing!
+
+| Data | Value | Note |
+| :--- | :--- | :--- |
+| **Attendees** | 41 | In cell B1 |
+| **Seats per Pod**| 4 | In cell B2 |
+
+1. **Select Your Cell:** Click cell B3 where you want to know how many pods to buy.
+2. **Enter the Formula:** Type `=ROUNDUP(B1/B2, 0)`
+3. **Review the Result:** Press Enter. Excel will display `11`. Even though 10.25 is closer to 10, it rounds *up* to the nearest whole integer to ensure you have enough seats.
+
+### Rounding Decimals
+
+If you are pricing items and want to round $14.22 up to the nearest whole cent ($14.23) or nearest whole dime ($14.30):
+
+```
+=ROUNDUP(14.221, 2)  // Rounds to 14.23 (Two decimal places)
+=ROUNDUP(14.221, 1)  // Rounds to 14.3 (One decimal place)
+```
+
+---
+
+## **Pro Tips: Sharpen Your Skills**
+
+* **Rounding to Tens or Hundreds:** If you want to round a large number up to the nearest hundred (e.g., round 1,234 to 1,300), use a negative number for `num_digits`: `=ROUNDUP(1234, -2)`.
+* **Negative Numbers:** Remember that `ROUNDUP` works "away from zero". So `-3.1` rounded up to zero decimal places becomes `-4`. Be careful with financial equations where rounding "up" financially might mean getting closer to zero.
+
+---
+
+## **Troubleshooting: Common Pitfalls**
+
+### 1. #VALUE! Error
+* **What it looks like:** `#VALUE!`
+* **Why it happens:** One of your arguments is text instead of a number.
+* **How to fix it:** Ensure that both the number you are dividing/rounding and the `num_digits` are strictly numeric values.
+
+### 2. Doesn't Snap to Multiples
+* **What it looks like:** You want $14.22 to round to the nearest quarter ($14.25), but ROUNDUP just goes to $14.30.
+* **Why it happens:** ROUNDUP only works based on decimal positions (10ths, 100ths), not logical multiples like 0.25 or 5.
+* **How to fix it:** Use the `CEILING` function instead! `=CEILING(14.22, 0.25)` will perfectly snap 14.22 to 14.25.
+
+---
+
+## **Quick Reference**
+
+*   **Syntax:** `=ROUNDUP(number, num_digits)`
+*   **Most common use case:** Calculating material purchases or staffing requirements where you cannot under-allocate.
+
+---
+
+## **같이 보면 좋은 레시피 (Related Functions)**
+
+*   **[The ROUNDDOWN Function](/recipes/rounddown)**: Ensure a number always rounds down toward zero.
+*   **[The ROUND Function](/recipes/round)**: Standard rounding based on the closest value.
+*   **[The CEILING Function](/recipes/ceiling)**: Round a number up to a specified multiple (like nearest 5).

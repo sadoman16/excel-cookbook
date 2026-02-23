@@ -1,0 +1,82 @@
+---
+title: "The RANDARRAY Function Recipe: Generating Random Data"
+description: "Master Excel's RANDARRAY function to instantly generate dynamic arrays of random numbers, specified by rows and columns, for simulations and mock data."
+date: 2026-02-23
+tags: [Excel, RANDARRAY, dynamic arrays, random numbers, generated data, math]
+---
+
+## **The Problem: You Need Fake Data Fast**
+
+What is RANDARRAY? RANDARRAY is an Excel dynamic array function that generates a grid (an array) of random numbers, specified by the number of rows and columns you request. It is commonly used to create sample data for testing formulas or to run statistical simulations.
+
+Imagine you're testing a new dashboard or a complex formula, but you don't have real data yet. Using the old `RAND()` function means copying and pasting it down 500 rows and across 10 columns—a tedious process. Even worse, if you need whole numbers within a specific range, you have to write confusing nested formulas. RANDARRAY handles all of this in one simple formula, instantly "spilling" a whole grid of random numbers across your sheet.
+
+---
+
+## **The Ingredients: Understanding RANDARRAY's Setup**
+
+`RANDARRAY` generates an array of random numbers, either decimals or whole numbers, between the range you set.
+
+`=RANDARRAY([rows], [columns], [min], [max], [whole])`
+
+| Parameter | Description |
+| :--- | :--- |
+| `[rows]` | Optional. The number of rows you want in your generated grid. Default is 1. |
+| `[columns]` | Optional. The number of columns you want. Default is 1. |
+| `[min]` | Optional. The smallest number that can be generated. Default is 0. |
+| `[max]` | Optional. The largest number that can be generated. Default is 1. |
+| `[whole]` | Optional. Set to `TRUE` for whole numbers (integers), or `FALSE` for decimals. Default is FALSE. |
+
+---
+
+## **The Recipe (Step-by-Step): Creating a 5x3 Grid of Random Scores**
+
+**Scenario:** You want to generate 5 rows and 3 columns of random test scores. The scores must be whole numbers between 60 and 100.
+
+1. **Select Your Origin Cell:** Click on cell A1.
+2. **Enter the Formula:** Type `=RANDARRAY(5, 3, 60, 100, TRUE)`
+3. **Review the Result:** Press Enter. The numbers will instantly "spill" out, filling cells A1 through C5 with random whole numbers between 60 and 100.
+
+### Creating a Single List
+
+If you just need a quick vertical list of 10 random decimals between 0 and 1:
+
+```
+=RANDARRAY(10)
+```
+
+---
+
+## **Pro Tips: Sharpen Your Skills**
+
+* **It's Volatile:** `RANDARRAY` is a volatile function. This means the numbers will recalculate and change *every single time* you make an edit anywhere else in your workbook. Once you are happy with your generated random data, copy the entire block, right-click, and select **Paste Values** to lock them in place.
+* **Combining with SORT:** You can generate a list of random numbers and sort them simultaneously by wrapping the formula: `=SORT(RANDARRAY(10, 1, 1, 100, TRUE))`.
+
+---
+
+## **Troubleshooting: Common Pitfalls**
+
+### 1. #SPILL! Error
+* **What it looks like:** `#SPILL!`
+* **Why it happens:** The `RANDARRAY` function needs enough empty space to create the grid you asked for. If there is text or data blocking its path (for example, you asked for 10 rows but row 5 has a value in it), it will throw a spill error.
+* **How to fix it:** Clear the cells below and to the right of your formula to give the array enough room to expand.
+
+### 2. Everything Keeps Changing
+* **What it looks like:** The numbers update continuously while you work.
+* **Why it happens:** This is the default behavior of volatile functions.
+* **How to fix it:** As mentioned in the Pro Tips, use Paste Special -> Values to convert the formulas into static numbers.
+
+---
+
+## **Quick Reference**
+
+*   **Syntax:** `=RANDARRAY([rows], [columns], [min], [max], [whole])`
+*   **Most common use case:** Generating a large mockup table of randomized survey results or test data.
+
+---
+
+## **같이 보면 좋은 레시피 (Related Functions)**
+
+*   **[The SEQUENCE Function](/recipes/sequence)**: Generate sequential numbers in an array.
+*   **[The UNIQUE Function](/recipes/unique)**: Extract unique items from a list.
+*   **[The SORT Function](/recipes/sort)**: Automatically sort a range or array.

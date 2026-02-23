@@ -1,0 +1,86 @@
+---
+title: "The MIN Function Recipe: Finding the Smallest Number"
+description: "Master Excel's MIN function to quickly extract the lowest value from any range of data, identify minimum sales, or filter out bottom performers."
+date: 2026-02-23
+tags: [Excel, MIN, statistical functions, lowest, minimum, basics]
+---
+
+## **The Problem: Finding the Bottom of the Barrel**
+
+What is MIN? MIN is an Excel function that returns the smallest number in a set of values. It is commonly used to find the lowest price, the worst test score, or the minimum sales figure in a large dataset.
+
+Imagine you have a list of prices from 50 different suppliers for a specific part. Scanning the list manually to find the absolute cheapest option is a massive waste of time and highly prone to human error. Excel's MIN function solves this instantly by pulling the smallest number from any range you give it.
+
+---
+
+## **The Ingredients: Understanding MIN's Setup**
+
+`MIN` finds the lowest number. It ignores empty cells, text, and logical values (like TRUE or FALSE).
+
+`=MIN(number1, [number2], ...)`
+
+| Parameter | Description |
+| :--- | :--- |
+| `number1` | The first number, cell reference, or range you want to evaluate. |
+| `[number2], ...` | Optional. Additional numbers or ranges (up to 255 arguments). |
+
+---
+
+## **The Recipe (Step-by-Step): Finding the Lowest Price**
+
+**Scenario:** You have a list of contractor bids in cells `C2:C10`, and you want to find out who submitted the lowest bid.
+
+| Contractor | Bid Amount |
+| :--- | :--- |
+| Apex Build | $15,000 |
+| Core Services | $14,200 |
+| Zen Construct| $16,500 |
+| ... | ... |
+
+1. **Select Your Cell:** Click on cell C12 (or wherever you want the result to appear).
+2. **Enter the Formula:** Type `=MIN(C2:C10)`
+3. **Review the Result:** Press Enter. Excel instantly displays `$14,200`.
+
+### Multiple Non-Adjacent Ranges
+
+If you want to find the lowest bid from two different lists located on the same spreadsheet:
+
+```
+=MIN(C2:C10, F2:F10)
+```
+
+---
+
+## **Pro Tips: Sharpen Your Skills**
+
+* **Ignoring Zeroes:** MIN will return `0` if 0 is the lowest number in your set. If you want to find the lowest number *that is greater than zero*, you need to combine it with an `IF` statement: `=MIN(IF(C2:C10>0, C2:C10))`. Note: On older versions of Excel, you must press `Ctrl+Shift+Enter` for this to work as an array formula.
+* **Using MINIFS:** If you have Office 365, use `MINIFS` instead of the trick above. It lets you find the minimum value based on specific criteria (e.g., the lowest bid from a *local* contractor).
+
+---
+
+## **Troubleshooting: Common Pitfalls**
+
+### 1. The Result is 0 When It Shouldn't Be
+* **What it looks like:** The formula returns 0, but your lowest visible number is 50.
+* **Why it happens:** You likely have hidden rows or blank cells that Excel is interpreting incorrectly, or a cell actually contains the number 0.
+* **How to fix it:** Double-check your range for rogue zeros. Remember that `MIN` ignores truly empty cells, but cells that *look* empty might contain a zero formatted to be invisible.
+
+### 2. The Result is 0 or Ignores Your Numbers
+* **What it looks like:** The lowest number is completely ignored.
+* **Why it happens:** Your numbers are stored as text. `MIN` only evaluates numbers.
+* **How to fix it:** Look for the green triangle in the corner of your cells. Convert the text to numbers by using `VALUE()` or standard formatting tools.
+
+---
+
+## **Quick Reference**
+
+*   **Syntax:** `=MIN(number1, [number2])`
+*   **Most common use case:** Finding the best price, lowest score, or minimum threshold within a large dataset.
+
+---
+
+## **같이 보면 좋은 레시피 (Related Functions)**
+
+*   **[The MAX Function](/recipes/max)**: The opposite of MIN; finds the highest number.
+*   **[The AVERAGE Function](/recipes/average)**: Find the center-point or mean of your data.
+*   **[The SMALL Function](/recipes/small)**: Find the nth smallest number (e.g., the 2nd lowest or 3rd lowest).

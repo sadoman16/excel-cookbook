@@ -1,0 +1,90 @@
+---
+title: "The PMT Function Recipe: Calculating Loan Payments"
+description: "Master Excel's PMT function to exactly calculate monthly payments for a loan or mortgage based on constant payments and a constant interest rate."
+date: 2026-02-23
+tags: [Excel, PMT, financial functions, loans, mortgage, payments]
+---
+
+## **The Problem: Figuring Out Your Monthly Payment**
+
+What is PMT? PMT is an Excel function that calculates the payment for a loan based on constant payments and a constant interest rate. It is commonly used to figure out exactly how much your monthly car or mortgage payment will be before you sign the paperwork.
+
+You want to buy a car or a house, and the bank tells you the interest rate and the number of years. But what you really need to know is: **"How much is this going to cost me every month?"** Doing the complex math by hand is tedious and prone to errors. Excel's PMT function handles all the heavy lifting instantly.
+
+---
+
+## **The Ingredients: Understanding PMT's Setup**
+
+`PMT` calculates the payment amount for a loan.
+
+`=PMT(rate, nper, pv, [fv], [type])`
+
+| Parameter | Description |
+| :--- | :--- |
+| `rate` | The interest rate for the loan. If it's an annual rate but you pay monthly, divide by 12. |
+| `nper` | The total number of payments. For a 5-year loan paid monthly, this is 5 * 12 = 60. |
+| `pv` | The present value (principal), which is the total loan amount right now. |
+| `[fv]` | Optional. Future value (default 0). The balance you want left after the last payment. |
+| `[type]` | Optional. 0 (default) for end of period payment, 1 for beginning of period payment. |
+
+---
+
+## **The Recipe (Step-by-Step): Calculating a Car Loan**
+
+**Scenario:** You are taking out a $25,000 auto loan at a 5% annual interest rate over 5 years (60 months). You want to know your monthly payment.
+
+| Data | Value | Note |
+| :--- | :--- | :--- |
+| **Loan Amount (PV)** | $25,000 | In cell B1 |
+| **Annual Rate** | 5% | In cell B2 |
+| **Years** | 5 | In cell B3 |
+
+1. **Select Your Cell:** Click on cell B4 where you want the monthly payment to appear.
+2. **Enter the Formula:** Type `=PMT(B2/12, B3*12, B1)`
+3. **Review the Result:** Press Enter. The result will be `-$471.78`.
+
+*Note: The result is negative because it represents a cash outflow (money leaving your pocket).*
+
+### Positive Payments
+
+If you prefer to see the payment as a positive number for your budget spreadsheet, just put a minus sign before the Present Value (`pv`):
+
+```
+=PMT(B2/12, B3*12, -B1)
+```
+
+---
+
+## **Pro Tips: Sharpen Your Skills**
+
+* **Watch Your Units:** The most critical part of using `PMT` is ensuring your `rate` and `nper` units match. If you are calculating monthly payments, the annual interest rate must be divided by 12, and the years must be multiplied by 12.
+* **Saving Goals:** You can also use `PMT` for savings goals! If you want to save $10,000 in two years at 3% interest, set `pv` to 0 and `fv` to 10000: `=PMT(3%/12, 2*12, 0, 10000)`.
+
+---
+
+## **Troubleshooting: Common Pitfalls**
+
+### 1. #NUM! Error
+* **What it looks like:** `#NUM!`
+* **Why it happens:** Usually means your `nper` is 0 or less, or the combination of rate and payments is mathematically impossible to reach the future value.
+* **How to fix it:** Double-check that all your arguments, especially `nper`, are greater than 0.
+
+### 2. Payments Are Way Too High
+* **What it looks like:** The monthly payment for a 30-year mortgage shows up as $15,000 instead of $1,500.
+* **Why it happens:** You forgot to divide the annual interest rate by 12. Using a 5% rate as a monthly rate is technically a 60% annual rate!
+* **How to fix it:** Always use `rate/12` for monthly payments. 
+
+---
+
+## **Quick Reference**
+
+*   **Syntax:** `=PMT(rate, nper, pv)`
+*   **Most common use case:** Finding the exact monthly payment on a mortgage, car loan, or personal loan.
+
+---
+
+## **같이 보면 좋은 레시피 (Related Functions)**
+
+*   **[The FV Function](/recipes/fv)**: Calculate the future value of an investment.
+*   **[The RATE Function](/recipes/rate)**: Find out what interest rate you are actually paying.
+*   **[The NPER Function](/recipes/nper)**: Calculate how many periods it will take to pay off a loan.

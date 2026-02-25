@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const MODEL_NAME = "gemini-2.5-pro"; // Using pro instead to bypass flash rate limits temporarily
+const MODEL_NAME = "gemini-2.5-flash";
 const TRUTH_DB_PATH = path.join(process.cwd(), 'data', 'functions.json');
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'recipes');
 
@@ -260,7 +260,7 @@ async function main() {
 
     // Find functions that don't have a recipe yet
     const ungenerated = db.filter(f => {
-        const slug = f.name.toLowerCase().replace(/ /g, '-').replace(/\//g, '-');
+        const slug = f.name.toLowerCase().replace(/ \+ /g, '-').replace(/ /g, '-').replace(/\//g, '-').replace(/\+/g, '');
         const mdxPath = path.join(CONTENT_DIR, `${slug}.mdx`);
         const mdPath = path.join(CONTENT_DIR, `${slug}.md`);
         return !fs.existsSync(mdxPath) && !fs.existsSync(mdPath);

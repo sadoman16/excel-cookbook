@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: "https://excel-cookbook.com",
+    canonical: "./",
   },
 };
 
@@ -58,7 +58,6 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="canonical" href="https://excel-cookbook.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

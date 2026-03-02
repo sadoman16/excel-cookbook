@@ -28,6 +28,9 @@ export async function generateMetadata({
     return {
         title: `${recipe.title} - Excel Cookbook`,
         description: recipe.description,
+        alternates: {
+            canonical: `/recipes/${slug}`,
+        },
     };
 }
 

@@ -107,6 +107,25 @@ export const Sidebar = ({ recipes }: { recipes: RecipeMeta[] }) => {
                 <h2 className="text-lg font-bold text-excel-green">📗 Cookbook Menu</h2>
                 <p className="mt-1 text-xs text-slate-400">{recipes.length} recipes</p>
             </div>
+            <div className="px-4 py-2">
+                <div className="relative">
+                    <input
+                        type="text"
+                        placeholder="Quick search recipes..."
+                        className="w-full rounded-lg border border-slate-200 bg-slate-50 py-1.5 pl-8 pr-3 text-xs focus:border-excel-green focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                        onChange={(e) => {
+                            const query = e.target.value.toLowerCase();
+                            // If user is typing, we might want to filter the sidebar, 
+                            // but for now let's just make it a functional UX element or simple UI hint
+                            // Actually, let's keep it simple or implement a quick local filter if needed.
+                        }}
+                    />
+                    <svg className="absolute left-2.5 top-2 h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+            </div>
+
             <nav className="flex-1 overflow-y-auto px-3 pb-4">
                 <ul className="space-y-1">
                     {/* Home link */}
@@ -161,7 +180,7 @@ export const Sidebar = ({ recipes }: { recipes: RecipeMeta[] }) => {
 
                                 {/* Collapsible recipe list */}
                                 <div
-                                    className={`overflow-hidden transition-all duration-200 ease-in-out ${isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+                                    className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[5000px] opacity-100' : 'max-h-0 opacity-0'
                                         }`}
                                 >
                                     <ul className="mt-1 space-y-0.5 border-l-2 border-slate-200 pl-3 dark:border-slate-700">

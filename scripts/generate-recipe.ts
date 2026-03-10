@@ -146,12 +146,10 @@ ${targetFunction.parameters.map(p => `  - **${p.name}**: ${p.desc}`).join('\n')}
   - Most common use case
 
 ### 7. Internal Links (CRITICAL FOR SEO)
-- At the very bottom, add a section called "같이 보면 좋은 레시피 (Related Functions)"
+- At the very bottom, add a section called "Related Functions"
 - Provide 2 to 3 internal links to related Excel functions using Markdown format. 
-- Example: \`[VLOOKUP 완벽 가이드](/recipes/vlookup)\`
-- Use your knowledge of Excel to guess the slugs of related functions (slug is usually the function name in lowercase, e.g. \`index\`, \`match\`, \`sumifs\`, \`xlookup\`).
-  - Key gotcha to avoid
-  - Related functions to explore
+- Example: \`[Mastering VLOOKUP](/recipes/vlookup)\`
+- Use your knowledge of Excel to guess the slugs of related functions (slug is usually the function name in lowercase).
 
 ═══════════════════════════════════════
 [FEATURED SNIPPET OPTIMIZATION — seo-snippet-hunter skill]

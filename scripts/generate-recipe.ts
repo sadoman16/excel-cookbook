@@ -18,11 +18,14 @@ if (!fs.existsSync(CONTENT_DIR)) {
 interface ExcelFunction {
     name: string;
     category: string;
-    syntax: string;
-    summary: string;
-    common_errors: string[];
-    best_practice: string;
-    parameters: { name: string; desc: string }[];
+    syntax?: string;
+    summary?: string;
+    common_errors?: string[];
+    best_practice?: string;
+    parameters?: { name: string; desc: string }[];
+    description?: string;
+    promptContext?: string;
+    tags?: string[];
 }
 
 async function loadTruthDB(): Promise<ExcelFunction[]> {
@@ -37,21 +40,28 @@ async function generateRecipe(targetFunction: ExcelFunction) {
     // ──────────────────────────────────────────────────────────
     //  SEO-Optimized Prompt (based on seo-content-writer skill)
     // ──────────────────────────────────────────────────────────
+    const syntaxRule = targetFunction.syntax ? `1. You MUST use the exact syntax: \\\`${targetFunction.syntax}\\\`` : `1. Ensure you demonstrate the exact function syntax correctly.`;
+    const errorRule = targetFunction.common_errors?.length ? `2. You MUST mention these common errors: ${targetFunction.common_errors.join(', ')}` : `2. Mention common calculation or '#N/A' errors mathematically associated.`;
+    const practiceRule = targetFunction.best_practice ? `3. You MUST recommend this best practice: "${targetFunction.best_practice}"` : `3. Discuss at least one professional best practice.`;
+    const paramsRule = targetFunction.parameters?.length ? `4. Do NOT invent new parameters. Use only: ${targetFunction.parameters.map((p: any) => p.name).join(', ')}` : `4. Detail the actual authentic parameters of this function specifically.`;
+    const extraContextRule = targetFunction.promptContext ? `7. SPECIAL INSTRUCTION: ${targetFunction.promptContext}` : '';
+
     const prompt = `
 You are an expert Excel Consultant and SEO Content Writer creating a "Cookbook Recipe" for the Excel Cookbook website (https://excel-cookbook.com).
 
 Target Function: ${targetFunction.name}
 Category: ${targetFunction.category}
-
+${targetFunction.description ? `Description: ${targetFunction.description}\n` : ''}
 ═══════════════════════════════════════
 [STRICT GROUNDING RULES - NEVER BREAK]
 ═══════════════════════════════════════
-1. You MUST use the syntax: \`${targetFunction.syntax}\`
-2. You MUST mention these common errors: ${targetFunction.common_errors.join(', ')}
-3. You MUST recommend this best practice: "${targetFunction.best_practice}"
-4. Do NOT invent new parameters. Use only: ${targetFunction.parameters.map(p => p.name).join(', ')}
+${syntaxRule}
+${errorRule}
+${practiceRule}
+${paramsRule}
 5. ALL information must be factually accurate for Microsoft Excel.
 6. CRITICAL: The entire article, including all headings, descriptions, and text, MUST be written completely in ENGLISH. DO NOT output any Korean or any other language.
+${extraContextRule}
 
 ═══════════════════════════════════════
 [SEO CONTENT QUALITY REQUIREMENTS]
@@ -90,7 +100,7 @@ Generate frontmatter with ALL string values wrapped in DOUBLE QUOTES to prevent 
 - title: "Creative recipe-style title (50-60 chars). Include the function name."
 - description: "Compelling meta description (150-160 chars). Include the function name + a benefit."
 - date: "${new Date().toISOString().split('T')[0]}"
-- tags: [Excel, ${targetFunction.name}, ${targetFunction.category}, plus 2-3 relevant tags]
+- tags: [Excel, ${targetFunction.name}, ${targetFunction.category}${targetFunction.tags && targetFunction.tags.length ? ', ' + targetFunction.tags.filter(t => t !== targetFunction.name && t !== 'Excel' && t !== targetFunction.category).map(t => `"${t}"`).join(', ') : ''}, plus 2-3 relevant tags]
 
 ⚠️ CRITICAL: title and description MUST be wrapped in double quotes because they often contain colons (:) and apostrophes (') which break YAML parsing.
 Example:
@@ -115,9 +125,9 @@ tags: [Excel, VLOOKUP, Lookup]
 - Share a brief "war story" or practical insight (e.g., "In my years as a data analyst, I've seen teams waste hours on...").
 
 ### 3. The Ingredients: Understanding ${targetFunction.name}'s Setup (150-200 words)
-- Show the exact syntax: \`${targetFunction.syntax}\`
+- Show the exact syntax: \`${targetFunction.syntax || `[Insert Standard Syntax for ${targetFunction.name}]`}\`
 - Explain EACH parameter with a clear, table format:
-${targetFunction.parameters.map(p => `  - **${p.name}**: ${p.desc}`).join('\n')}
+${targetFunction.parameters && targetFunction.parameters.length > 0 ? targetFunction.parameters.map(p => `  - **${p.name}**: ${p.desc}`).join('\n') : '- Identify and list the standard parameters required for this function.'}
 - Use a markdown table for parameter reference.
 
 ### 3. The Recipe: Step-by-Step Instructions (250-350 words)
@@ -129,12 +139,12 @@ ${targetFunction.parameters.map(p => `  - **${p.name}**: ${p.desc}`).join('\n')}
 - Explain what result appears and why
 
 ### 4. Pro Tips: Level Up Your Skills (100-150 words)
-- Include the best practice: "${targetFunction.best_practice}"
+${targetFunction.best_practice ? `- Include the best practice: "${targetFunction.best_practice}"` : `- Include a highly relevant professional best practice.`}
 - Add 2-3 additional expert tips that professionals would appreciate
 - Each tip should be genuinely useful, not obvious
 
 ### 5. Troubleshooting: Common Errors & Fixes (250-300 words) [CRITICAL FOR DEPTH]
-- Cover at least 3 distinct error scenarios, heavily featuring these: ${targetFunction.common_errors.join(', ')}
+- Cover at least 3 distinct error scenarios${targetFunction.common_errors && targetFunction.common_errors.length > 0 ? `, heavily featuring these: ${targetFunction.common_errors.join(', ')}` : '.'}
 - For EACH error, you MUST provide three elements:
   - **Symptom:** What the user sees (e.g., "#N/A error appears").
   - **Cause:** Why Excel is throwing a tantrum (e.g., "Trailing spaces in the lookup value").

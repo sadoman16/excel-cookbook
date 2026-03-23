@@ -218,7 +218,15 @@ This structure enables automatic HowTo + FAQPage Schema extraction.
         });
 
         // Save file
-        const slug = targetFunction.name.toLowerCase().replace(/ \+ /g, '-').replace(/ /g, '-').replace(/\//g, '-').replace(/\+/g, '');
+        const slug = targetFunction.name.toLowerCase()
+            .replace(/&/g, 'and')
+            .replace(/ \+ /g, '-')
+            .replace(/ /g, '-')
+            .replace(/\//g, '-')
+            .replace(/\+/g, '')
+            .replace(/[^a-z0-9.-]/g, '')
+            .replace(/-+/g, '-')
+            .replace(/^-+|-+$/g, '');
         const filename = `${slug}.mdx`;
         fs.writeFileSync(path.join(CONTENT_DIR, filename), text);
 
@@ -254,7 +262,15 @@ async function main() {
             process.exit(1);
         }
 
-        const slug = target.name.toLowerCase().replace(/ \+ /g, '-').replace(/ /g, '-').replace(/\//g, '-').replace(/\+/g, '');
+        const slug = target.name.toLowerCase()
+            .replace(/&/g, 'and')
+            .replace(/ \+ /g, '-')
+            .replace(/ /g, '-')
+            .replace(/\//g, '-')
+            .replace(/\+/g, '')
+            .replace(/[^a-z0-9.-]/g, '')
+            .replace(/-+/g, '-')
+            .replace(/^-+|-+$/g, '');
         const mdxPath = path.join(CONTENT_DIR, `${slug}.mdx`);
         if (fs.existsSync(mdxPath)) {
             console.log(`⚠️  Skipping: Recipe for ${target.name} already exists at ${mdxPath}`);
@@ -268,7 +284,15 @@ async function main() {
 
     // Find functions that don't have a recipe yet
     const ungenerated = db.filter(f => {
-        const slug = f.name.toLowerCase().replace(/ \+ /g, '-').replace(/ /g, '-').replace(/\//g, '-').replace(/\+/g, '');
+        const slug = f.name.toLowerCase()
+            .replace(/&/g, 'and')
+            .replace(/ \+ /g, '-')
+            .replace(/ /g, '-')
+            .replace(/\//g, '-')
+            .replace(/\+/g, '')
+            .replace(/[^a-z0-9.-]/g, '')
+            .replace(/-+/g, '-')
+            .replace(/^-+|-+$/g, '');
         const mdxPath = path.join(CONTENT_DIR, `${slug}.mdx`);
         const mdPath = path.join(CONTENT_DIR, `${slug}.md`);
         return !fs.existsSync(mdxPath) && !fs.existsSync(mdPath);

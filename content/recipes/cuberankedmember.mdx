@@ -67,7 +67,8 @@ We will assume our OLAP cube has a `Product` hierarchy within a `[Product]` dime
     **Formula in cell E1:**
     ```excel
     =CUBESET("SalesData", "ORDER([Product].[Product].[Product].MEMBERS, [Measures].[Sales], BDESC)", "Top Products by Sales")
-    
+```
+
     *   `"SalesData"`: Our cube connection.
     *   `"ORDER([Product].[Product].[Product].MEMBERS, [Measures].[Sales], BDESC)"`: This MDX expression orders all product members by the `Sales` measure in descending order (BDESC). This is how `CUBERANKEDMEMBER` knows what "rank" means.
     *   `"Top Products by Sales"`: A friendly caption for the set.
@@ -80,10 +81,10 @@ We will assume our OLAP cube has a `Product` hierarchy within a `[Product]` dime
     **Formula in cell C1:**
     ```excel
     =CUBERANKEDMEMBER("SalesData", E1, B1)
-    ```
     *   `"SalesData"`: Our connection to the cube.
     *   `E1`: This refers to the cell containing our `CUBESET` formula, which provides the ordered set of products. This makes our `CUBERANKEDMEMBER` formula incredibly clean and easy to manage.
     *   `B1`: This cell contains the integer `1`, specifying that we want the first-ranked member from the set.
+```
 
     **Result in C1:** This formula will display the name of the product that is the top seller according to your "SalesData" cube. For example, "Ultra-HD Smart TV".
 

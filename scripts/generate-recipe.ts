@@ -207,7 +207,7 @@ This structure enables automatic HowTo + FAQPage Schema extraction.
         let text = response.text();
 
         // Clean up: remove markdown code fences if Gemini wraps output
-        text = text.replace(/^```(?:\w+)?\n?/m, '').replace(/\n?```$/m, '');
+        text = text.replace(/^```(?:\w+)?\n?/, '').replace(/\n?```\s*$/, '');
 
         // Safety: ensure frontmatter title/description are quoted (prevent YAML colon issues)
         text = text.replace(/^(title:\s+)(?!")(.*[:'].*)$/gm, (_, prefix, val) => {

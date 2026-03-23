@@ -53,7 +53,8 @@ We want to extract just the last name from each cell. The delimiter here will be
 2.  **Enter the FIND Function:** First, we'll locate the position of the delimiter (the space character). In cell B2, type:
     ```excel
     =FIND(" ",A2)
-    
+```
+
     This formula will return the position of the first space in cell A2. For "John Doe," it will return 5 (J-o-h-n-[space]).
 
 3.  **Determine the Total Length with LEN:** Next, we need to know the total length of the text string. Let's incorporate the `LEN` function into our formula. Temporarily, you could type `=LEN(A2)` in another cell to see its output. For "John Doe," it's 9.
@@ -61,13 +62,13 @@ We want to extract just the last name from each cell. The delimiter here will be
 4.  **Calculate Characters to Extract:** Now, we combine `LEN` and `FIND` to determine how many characters from the right we need. The total length minus the position of the delimiter gives us the length of the string *after* the delimiter, plus the delimiter itself. To get only the part *after* the delimiter, we subtract the position of the delimiter from the total length. Modify your formula in B2 to:
     ```excel
     =LEN(A2) - FIND(" ",A2)
-    ```
     For "John Doe," this calculates `9 - 5`, which equals `4`. This `4` represents the length of "Doe".
+```
 
 5.  **Apply the RIGHT Function:** Finally, we wrap our calculation within the `RIGHT` function. The `RIGHT` function takes two arguments: the text string and the number of characters to extract from the right. Our `LEN(A2) - FIND(" ",A2)` expression provides exactly that second argument. Enter the complete `RIGHT + LEN + FIND` formula into cell B2:
     ```excel
     =RIGHT(A2, LEN(A2) - FIND(" ",A2))
-    ```
+```
 
 6.  **Drag Down the Formula:** Press Enter. For "John Doe," the result in B2 will be "Doe." Now, click and drag the fill handle (the small square at the bottom-right corner of cell B2) down to apply the formula to the rest of your data.
 

@@ -66,23 +66,24 @@ We want to find the exact price for each `Lookup ProductID`, respecting its case
 2.  **Start Building the Formula:** Begin by typing the `INDEX` function. This function will ultimately retrieve the price. The `return_array` is the column containing the prices you want to return, which is `Sheet1!C2:C6`.
     ```excel
     =INDEX(Sheet1!C2:C6,
-    
+```
+
 
 3.  **Introduce the MATCH Function:** Now, we need to tell `INDEX` which row to pull the price from. This is where `MATCH` comes in. It needs to find the position of our case-sensitive match. `MATCH` will look for `TRUE` (which `EXACT` will produce).
     ```excel
     =INDEX(Sheet1!C2:C6, MATCH(TRUE,
-    ```
+```
 
 4.  **Incorporate the EXACT Function for Case Sensitivity:** This is the heart of the "VLOOKUP + EXACT" logic. We want to compare our `Lookup ProductID` (`A2` on Sheet2) against the list of `ProductID`s on Sheet1 (`Sheet1!A2:A6`) case-sensitively.
     ```excel
     =INDEX(Sheet1!C2:C6, MATCH(TRUE, EXACT(A2, Sheet1!A2:A6),
-    ```
     This `EXACT(A2, Sheet1!A2:A6)` part will generate an array of `TRUE` or `FALSE` values. For `ABC-101` in `A2`, it will be `{TRUE; FALSE; FALSE; FALSE; FALSE}`. For `abc-101`, it would be `{FALSE; TRUE; FALSE; FALSE; FALSE}`.
+```
 
 5.  **Complete the MATCH Function:** We need to finish `MATCH` by specifying its `match_type`. For an exact match based on the `TRUE` value, we use `0`.
     ```excel
     =INDEX(Sheet1!C2:C6, MATCH(TRUE, EXACT(A2, Sheet1!A2:A6), 0))
-    ```
+```
 
 6.  **Enter the Formula (Crucial Step for Array Formulas):**
     *   **For legacy Excel versions (2019 and earlier) or if you encounter #VALUE! errors:** You **MUST** press `Ctrl + Shift + Enter` to enter this as an array formula. Excel will automatically add curly braces `{}` around your formula, like `{=INDEX(...)})`.

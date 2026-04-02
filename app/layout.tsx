@@ -5,7 +5,6 @@ import { Navbar } from "@/components/Navbar";
 import { Sidebar } from "@/components/ui/Sidebar";
 import { Footer } from "@/components/Footer";
 import { getAllRecipes } from "@/lib/recipe-parser";
-import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -61,12 +60,11 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         {/* Google AdSense */}
-        <Script
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4863460360129673"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
+        ></script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

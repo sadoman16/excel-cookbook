@@ -1,5 +1,6 @@
 import { getAllRecipes } from "@/lib/recipe-parser";
 import { RecipeBrowser } from "@/components/RecipeBrowser";
+import { EditorPicks } from "@/components/EditorPicks";
 
 export default function Home() {
   const recipes = getAllRecipes();
@@ -20,6 +21,9 @@ export default function Home() {
           </p>
         </div>
       </section>
+
+      {/* Hand-picked Curation to drastically reduce bounce rate */}
+      <EditorPicks />
 
       {/* Dynamic Recipe List with Search */}
       <RecipeBrowser initialRecipes={recipes} />

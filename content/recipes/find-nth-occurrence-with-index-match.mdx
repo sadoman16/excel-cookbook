@@ -1,0 +1,163 @@
+---
+title: "Pinpoint Your Data: The Find Nth Occurrence with INDEX MATCH Recipe"
+description: "Master the Find Nth Occurrence with INDEX MATCH formula in Excel to precisely locate specific data points, boosting your lookup efficiency."
+date: "2026-04-02"
+tags: [Excel, Find Nth Occurrence with INDEX MATCH, Lookup & Reference, Advanced Lookup, Data Analysis]
+---
+
+## The Problem
+
+Are you tired of Excel only finding the *first* instance of a value when you desperately need the second, third, or even tenth? It's a common frustration for many Excel users. Standard lookup functions like `VLOOKUP` and even a simple `INDEX MATCH` combination are designed to return the first match they encounter. This limitation can bring your data analysis to a grinding halt, especially when dealing with repetitive data sets. Imagine needing to pull the details of a specific customer's *third* order, or the *second* time a particular product appeared in an inventory log. Traditional methods often leave you manually sifting through rows, a process ripe for errors and wasted time.
+
+What is Find Nth Occurrence with INDEX MATCH? Find Nth Occurrence with INDEX MATCH is an Excel technique that extends the power of standard `INDEX MATCH` to retrieve the *k*-th instance of a lookup value rather than just the first. It is commonly used to extract specific recurring data points from a list when the position within those occurrences matters. This powerful combination of functions allows you to transcend the limitations of basic lookups, providing pinpoint accuracy in your data retrieval.
+
+## Business Context & Real-World Use Case
+
+In today's data-driven world, the ability to accurately and efficiently extract specific pieces of information is paramount for informed decision-making. Consider a scenario in **Inventory Management**. A manufacturing company might receive multiple shipments of the same component from various suppliers over time. Each shipment has a unique batch number, quantity, and delivery date, but the "Component ID" might be identical. If quality control identifies an issue with a particular component, you might need to quickly find the details of the *third* shipment of "Component X-789" received in the last quarter to trace its origin and address.
+
+Manually sifting through thousands of rows of inventory data to locate the correct shipment would be an arduous, error-prone, and time-consuming task. Imagine the cost implications of delayed investigations or incorrect data leading to flawed product recalls. This is where automating with a formula to `Find Nth Occurrence with INDEX MATCH` becomes invaluable.
+
+In my years as a supply chain analyst, I've seen teams struggle for hours trying to manually pinpoint specific batches or deliveries when troubleshooting production line issues or reconciling supplier invoices. They would often resort to tedious filtering and copying, which almost always introduced inconsistencies. Automating this process with the `Find Nth Occurrence with INDEX MATCH` formula not only saves significant operational time but also ensures data integrity, allowing for faster problem resolution and better supply chain visibility. It transforms a daunting manual chore into an instant, reliable data retrieval operation, providing immediate business value.
+
+## The Ingredients: Understanding Find Nth Occurrence with INDEX MATCH's Setup
+
+To truly `Find Nth Occurrence with INDEX MATCH`, we don't rely on a single function, but rather a powerful orchestration of several key Excel functions. This combination allows us to identify the desired row number for the *N*-th instance of our lookup value.
+
+The primary "ingredients" for building the core `Find Nth Occurrence with INDEX MATCH` formula are `INDEX`, `SMALL`, `IF`, and `ROW`. `INDEX` fetches the final value, `SMALL` finds the *N*-th smallest row number that meets a condition, `IF` applies that condition, and `ROW` helps generate row numbers.
+
+However, sometimes your lookup criteria might involve specific text strings within larger cells. For these specialized text searches, `FIND()` becomes a crucial helper function. While not directly part of the "Nth Occurrence" logic itself (which is handled by `SMALL` and `ROW`), `FIND()` allows us to create powerful conditional logic within our `IF` statement when dealing with partial text matches.
+
+Here's the syntax for the `FIND()` function and its parameters:
+
+`=FIND(find_text, within_text, [start_num])`
+
+| Variable      | Description                                                                                                                                                                                                                                                                                                        |
+| :------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **find_text** | The text you want to find. This can be a specific string (e.g., "Widget") or a reference to a cell containing the text. Remember, `FIND()` is case-sensitive.                                                                                                                                                    |
+| **within_text** | The text containing the `find_text`. This is often a cell reference (e.g., A2) or a range of cells where you want to search. `FIND()` will return the starting position of `find_text` within this larger string.                                                                                              |
+| **[start_num]** | _(Optional)_ Specifies the character position at which to start the search. The first character in `within_text` is character 1. If omitted, `start_num` is 1. Useful if you know the `find_text` won't appear at the beginning and you want to skip part of the string.                                        |
+
+When `FIND()` successfully locates `find_text`, it returns the starting position as a number. If it doesn't find the text, it returns a `#VALUE!` error. This numerical output (or error) is key because we can use `ISNUMBER(FIND(...))` within our `IF` condition to check for the presence of specific text strings when configuring our `Find Nth Occurrence with INDEX MATCH` criteria.
+
+## The Recipe: Step-by-Step Instructions
+
+Let's cook up a solution to `Find Nth Occurrence with INDEX MATCH` using a practical example from inventory management. We want to retrieve details for the *N*-th time a specific component ID appears in our inventory log.
+
+Here's our sample inventory data:
+
+| Component ID | Supplier   | Batch Number | Quantity | Location | Delivery Date |
+| :----------- | :--------- | :----------- | :------- | :------- | :------------ |
+| COMP-001     | Supplier A | BATCH-101    | 150      | WH-01    | 2023-01-05    |
+| COMP-002     | Supplier B | BATCH-102    | 200      | WH-02    | 2023-01-07    |
+| COMP-001     | Supplier C | BATCH-103    | 100      | WH-03    | 2023-01-10    |
+| COMP-003     | Supplier A | BATCH-104    | 300      | WH-01    | 2023-01-12    |
+| COMP-001     | Supplier B | BATCH-105    | 120      | WH-02    | 2023-01-15    |
+| COMP-002     | Supplier C | BATCH-106    | 180      | WH-03    | 2023-01-18    |
+| COMP-004     | Supplier A | BATCH-107    | 250      | WH-01    | 2023-01-20    |
+| COMP-001     | Supplier D | BATCH-108    | 90       | WH-04    | 2023-01-22    |
+
+Let's say we want to find the **3rd occurrence** of **"COMP-001"** and retrieve its **Batch Number**.
+
+1.  **Set Up Your Data:**
+    Ensure your data is arranged in columns as shown above. For this example, our data range is `A2:F9`. Our lookup column (Component ID) is `A2:A9`, and our return column (Batch Number) is `C2:C9`. Let's assume our lookup value "COMP-001" is in cell `H2` and the desired occurrence `N` (e.g., 3) is in cell `H3`.
+
+2.  **Define Your Lookup:**
+    We are looking for the value in `H2` ("COMP-001") and specifically the Nth occurrence specified in `H3` (which is 3). We want to retrieve the Batch Number from the corresponding row.
+
+3.  **Initiate the INDEX Function:**
+    The `INDEX` function will ultimately return our desired value. It needs two main arguments: the range from which to return a value, and the row number within that range.
+    Start your formula in your target cell (e.g., `I2`) like this:
+    `=INDEX(C2:C9, ...)`
+    Here, `C2:C9` is our `return_range` for the Batch Number.
+
+4.  **Craft the Conditional ROW Array:**
+    This is the core of finding the Nth occurrence. We need to create an array of row numbers *only* for the rows where "COMP-001" appears.
+    `IF(A2:A9=H2, ROW(A2:A9)-ROW(A2)+1)`
+    -   `A2:A9=H2`: This part checks if each cell in the Component ID column matches "COMP-001". It returns an array of `TRUE` or `FALSE` values.
+    -   `ROW(A2:A9)`: This returns an array of absolute row numbers (e.g., `{2;3;4;5;6;7;8;9}`).
+    -   `ROW(A2)+1`: We subtract `ROW(A2)` (which is 2) and add 1 to get relative row numbers starting from 1 for our range (e.g., `{1;2;3;4;5;6;7;8}`).
+    -   The `IF` then combines these: if `TRUE`, it returns the relative row number; if `FALSE`, it returns `FALSE`. The result is an array like `{1;FALSE;3;FALSE;5;FALSE;FALSE;8}`.
+
+5.  **Extract the Nth Row Number:**
+    Now we wrap the `IF` statement within the `SMALL` function to pull out the Nth smallest row number from our conditional array. The `SMALL` function ignores `FALSE` values.
+    `SMALL(IF(A2:A9=H2, ROW(A2:A9)-ROW(A2)+1), H3)`
+    -   `H3`: This is our `N` for the Nth occurrence (which is 3).
+    -   From our conditional array `{1;FALSE;3;FALSE;5;FALSE;FALSE;8}`, the 3rd smallest number is 5. This tells us the 3rd "COMP-001" is in the 5th relative row of our data range.
+
+6.  **Combine and Finalize:**
+    Finally, we plug this `SMALL` function directly into our `INDEX` function as the row number argument.
+    The final array formula to enter into cell `I2` would be:
+    `=INDEX(C2:C9, SMALL(IF(A2:A9=H2, ROW(A2:A9)-ROW(A2)+1), H3))`
+
+    **Important for older Excel versions:** After typing the formula, you **MUST** press `CTRL+SHIFT+ENTER` to enter it as an array formula. Excel will automatically add curly braces `{}` around the formula.
+    **For Excel 365 and newer:** You can simply press `ENTER`, as these versions handle array formulas dynamically.
+
+    The result in cell `I2` will be **BATCH-105**. Let's verify:
+    -   1st "COMP-001" is in row 2 (relative row 1) with Batch Number BATCH-101.
+    -   2nd "COMP-001" is in row 4 (relative row 3) with Batch Number BATCH-103.
+    -   3rd "COMP-001" is in row 6 (relative row 5) with Batch Number BATCH-105.
+    Our formula correctly identified the 3rd occurrence's Batch Number!
+
+    If your lookup criteria involved a partial text match (e.g., finding the 2nd component whose ID *contains* "001"), you could integrate `FIND` like this within the `IF` condition:
+    `IF(ISNUMBER(FIND("001", A2:A9)), ROW(A2:A9)-ROW(A2)+1)`
+    This would make the lookup more flexible, searching for specific text patterns rather than exact matches.
+
+## Pro Tips: Level Up Your Skills
+
+You've mastered the `Find Nth Occurrence with INDEX MATCH` formula, but there are always ways to refine your technique and handle more complex scenarios like a seasoned pro.
+
+*   **Robust Relative Row Numbers:** Instead of `ROW(A2:A9)-ROW(A2)+1`, a more resilient approach for your relative row calculation is `ROW(A2:A9)-MIN(ROW(A2:A9))+1`. This ensures your starting row calculation is always correct, even if your data range doesn't start from row 1 or if you later insert rows above your data. It's a small change with big benefits for formula reliability.
+*   **Use Caution When Scaling Arrays Over Massive Rows:** While incredibly powerful, array formulas like `Find Nth Occurrence with INDEX MATCH` can be computationally intensive. When applied over tens of thousands or hundreds of thousands of rows, they can significantly slow down your spreadsheet. For truly massive datasets, consider alternative tools like Power Query or VBA, or ensure your data ranges are optimized and precisely defined.
+*   **Dynamic Arrays for Multiple Occurrences (Excel 365):** If you need to list *all* occurrences (or multiple Nth occurrences) in a spill range, Excel 365's dynamic array capabilities offer a streamlined solution. Instead of `H3` (which is `N`), you could use `SEQUENCE(number_of_occurrences)` to automatically return the first, second, third, etc., occurrences without dragging the formula. This eliminates the need for repeated formulas and manual adjustments.
+*   **Error Handling with IFERROR:** To prevent unsightly `#NUM!` or `#VALUE!` errors when a specific Nth occurrence doesn't exist, wrap your entire formula in `IFERROR`. For example: `=IFERROR(INDEX(C2:C9, SMALL(IF(...), H3)), "N/A - Not Found")`. This makes your reports much cleaner and user-friendly.
+
+## Troubleshooting: Common Errors & Fixes
+
+Even the most experienced Excel users encounter formula errors. Understanding why they occur and how to fix them is a critical skill for working with `Find Nth Occurrence with INDEX MATCH`.
+
+### 1. #VALUE! Error
+
+*   **Symptom:** The cell where your formula resides displays `#VALUE!`.
+*   **Cause:** A common cause for array formulas in older Excel versions (pre-Excel 365) is forgetting to enter the formula with `CTRL+SHIFT+ENTER`. If you just press `ENTER`, Excel interprets it as a standard formula and cannot process the array operation correctly. Another reason, particularly if you are using `FIND()` within your criteria, is that `find_text` was not found within `within_text`, and the resulting `#VALUE!` propagates.
+*   **Step-by-Step Fix:**
+    1.  Click on the cell containing the `#VALUE!` error.
+    2.  Press `F2` to enter edit mode.
+    3.  Without making any changes, press `CTRL+SHIFT+ENTER` simultaneously.
+    4.  Observe if curly braces `{}` appear around your formula in the formula bar. If they do, and the error resolves, this was the issue.
+    5.  If `FIND()` is part of your formula, double-check that your `find_text` actually exists within your `within_text` range for at least one cell. You might need to use `IFERROR` around the `FIND()` part to handle instances where text isn't found if it's not the primary lookup condition.
+
+### 2. #NUM! Error
+
+*   **Symptom:** The formula returns `#NUM!`.
+*   **Cause:** This error typically occurs when the `SMALL` function is asked to find an *N*-th value that simply doesn't exist. For instance, if you're looking for the 5th occurrence of "COMP-001" but there are only 3 instances of that component in your data set, `SMALL` cannot return a 5th smallest number, leading to `#NUM!`.
+*   **Step-by-Step Fix:**
+    1.  First, verify your `N` value (the `H3` in our example). Is it realistic given your data?
+    2.  Manually filter your data to count how many times your `lookup_value` (e.g., "COMP-001") actually appears. If your `N` is greater than this count, you've identified the cause.
+    3.  To gracefully handle this, wrap your entire `Find Nth Occurrence with INDEX MATCH` formula in `IFERROR`. For example:
+        `=IFERROR(INDEX(C2:C9, SMALL(IF(A2:A9=H2, ROW(A2:A9)-ROW(A2)+1), H3)), "No such occurrence")`
+        This will display a custom message instead of the error.
+
+### 3. #N/A Error
+
+*   **Symptom:** Your formula displays `#N/A`.
+*   **Cause:** The `#N/A` error generally indicates that the `lookup_value` itself cannot be found anywhere in the `lookup_range`. If "COMP-005" isn't in column A, the `IF` statement `A2:A9=H2` will return all `FALSE`, leading `SMALL` to have no numbers to process, eventually resulting in an `#N/A`. This can also happen due to subtle mismatches.
+*   **Step-by-Step Fix:**
+    1.  **Check Spelling and Case:** Ensure the `lookup_value` in `H2` is spelled exactly as it appears in your `lookup_range` (column A). Remember `FIND()` is case-sensitive, but the `IF(A2:A9=H2)` part is generally not case-sensitive unless using a specific setting.
+    2.  **Trailing/Leading Spaces:** A common mistake we've seen is invisible spaces. Cells might appear identical but contain extra spaces. Use the `TRIM()` function on your `lookup_value` (e.g., `TRIM(H2)`) and potentially on your `lookup_range` (though this requires another array adjustment or helper column) to eliminate these.
+    3.  **Data Type Mismatch:** Ensure that if your `lookup_value` is a number, the cells in your `lookup_range` are also stored as numbers (not text that looks like numbers). You can often fix this by multiplying the range by 1 (`A2:A9*1`) within the formula, but be cautious with this if your column contains mixed data types.
+    4.  **Range Accuracy:** Double-check that your `lookup_range` (`A2:A9`) accurately covers all the data you intend to search.
+
+## Quick Reference
+
+| Feature         | Description                                                                                                                                                                                                                                                               |
+| :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Syntax**      | `=INDEX(return_range, SMALL(IF(lookup_range=lookup_value, ROW(lookup_range)-MIN(ROW(lookup_range))+1), N))` <br> *Remember `CTRL+SHIFT+ENTER` for older Excel versions.*                                                                                                  |
+| **Core Idea**   | Creates an array of relative row numbers for all occurrences of the `lookup_value`, then uses `SMALL` to pick the Nth row number from that array, which `INDEX` uses to retrieve the desired data.                                                                             |
+| **`FIND()` Role** | Can be used within the `IF` condition as `ISNUMBER(FIND(find_text, lookup_range))` to perform case-sensitive partial text matches when defining the `lookup_value` criteria for the Nth occurrence.                                                                        |
+| **Use Case**    | Retrieving specific recurring data points (e.g., the 3rd order from a client, the 2nd shipment of a product, the 5th task completed by an employee). Overcomes the 'first match only' limitation of standard lookups.                                                          |
+
+## Related Functions
+
+*   [Mastering INDEX MATCH for Single Lookups](/recipes/index-match)
+*   [Exploring the SMALL Function](/recipes/small)
+*   [Dynamic Arrays: The SEQUENCE Function](/recipes/sequence)

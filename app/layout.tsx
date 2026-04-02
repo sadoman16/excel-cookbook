@@ -17,6 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://excel-cookbook.com"),
   title: "Excel Cookbook — Fix Excel Errors Fast ✓",
   description:
     "Step-by-step recipes for Excel formulas. Fix VLOOKUP, IF, XLOOKUP errors in minutes. Like a cookbook for spreadsheets.",
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: "./",
+    canonical: "/",
   },
 };
 

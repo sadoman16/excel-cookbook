@@ -39,6 +39,7 @@ export function RecipeCard({ slug, title, description, tags }: RecipeCardProps) 
     return (
         <Link
             href={`/recipes/${slug}`}
+            prefetch={false}
             className={`group block rounded-lg border bg-white p-6 transition-all dark:bg-slate-900 ${borderStyle} ${hoverStyle}`}
         >
             <div className="mb-2 text-2xl">{getEmoji(tags)}</div>

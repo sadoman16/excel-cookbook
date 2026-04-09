@@ -15,15 +15,15 @@ const formulaSchema: Schema = {
 };
 
 /**
- * [2026 ground truth] 사용자의 대시보드 스크린샷에 표시된 실시간 모델 명칭으로 업데이트합니다.
- * 429(할당량 초과) 발생 시 다음 모델로 즉시 전환합니다.
+ * [2026 ground truth] Update to the real-time model names shown in the user's dashboard screenshot.
+ * In case of 429 (Quota Exceeded), immediately fallback to the next model.
  */
 const MODELS = [
-    "gemini-3-flash",        // 1순위: 최신 모델, 속도 최우선 (스크린샷 확인됨)
-    "gemini-3-pro",          // 2순위: 최신 고성능 모델 (스크린샷 확인됨)
-    "gemini-2.5-pro",        // 3순위: 안정적인 고성능 (스크린샷 확인됨)
-    "gemini-2-flash",        // 4순위: 이전 무료 할당량 넉넉한 모델 (스크린샷 확인됨)
-    "gemini-2.5-flash",      // 5순위: 할당량 소진 가능성 높음 (스크린샷 확인됨)
+    "gemini-3-flash",        // Priority 1: Latest model, speed first (confirmed in screenshot)
+    "gemini-3-pro",          // Priority 2: Latest high-performance model (confirmed in screenshot)
+    "gemini-2.5-pro",        // Priority 3: Stable high-performance (confirmed in screenshot)
+    "gemini-2-flash",        // Priority 4: Previous generous free quota model (confirmed in screenshot)
+    "gemini-2.5-flash",      // Priority 5: High chance of quota exhaustion (confirmed in screenshot)
 ];
 
 export async function generateWithFallback(prompt: string) {
@@ -35,7 +35,7 @@ export async function generateWithFallback(prompt: string) {
 
     for (const modelName of MODELS) {
         try {
-            console.log(`🤖 [최종 배포] 모델 시도 중: ${modelName}`);
+            console.log(`🤖 [Final Deploy] Trying model: ${modelName}`);
             const model = genAI.getGenerativeModel({
                 model: modelName,
                 generationConfig: {
@@ -44,7 +44,7 @@ export async function generateWithFallback(prompt: string) {
                 },
             });
 
-            // Vercel 환경에 최적화된 타임아웃
+            // Timeout optimized for Vercel environment
             const result: any = await Promise.race([
                 model.generateContent(prompt),
                 new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 9500))
@@ -53,11 +53,11 @@ export async function generateWithFallback(prompt: string) {
             const response = await result.response;
             return response.text();
         } catch (error: any) {
-            console.warn(`⚠️ ${modelName} 실패 (사유: ${error.message}) -> 다음 모델로 전환합니다.`);
+            console.warn(`⚠️ ${modelName} failed (Reason: ${error.message}) -> Switching to the next model.`);
             lastError = error;
-            // 429(Quota), 404(Model Name), 500 등 모든 에러 발생 시 다음 모델로 폴백
+            // Fallback to next model for any error like 429(Quota), 404(Model Name), 500, etc.
             continue;
         }
     }
-    throw lastError || new Error("모든 AI 모델이 할당량 초과 또는 점검 중입니다. 잠시 후 다시 시도해주세요.");
+    throw lastError || new Error("All AI models are out of quota or under maintenance. Please try again later.");
 }

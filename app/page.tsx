@@ -28,10 +28,10 @@ export default function Home() {
               Search by <strong>problem</strong>, copy the <strong>solution</strong>.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full sm:w-auto">
-                <button onClick={() => document.getElementById('search')?.focus()} className="inline-flex items-center justify-center rounded-full bg-brand-primary px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-brand-primary/20 transition-all hover:bg-brand-secondary hover:scale-105 active:scale-95 cursor-pointer cursor-pointer">
+                <a href="#recipe-browser" className="inline-flex items-center justify-center rounded-full bg-brand-primary px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-brand-primary/20 transition-all hover:bg-brand-secondary hover:scale-105 active:scale-95 cursor-pointer cursor-pointer">
                   Start Cooking
                   <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                </button>
+                </a>
             </div>
           </div>
         </div>

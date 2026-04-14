@@ -31,7 +31,7 @@ export function RecipeBrowser({ initialRecipes }: RecipeBrowserProps) {
     });
 
     return (
-        <div className="space-y-8">
+        <div id="recipe-browser" className="space-y-8">
             {/* Premium Search Input Section */}
             <div className="mx-auto max-w-2xl relative z-10 transform transition-all duration-300 hover:scale-[1.02]">
                 <label htmlFor="search" className="sr-only">

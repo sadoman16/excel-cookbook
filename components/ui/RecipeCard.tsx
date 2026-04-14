@@ -32,7 +32,6 @@ export function RecipeCard({ slug, title, description, tags }: RecipeCardProps) 
         ? "border-amber-400 dark:border-amber-500 shadow-[0_0_15px_rgba(251,191,36,0.15)] ring-1 ring-amber-400/50"
         : "border-slate-200 shadow-sm dark:border-slate-700";
 
-    const hoverStyle = isCombo
     return (
         <Link
             href={`/recipes/${slug}`}
@@ -51,18 +50,17 @@ export function RecipeCard({ slug, title, description, tags }: RecipeCardProps) 
             
             <div className="relative z-10 flex flex-wrap gap-2 mt-auto pt-4 border-t border-slate-100 dark:border-slate-800">
                 {tags.slice(0, 3).map((tag) => (
-                        <span
-                            key={tag}
-                            className={`rounded-full px-2 py-0.5 text-xs font-medium ${tag === "Combo Recipe"
-                                    ? "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200"
-                                    : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
-                                }`}
-                        >
-                            {tag}
-                        </span>
-                    ))}
-                </div>
-            )}
+                    <span
+                        key={tag}
+                        className={`rounded-full px-2 py-0.5 text-xs font-medium ${tag === "Combo Recipe"
+                                ? "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200"
+                                : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
+                            }`}
+                    >
+                        {tag}
+                    </span>
+                ))}
+            </div>
         </Link>
     );
 }

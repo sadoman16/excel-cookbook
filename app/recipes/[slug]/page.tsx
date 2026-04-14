@@ -7,12 +7,13 @@ import { extractHowToSteps, extractFAQItems } from "@/lib/schema-extractor";
 import CopyHelper from "@/components/CopyHelper";
 import { RelatedRecipes } from "@/components/ui/RelatedRecipes";
 import { AuthorBio } from "@/components/ui/AuthorBio";
-// Required for static export mode
-export const dynamicParams = false;
+// Enable ISR (Incremental Static Regeneration) to avoid 45m build timeout.
+// Build only the latest 50 recipes, others will be generated on-demand.
+export const dynamicParams = true;
 
-// SSG: Generate all recipe pages at build time
+// SSG: Generate ONLY the most recent 50 recipe pages at build time to save time
 export function generateStaticParams() {
-    return getAllRecipeSlugs().map((slug) => ({ slug }));
+    return getAllRecipeSlugs().slice(0, 50).map((slug) => ({ slug }));
 }
 
 // Dynamic metadata for each recipe page

@@ -3,9 +3,9 @@ import type { NextConfig } from "next";
 const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
 
 const nextConfig: NextConfig = {
-  // Use export only when building on GitHub Actions to keep the build green.
-  // Vercel will skip this and use the default serverless mode for the API.
-  output: isGithubActions ? 'export' : undefined,
+  // Force static export for ALL environments to save Vercel ISR/Server resources.
+  // This turns the site into a high-performance static website (0 ISR Reads).
+  output: 'export',
   typescript: {
     ignoreBuildErrors: isGithubActions,
   },

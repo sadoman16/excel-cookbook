@@ -19,24 +19,35 @@ function getContentDir() {
     return path.join(process.cwd(), 'content', 'recipes');
 }
 
+// Global cache for build performance
+let recipesCache: RecipeMeta[] | null = null;
+let slugsCache: string[] | null = null;
+
 /**
  * Get all recipe slugs for generateStaticParams
  */
 export function getAllRecipeSlugs(): string[] {
+    if (slugsCache) return slugsCache;
+
     const contentDir = getContentDir();
     if (!fs.existsSync(contentDir)) return [];
-    return fs
+    
+    slugsCache = fs
         .readdirSync(contentDir)
         .filter((file) => file.endsWith('.mdx') || file.endsWith('.md'))
         .map((file) => file.replace(/\.(mdx|md)$/, ''));
+
+    return slugsCache;
 }
 
 /**
  * Get metadata for all recipes (for listing pages)
  */
 export function getAllRecipes(): RecipeMeta[] {
+    if (recipesCache) return recipesCache;
+
     const slugs = getAllRecipeSlugs();
-    return slugs
+    recipesCache = slugs
         .map((slug) => {
             const recipe = getRecipeBySlug(slug);
             if (!recipe) return null;
@@ -45,6 +56,8 @@ export function getAllRecipes(): RecipeMeta[] {
         })
         .filter((r): r is RecipeMeta => r !== null)
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    return recipesCache;
 }
 
 /**

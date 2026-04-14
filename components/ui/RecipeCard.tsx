@@ -33,25 +33,24 @@ export function RecipeCard({ slug, title, description, tags }: RecipeCardProps) 
         : "border-slate-200 shadow-sm dark:border-slate-700";
 
     const hoverStyle = isCombo
-        ? "hover:border-amber-500 hover:shadow-[0_0_20px_rgba(251,191,36,0.3)] dark:hover:border-amber-400"
-        : "hover:border-excel-green hover:shadow-md dark:hover:border-excel-green";
-
     return (
         <Link
             href={`/recipes/${slug}`}
-            prefetch={false}
-            className={`group block rounded-lg border bg-white p-6 transition-all dark:bg-slate-900 ${borderStyle} ${hoverStyle}`}
+            className="group flex flex-col justify-between rounded-2xl border border-slate-200/60 bg-white/50 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-primary/10 hover:border-brand-primary/20 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:bg-slate-800/80 backdrop-blur-sm relative overflow-hidden"
         >
-            <div className="mb-2 text-2xl">{getEmoji(tags)}</div>
-            <h3 className="mb-2 text-lg font-semibold text-slate-900 group-hover:text-excel-green dark:text-slate-50">
-                {title}
-            </h3>
-            <p className="line-clamp-3 text-sm text-slate-500 dark:text-slate-400">
-                {description}
-            </p>
-            {tags.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-1">
-                    {tags.slice(0, 3).map((tag) => (
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="relative z-10">
+                <div className="mb-4 text-2xl">{getEmoji(tags)}</div>
+                <h3 className="mb-2 text-xl font-bold text-slate-900 group-hover:text-brand-secondary transition-colors dark:text-slate-50 dark:group-hover:text-brand-accent">
+                    {title}
+                </h3>
+                <p className="mb-6 line-clamp-3 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                    {description}
+                </p>
+            </div>
+            
+            <div className="relative z-10 flex flex-wrap gap-2 mt-auto pt-4 border-t border-slate-100 dark:border-slate-800">
+                {tags.slice(0, 3).map((tag) => (
                         <span
                             key={tag}
                             className={`rounded-full px-2 py-0.5 text-xs font-medium ${tag === "Combo Recipe"

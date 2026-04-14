@@ -32,37 +32,45 @@ export function RecipeBrowser({ initialRecipes }: RecipeBrowserProps) {
 
     return (
         <div className="space-y-8">
-            {/* Search Input Section */}
-            <div className="mx-auto max-w-2xl relative">
+            {/* Premium Search Input Section */}
+            <div className="mx-auto max-w-2xl relative z-10 transform transition-all duration-300 hover:scale-[1.02]">
                 <label htmlFor="search" className="sr-only">
                     Search recipes
                 </label>
-                <div className="relative">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                        <svg
-                            className="h-5 w-5 text-slate-400"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                            />
-                        </svg>
+                <div className="relative group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-brand-accent to-brand-primary rounded-[2rem] blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
+                    <div className="relative glass-panel rounded-[2rem] flex items-center">
+                        <div className="pointer-events-none flex items-center pl-6">
+                            <svg
+                                className="h-6 w-6 text-brand-primary"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                />
+                            </svg>
+                        </div>
+                        <input
+                            id="search"
+                            name="search"
+                            type="text"
+                            className="block w-full bg-transparent py-5 pl-4 pr-6 text-lg text-slate-900 placeholder:text-slate-400 focus:outline-none dark:text-slate-50 dark:placeholder:text-slate-500"
+                            placeholder="What do you want to calculate today?"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        {searchTerm && (
+                          <button onClick={() => setSearchTerm('')} className="absolute right-4 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                          </button>
+                        )}
                     </div>
-                    <input
-                        id="search"
-                        name="search"
-                        type="text"
-                        className="block w-full rounded-full border border-slate-200 bg-white py-4 pl-12 pr-4 text-slate-900 placeholder:text-slate-400 focus:border-excel-green focus:outline-none focus:ring-2 focus:ring-excel-green/20 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-50 dark:placeholder:text-slate-500 shadow-sm transition-all hover:shadow-md"
-                        placeholder="Search for functions (e.g. VLOOKUP, SUM...)"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
                 </div>
             </div>
 

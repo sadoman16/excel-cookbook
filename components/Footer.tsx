@@ -36,6 +36,16 @@ export const Footer = () => {
                                     Contact
                                 </Link>
                             </li>
+                            <li>
+                                <Link href="/guides" className="text-sm text-slate-500 hover:text-excel-green dark:text-slate-400">
+                                    Guides
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/faq" className="text-sm text-slate-500 hover:text-excel-green dark:text-slate-400">
+                                    FAQ
+                                </Link>
+                            </li>
                         </ul>
                     </div>
 

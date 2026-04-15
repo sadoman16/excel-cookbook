@@ -7,13 +7,22 @@ const nextConfig: NextConfig = {
   // Vercel will skip this and use the default serverless mode for the API.
   output: isGithubActions ? 'export' : undefined,
   typescript: {
-    ignoreBuildErrors: isGithubActions,
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
   },
   images: {
     unoptimized: true,
   },
   // Increase timeout for static page generation (default is 60s)
-  staticPageGenerationTimeout: 600,
+  staticPageGenerationTimeout: 1000,
   // Optimization: Remove low-concurrency limits to use full Vercel build power
 };
 

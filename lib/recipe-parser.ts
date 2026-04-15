@@ -42,17 +42,37 @@ export function getAllRecipeSlugs(): string[] {
 
 /**
  * Get metadata for all recipes (for listing pages)
+ * OMIT content field to save massive memory during build
  */
 export function getAllRecipes(): RecipeMeta[] {
     if (recipesCache) return recipesCache;
 
     const slugs = getAllRecipeSlugs();
+    const contentDir = getContentDir();
+    
     recipesCache = slugs
         .map((slug) => {
-            const recipe = getRecipeBySlug(slug);
-            if (!recipe) return null;
-            const { content, ...meta } = recipe;
-            return meta;
+            const mdxPath = path.join(contentDir, `${slug}.mdx`);
+            const mdPath = path.join(contentDir, `${slug}.md`);
+            const filePath = fs.existsSync(mdxPath) ? mdxPath : (fs.existsSync(mdPath) ? mdPath : null);
+            
+            if (!filePath) return null;
+
+            // Read only frontmatter using gray-matter (much faster and memory efficient)
+            try {
+                const fileContents = fs.readFileSync(filePath, 'utf8');
+                const { data } = matter(fileContents);
+                
+                return {
+                    slug,
+                    title: data.title || slug.toUpperCase(),
+                    description: data.description || '',
+                    date: data.date ? String(data.date) : new Date().toISOString().split('T')[0],
+                    tags: Array.isArray(data.tags) ? data.tags : [],
+                };
+            } catch (err) {
+                return null;
+            }
         })
         .filter((r): r is RecipeMeta => r !== null)
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());

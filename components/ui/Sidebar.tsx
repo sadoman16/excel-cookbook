@@ -153,6 +153,30 @@ export const Sidebar = ({ recipes }: { recipes: RecipeMeta[] }) => {
                             💡 Excel Tips & Insights
                         </Link>
                     </li>
+                    <li>
+                        <Link
+                            href="/guides"
+                            prefetch={false}
+                            className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${pathname?.startsWith('/guides')
+                                ? 'bg-emerald-50 text-excel-green dark:bg-emerald-900/30'
+                                : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+                                }`}
+                        >
+                            📚 In-Depth Guides
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            href="/faq"
+                            prefetch={false}
+                            className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${pathname === '/faq'
+                                ? 'bg-emerald-50 text-excel-green dark:bg-emerald-900/30'
+                                : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
+                                }`}
+                        >
+                            ❓ FAQ
+                        </Link>
+                    </li>
 
                     {/* Collapsible categories */}
                     {orderedCategories.map(category => {

@@ -8,13 +8,22 @@ export const Navbar = () => {
                     <span className="text-xl font-bold text-excel-green">Excel Cookbook</span>
                 </Link>
                 <nav className="flex flex-1 items-center space-x-6 text-sm font-medium">
-                    <Link href="/" className="transition-colors hover:text-excel-green">Recipes</Link>
-                    <Link href="/tools/formula-generator" className="transition-colors hover:text-excel-green text-excel-green font-semibold flex items-center">
-                        <span className="mr-1">AI Formula</span>
-                        <span className="animate-pulse">✨</span>
+                    <Link href="/" className="transition-colors hover:text-excel-green">
+                        Recipes
                     </Link>
-                    <Link href="/about" className="transition-colors hover:text-excel-green">About</Link>
-                    <Link href="/contact" className="transition-colors hover:text-excel-green">Contact</Link>
+                    <Link
+                        href="/tools/formula-generator"
+                        className="flex items-center font-semibold text-excel-green transition-colors hover:text-excel-green"
+                    >
+                        <span className="mr-1">Formula Tool</span>
+                        <span aria-hidden="true">+</span>
+                    </Link>
+                    <Link href="/about" className="transition-colors hover:text-excel-green">
+                        About
+                    </Link>
+                    <Link href="/contact" className="transition-colors hover:text-excel-green">
+                        Contact
+                    </Link>
                 </nav>
             </div>
         </header>

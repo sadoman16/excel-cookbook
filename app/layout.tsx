@@ -1,112 +1,107 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { Navbar } from "@/components/Navbar";
-import { Sidebar } from "@/components/ui/Sidebar";
-import { Footer } from "@/components/Footer";
-import { getAllRecipes } from "@/lib/recipe-parser";
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import './globals.css';
+import { Navbar } from '@/components/Navbar';
+import { Sidebar } from '@/components/ui/Sidebar';
+import { Footer } from '@/components/Footer';
+import { getAllRecipes } from '@/lib/recipe-parser';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+    variable: '--font-geist-sans',
+    subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+    variable: '--font-geist-mono',
+    subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://excel-cookbook.com"),
-  title: "Excel Cookbook — Fix Excel Errors Fast ✓",
-  description:
-    "Step-by-step recipes for Excel formulas. Fix VLOOKUP, IF, XLOOKUP errors in minutes. Like a cookbook for spreadsheets.",
-  openGraph: {
-    title: "Excel Cookbook — Fix Excel Errors Fast ✓",
+    metadataBase: new URL('https://excel-cookbook.com'),
+    title: 'Excel Cookbook | Practical Excel Formula Guides',
     description:
-      "Step-by-step recipes for Excel formulas. Fix VLOOKUP, IF, XLOOKUP errors in minutes.",
-    url: "https://excel-cookbook.com",
-    siteName: "Excel Cookbook",
-    type: "website",
-    locale: "en_US",
-  },
-  verification: {
-    google: 'qR95p8rxs-nrcgJ0KD034gOcDgfunGiJckw9rgJoTiM',
-  },
-  twitter: {
-    card: "summary",
-    title: "Excel Cookbook — Fix Excel Errors Fast ✓",
-    description:
-      "Step-by-step recipes for Excel formulas. Fix VLOOKUP, IF, XLOOKUP errors in minutes.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  alternates: {
-    canonical: "/",
-  },
+        'Clear Excel tutorials, troubleshooting guides, and formula walkthroughs for lookups, reporting, cleanup, and everyday spreadsheet work.',
+    openGraph: {
+        title: 'Excel Cookbook | Practical Excel Formula Guides',
+        description:
+            'Clear Excel tutorials, troubleshooting guides, and formula walkthroughs for lookups, reporting, cleanup, and everyday spreadsheet work.',
+        url: 'https://excel-cookbook.com',
+        siteName: 'Excel Cookbook',
+        type: 'website',
+        locale: 'en_US',
+    },
+    verification: {
+        google: 'qR95p8rxs-nrcgJ0KD034gOcDgfunGiJckw9rgJoTiM',
+    },
+    twitter: {
+        card: 'summary',
+        title: 'Excel Cookbook | Practical Excel Formula Guides',
+        description:
+            'Clear Excel tutorials, troubleshooting guides, and formula walkthroughs for lookups, reporting, cleanup, and everyday spreadsheet work.',
+    },
+    robots: {
+        index: true,
+        follow: true,
+    },
+    alternates: {
+        canonical: '/',
+    },
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  const recipes = getAllRecipes();
+    const recipes = getAllRecipes();
 
-  return (
-    <html lang="en">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {/* Google AdSense */}
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4863460360129673"
-          crossOrigin="anonymous"
-        ></script>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              name: "Excel Cookbook",
-              url: "https://excel-cookbook.com",
-              description:
-                "Stop Googling Excel formulas. Search by problem, copy the solution.",
-              inLanguage: "en",
-            }),
-          }}
-        />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background font-sans text-foreground antialiased`}
-      >
-        {/* Skip Navigation — Accessibility */}
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:text-excel-green"
-        >
-          Skip to main content
-        </a>
+    return (
+        <html lang="en">
+            <head>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <script
+                    async
+                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4863460360129673"
+                    crossOrigin="anonymous"
+                ></script>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify({
+                            '@context': 'https://schema.org',
+                            '@type': 'WebSite',
+                            name: 'Excel Cookbook',
+                            url: 'https://excel-cookbook.com',
+                            description:
+                                'Practical Excel guides focused on solving real spreadsheet problems clearly and quickly.',
+                            inLanguage: 'en',
+                        }),
+                    }}
+                />
+            </head>
+            <body
+                className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background font-sans text-foreground antialiased`}
+            >
+                <a
+                    href="#main-content"
+                    className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:text-excel-green"
+                >
+                    Skip to main content
+                </a>
 
-        <div className="relative flex min-h-screen flex-col">
-          <Navbar />
-          <div className="flex-1">
-            <div className="container mx-auto flex h-full max-w-7xl items-start md:grid md:grid-cols-[220px_1fr] lg:grid-cols-[240px_1fr]">
-              {/* Sidebar (Left) */}
-              <Sidebar recipes={recipes} />
-
-              {/* Main Content (Center) */}
-              <main id="main-content" className="flex w-full flex-col overflow-hidden p-6">
-                {children}
-              </main>
-            </div>
-          </div>
-          <Footer />
-        </div>
-      </body>
-    </html>
-  );
+                <div className="relative flex min-h-screen flex-col">
+                    <Navbar />
+                    <div className="flex-1">
+                        <div className="container mx-auto flex h-full max-w-7xl items-start md:grid md:grid-cols-[220px_1fr] lg:grid-cols-[240px_1fr]">
+                            <Sidebar recipes={recipes} />
+                            <main id="main-content" className="flex w-full flex-col overflow-hidden p-6">
+                                {children}
+                            </main>
+                        </div>
+                    </div>
+                    <Footer />
+                </div>
+            </body>
+        </html>
+    );
 }

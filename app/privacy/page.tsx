@@ -1,104 +1,92 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Privacy Policy — Excel Cookbook',
-    description: 'How Excel Cookbook collects, uses, and protects your data. GDPR and CCPA compliant.',
+    title: 'Privacy Policy | Excel Cookbook',
+    description:
+        'Learn how Excel Cookbook handles analytics, cookies, advertising, and contact information.',
 };
 
 export default function PrivacyPage() {
     return (
-        <article className="prose prose-slate dark:prose-invert max-w-3xl mx-auto px-4 py-12">
+        <article className="prose prose-slate mx-auto max-w-3xl px-4 py-12 dark:prose-invert">
             <h1>Privacy Policy</h1>
-            <p className="text-sm text-slate-500">Last updated: February 15, 2026</p>
+            <p className="text-sm text-slate-500">Last updated: April 18, 2026</p>
 
             <h2>Who We Are</h2>
             <p>
-                Excel Cookbook (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) operates the website{' '}
-                <strong>https://excel-cookbook.com</strong>. This Privacy Policy explains how
-                we collect, use, and protect information when you visit our site.
+                Excel Cookbook operates the website <strong>https://excel-cookbook.com</strong>. This page explains
+                what information may be collected when you visit the site and how that information may be used.
             </p>
 
             <h2>Information We Collect</h2>
-            <h3>Automatically Collected Information</h3>
-            <p>When you visit our site, we may automatically collect:</p>
+            <p>When you browse the site, we may receive standard usage information such as:</p>
             <ul>
-                <li>Browser type and version</li>
-                <li>Operating system</li>
-                <li>Referring URL</li>
-                <li>Pages visited and time spent</li>
-                <li>IP address (anonymized)</li>
+                <li>Browser type and device information</li>
+                <li>Pages visited and approximate time spent on the site</li>
+                <li>Referring page or source</li>
+                <li>General location or anonymized IP-based analytics data</li>
             </ul>
 
-            <h3>Cookies and Tracking Technologies</h3>
+            <h2>Cookies And Similar Technologies</h2>
             <p>
-                We and our third-party advertising partners use cookies, web beacons, and similar
-                technologies to provide and improve our services. These technologies help us:
+                We may use cookies or similar technologies to understand traffic, improve site performance, remember
+                preferences, and support advertising and analytics tools.
             </p>
-            <ul>
-                <li>Understand how visitors use our site</li>
-                <li>Remember your preferences</li>
-                <li>Deliver relevant advertisements</li>
-            </ul>
 
-            <h2>Third-Party Advertising</h2>
+            <h2>Advertising</h2>
             <p>
-                We use Google AdSense to display advertisements on our site. Google, as a third-party
-                vendor, uses cookies to serve ads based on your prior visits to our website and other
-                sites on the internet. Google&apos;s use of advertising cookies enables it and its partners
-                to serve ads to you based on your visit to our site and/or other sites on the internet.
+                Excel Cookbook may display advertising through Google AdSense or similar advertising partners. These
+                services may use cookies to serve ads based on your visits to this and other websites.
             </p>
             <p>
-                You may opt out of personalized advertising by visiting{' '}
-                <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">
-                    Google Ads Settings
+                You can learn more about how Google uses data in advertising by visiting{' '}
+                <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">
+                    Google&apos;s advertising policies
                 </a>
-                . Alternatively, you can opt out of third-party vendor cookies by visiting{' '}
-                <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">
-                    aboutads.info
+                . You can manage personalized ad settings through{' '}
+                <a href="https://adssettings.google.com/" target="_blank" rel="noopener noreferrer">
+                    Google Ad Settings
                 </a>
                 .
             </p>
 
             <h2>How We Use Information</h2>
-            <p>We use the collected information to:</p>
             <ul>
-                <li>Provide and maintain our website</li>
-                <li>Understand and analyze usage trends</li>
-                <li>Improve user experience</li>
-                <li>Display relevant advertisements</li>
+                <li>To operate and maintain the website</li>
+                <li>To understand which guides are useful and which need improvement</li>
+                <li>To respond to reader questions or correction requests</li>
+                <li>To support advertising and basic site analytics</li>
             </ul>
 
             <h2>Data Retention</h2>
             <p>
-                We retain automatically collected data for a reasonable period to fulfill the purposes
-                outlined in this policy, unless a longer retention period is required by law.
+                We retain limited analytics and contact information only as long as reasonably necessary for site
+                operations, reader support, and legal or administrative requirements.
             </p>
 
-            <h2>Your Rights</h2>
-            <p>Depending on your jurisdiction, you may have the right to:</p>
-            <ul>
-                <li>Access the personal data we hold about you</li>
-                <li>Request correction or deletion of your data</li>
-                <li>Opt out of data collection and advertising cookies</li>
-                <li>Lodge a complaint with a supervisory authority</li>
-            </ul>
+            <h2>Your Choices</h2>
+            <p>Depending on your location, you may have the right to request access, correction, or deletion of data.</p>
+            <p>
+                You may also disable cookies in your browser settings or use available advertising opt-out tools
+                offered by Google and other providers.
+            </p>
 
             <h2>Children&apos;s Privacy</h2>
             <p>
-                Our website is not directed to children under 13. We do not knowingly collect personal
-                information from children under 13.
+                This website is not intended for children under 13, and we do not knowingly collect personal
+                information from children.
             </p>
 
-            <h2>Changes to This Policy</h2>
+            <h2>Changes To This Policy</h2>
             <p>
-                We may update this Privacy Policy from time to time. We will notify you of any changes
-                by posting the new Privacy Policy on this page and updating the &quot;Last updated&quot; date.
+                We may update this policy from time to time. Any updates will be posted on this page with a revised
+                effective date.
             </p>
 
-            <h2>Contact Us</h2>
+            <h2>Contact</h2>
             <p>
-                If you have any questions about this Privacy Policy, please contact us at:{' '}
-                <a href="mailto:barakiki02@gmail.com">barakiki02@gmail.com</a>
+                If you have privacy-related questions, contact us at{' '}
+                <a href="mailto:barakiki02@gmail.com">barakiki02@gmail.com</a>.
             </p>
         </article>
     );

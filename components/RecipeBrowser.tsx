@@ -13,18 +13,24 @@ export function RecipeBrowser({ initialRecipes }: RecipeBrowserProps) {
     const [selectedCategory, setSelectedCategory] = useState('All');
 
     const categories = [
-        'All', 'Combo Recipe', 'Math & Trig', 'Logical', 'Text',
-        'Lookup & Reference', 'Date & Time',
-        'Financial', 'Statistical', 'Information'
+        'All',
+        'Combo Recipe',
+        'Math & Trig',
+        'Logical',
+        'Text',
+        'Lookup & Reference',
+        'Date & Time',
+        'Financial',
+        'Statistical',
+        'Information',
     ];
 
     const filteredRecipes = initialRecipes.filter((recipe) => {
         const query = searchTerm.toLowerCase();
-        const matchesSearch = (
+        const matchesSearch =
             recipe.title.toLowerCase().includes(query) ||
             recipe.description.toLowerCase().includes(query) ||
-            recipe.tags.some((tag) => tag.toLowerCase().includes(query))
-        );
+            recipe.tags.some((tag) => tag.toLowerCase().includes(query));
         const matchesCategory = selectedCategory === 'All' || recipe.tags.includes(selectedCategory);
 
         return matchesSearch && matchesCategory;
@@ -32,14 +38,13 @@ export function RecipeBrowser({ initialRecipes }: RecipeBrowserProps) {
 
     return (
         <div id="recipe-browser" className="space-y-8">
-            {/* Premium Search Input Section */}
-            <div className="mx-auto max-w-2xl relative z-10 transform transition-all duration-300 hover:scale-[1.02]">
+            <div className="relative z-10 mx-auto max-w-2xl transform transition-all duration-300 hover:scale-[1.02]">
                 <label htmlFor="search" className="sr-only">
                     Search recipes
                 </label>
-                <div className="relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-brand-accent to-brand-primary rounded-[2rem] blur opacity-25 group-hover:opacity-50 transition duration-500"></div>
-                    <div className="relative glass-panel rounded-[2rem] flex items-center">
+                <div className="group relative">
+                    <div className="absolute -inset-1 rounded-[2rem] bg-gradient-to-r from-brand-accent to-brand-primary blur opacity-25 transition duration-500 group-hover:opacity-50"></div>
+                    <div className="glass-panel relative flex items-center rounded-[2rem]">
                         <div className="pointer-events-none flex items-center pl-6">
                             <svg
                                 className="h-6 w-6 text-brand-primary"
@@ -61,40 +66,44 @@ export function RecipeBrowser({ initialRecipes }: RecipeBrowserProps) {
                             name="search"
                             type="text"
                             className="block w-full bg-transparent py-5 pl-4 pr-6 text-lg text-slate-900 placeholder:text-slate-400 focus:outline-none dark:text-slate-50 dark:placeholder:text-slate-500"
-                            placeholder="What do you want to calculate today?"
+                            placeholder="Search by function, error, or task"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                         {searchTerm && (
-                          <button onClick={() => setSearchTerm('')} className="absolute right-4 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer">
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                          </button>
+                            <button
+                                onClick={() => setSearchTerm('')}
+                                className="absolute right-4 cursor-pointer p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                            >
+                                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
                         )}
                     </div>
                 </div>
             </div>
 
-            {/* Category Filter Chips */}
             <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
                 {categories.map((category) => (
                     <button
                         key={category}
                         onClick={() => setSelectedCategory(category)}
-                        className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${selectedCategory === category
-                            ? 'bg-excel-green text-white shadow-sm'
-                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
-                            } cursor-pointer`}
+                        className={`cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+                            selectedCategory === category
+                                ? 'bg-excel-green text-white shadow-sm'
+                                : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+                        }`}
                     >
                         {category}
                     </button>
                 ))}
             </div>
 
-            {/* Results Section */}
             <section>
-                <div className="flex items-center justify-between mb-6">
+                <div className="mb-6 flex items-center justify-between">
                     <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
-                        {searchTerm ? `Results for "${searchTerm}"` : '🍳 Latest Recipes'}
+                        {searchTerm ? `Results for "${searchTerm}"` : 'Latest Guides'}
                     </h2>
                     <span className="text-sm text-slate-500 dark:text-slate-400">
                         {filteredRecipes.length} {filteredRecipes.length === 1 ? 'recipe' : 'recipes'}
@@ -114,14 +123,9 @@ export function RecipeBrowser({ initialRecipes }: RecipeBrowserProps) {
                         ))}
                     </div>
                 ) : (
-                    <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-slate-300 py-12 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50">
+                    <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-slate-300 bg-slate-50 py-12 dark:border-slate-700 dark:bg-slate-900/50">
                         <div className="mb-4 rounded-full bg-slate-100 p-3 dark:bg-slate-800">
-                            <svg
-                                className="h-6 w-6 text-slate-400"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
+                            <svg className="h-6 w-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
@@ -130,9 +134,7 @@ export function RecipeBrowser({ initialRecipes }: RecipeBrowserProps) {
                                 />
                             </svg>
                         </div>
-                        <p className="text-lg font-medium text-slate-900 dark:text-slate-50">
-                            No recipes found
-                        </p>
+                        <p className="text-lg font-medium text-slate-900 dark:text-slate-50">No recipes found</p>
                         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                             Try searching for a different keyword or function name.
                         </p>
@@ -141,7 +143,7 @@ export function RecipeBrowser({ initialRecipes }: RecipeBrowserProps) {
                                 setSearchTerm('');
                                 setSelectedCategory('All');
                             }}
-                            className="mt-4 text-sm font-medium text-excel-green hover:underline cursor-pointer"
+                            className="mt-4 cursor-pointer text-sm font-medium text-excel-green hover:underline"
                         >
                             Clear search
                         </button>

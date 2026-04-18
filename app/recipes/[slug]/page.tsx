@@ -2,6 +2,7 @@ import { getAllRecipeSlugs, getRecipeBySlug } from '@/lib/recipe-parser';
 import { marked } from 'marked';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { RecipeSchema } from '@/components/RecipeSchema';
 import { extractHowToSteps, extractFAQItems } from '@/lib/schema-extractor';
 import CopyHelper from '@/components/CopyHelper';
@@ -41,14 +42,7 @@ export default async function RecipePage({
     const recipe = getRecipeBySlug(slug);
 
     if (!recipe) {
-        return (
-            <div className="flex flex-col items-center justify-center py-20">
-                <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-50">Recipe not found</h1>
-                <Link href="/" className="mt-4 text-excel-green underline hover:opacity-80">
-                    Back to Home
-                </Link>
-            </div>
-        );
+        notFound();
     }
 
     let cleanContent = recipe.content;

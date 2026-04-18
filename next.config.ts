@@ -6,13 +6,6 @@ const nextConfig: NextConfig = {
   // Use export only when building on GitHub Actions to keep the build green.
   // Vercel will skip this and use the default serverless mode for the API.
   output: isGithubActions ? 'export' : undefined,
-  typescript: {
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    // !! WARN !!
-    ignoreBuildErrors: true,
-  },
   images: {
     unoptimized: true,
   },
